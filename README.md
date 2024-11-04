@@ -8,6 +8,7 @@ Frontend criado com expo, usando a stack typescript/react native;
 
 Backend a ser implementado na plataforma Render, com uso de banco de dados PostgreSQL;
 
+Backend segue o padrão MVC de estruturação e segue o padrão REST para lidar com as rotas.
 
 
 # Nome do projeto
