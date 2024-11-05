@@ -25,7 +25,7 @@ exports.getCareProfessionalById = async (req, res, next) => {
 
 exports.createCareProfessional = async (req, res, next) => {
   try {
-    console.log("Dados recebidos:", req.body); // Adicione este log para depurar os dados recebidos
+    console.log("Dados recebidos:", req.body);
     const careProfessional = await CareProfessional.create(req.body);
     const userExists = await User.findByPk(req.body.idUser);
     if (!userExists) {

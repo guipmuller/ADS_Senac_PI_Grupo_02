@@ -1,18 +1,14 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  logging: console.log,
-});
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("./database");
 
 const queryInterface = sequelize.getQueryInterface();
 
 async function syncDatabase() {
   try {
     await sequelize.authenticate();
-    console.log('Conexão estabelecida com sucesso.');
+    console.log("Conexão estabelecida com sucesso.");
 
-    // Criação da tabela Users
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable("Users", {
       idUser: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -43,18 +39,17 @@ async function syncDatabase() {
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
     console.log("Tabela Users criada com sucesso.");
 
-    // Criação da tabela Patients
-    await queryInterface.createTable('Patients', {
+    await queryInterface.createTable("Patients", {
       idPatient: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -76,25 +71,24 @@ async function syncDatabase() {
       idUser: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
-          key: 'idUser'
-        }
+          model: "Users",
+          key: "idUser",
+        },
       },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
     console.log("Tabela Patients criada com sucesso.");
 
-    // Criação da tabela CareProfessionals
-    await queryInterface.createTable('CareProfessionals', {
+    await queryInterface.createTable("CareProfessionals", {
       idCareProfessional: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -115,25 +109,24 @@ async function syncDatabase() {
       idUser: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
-          key: 'idUser'
-        }
+          model: "Users",
+          key: "idUser",
+        },
       },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
     console.log("Tabela CareProfessionals criada com sucesso.");
 
-    // Criação da tabela Appointments
-    await queryInterface.createTable('Appointments', {
+    await queryInterface.createTable("Appointments", {
       idAppointment: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -154,26 +147,26 @@ async function syncDatabase() {
       idPatient: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Patients',
-          key: 'idPatient'
-        }
+          model: "Patients",
+          key: "idPatient",
+        },
       },
       idCareProfessional: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'CareProfessionals',
-          key: 'idCareProfessional'
-        }
+          model: "CareProfessionals",
+          key: "idCareProfessional",
+        },
       },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
     console.log("Tabela Appointments criada com sucesso.");

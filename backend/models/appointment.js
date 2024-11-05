@@ -1,14 +1,11 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  logging: console.log,
-});
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-const Patient = require('./patient');
-const CareProfessional = require('./careProfessional');
+const Patient = require("./patient");
+const CareProfessional = require("./careProfessional");
 
 const Appointment = sequelize.define(
-  'Appointment',
+  "Appointment",
   {
     idAppointment: {
       type: DataTypes.INTEGER,
@@ -31,20 +28,20 @@ const Appointment = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Patient,
-        key: 'idPatient',
+        key: "idPatient",
       },
     },
     idCareProfessional: {
       type: DataTypes.INTEGER,
       references: {
         model: CareProfessional,
-        key: 'idCareProfessional',
+        key: "idCareProfessional",
       },
     },
   },
   {
-    tableName: 'Appointments',
-    schema: 'public',
+    tableName: "Appointments",
+    schema: "public",
   }
 );
 
