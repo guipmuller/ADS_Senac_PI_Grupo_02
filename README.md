@@ -1,46 +1,20 @@
 # ADS_Senac_PI_Grupo_04_quarto_semestre
 
-Projeto usando Node.JS v22.11.0 (atual LTS);
+![Banner](frontend/assets/banner/banner_img.gif) 
 
-Backend criado com express-generator, usando a stack javascript/node;
+O projeto tem como objetivo desenvolver um aplicativo mobile que conecta clientes que precisam de cuidados domiciliares (como idosos, pessoas em recuperação pós-cirúrgica ou com necessidades especiais) a enfermeiros e técnicos de enfermagem que desejam atuar como cuidadores.
 
-Frontend criado com expo, usando a stack typescript/react native;
-
-Backend a ser implementado na plataforma Render, com uso de banco de dados PostgreSQL;
-
-Backend segue o padrão MVC de estruturação e segue o padrão REST para lidar com as rotas.
+---
+## 🔧 Tecnologias e Arquitetura
 
 
-# Nome do projeto
+- Node.js v22.11.0 (atual LTS) para o backend.
+- Backend criado com express-generator, utilizando a stack JavaScript/Node.js.
+- Frontend desenvolvido com Expo, utilizando a stack TypeScript/React Native.
+- Backend hospedado na plataforma Render, com uso de banco de dados PostgreSQL.
+- O backend segue o padrão MVC para a estruturação do código e o padrão REST para as rotas da API.
 
-![GitHub repo size](https://img.shields.io/github/repo-size/iuricode/README-template?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/iuricode/README-template?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/iuricode/README-template?style=for-the-badge)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/iuricode/README-template?style=for-the-badge)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/iuricode/README-template?style=for-the-badge)
-
-<img src="imagem.png" alt="Exemplo imagem">
-
-> Linha adicional de texto informativo sobre o que o projeto faz. Sua introdução deve ter cerca de 2 ou 3 linhas. Não exagere, as pessoas não vão ler.
-
-### Ajustes e melhorias
-
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
-
-- [x] Tarefa 1
-- [x] Tarefa 2
-- [x] Tarefa 3
-- [ ] Tarefa 4
-- [ ] Tarefa 5
-
-## 💻 Pré-requisitos
-
-Antes de começar, verifique se você atendeu aos seguintes requisitos:
-
-- Você instalou a versão mais recente de `<linguagem / dependência / requeridos>`
-- Você tem uma máquina `<Windows / Linux / Mac>`. Indique qual sistema operacional é compatível / não compatível.
-- Você leu `<guia / link / documentação_relacionada_ao_projeto>`.
-
+--- 
 ## 🚀 Instalando <nome_do_projeto>
 
 Para instalar o <nome_do_projeto>, siga estas etapas:
@@ -79,43 +53,45 @@ Para contribuir com <nome_do_projeto>, siga estas etapas:
 
 Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-## 🤝 Colaboradores
+## 🤝 Autores
 
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
 
 <table>
   <tr>
     <td align="center">
-      <a href="#" title="defina o título do link">
-        <img src="https://avatars3.githubusercontent.com/u/31936044" width="100px;" alt="Foto do Iuri Silva no GitHub"/><br>
-        <sub>
-          <b>Iuri Silva</b>
-        </sub>
+      <a href="#" title="Guilherme P Muller">
+        <img src="https://avatars.githubusercontent.com/u/14915623?v=4" width="100" height="100" alt="Guilherme P Muller"/>
+        <br>
+        <sub><b>Guilherme P Muller</b></sub>
       </a>
     </td>
     <td align="center">
-      <a href="#" title="defina o título do link">
-        <img src="https://s2.glbimg.com/FUcw2usZfSTL6yCCGj3L3v3SpJ8=/smart/e.glbimg.com/og/ed/f/original/2019/04/25/zuckerberg_podcast.jpg" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
-        <sub>
-          <b>Mark Zuckerberg</b>
-        </sub>
+      <a href="#" title="Lucas Gauto">
+        <img src="https://avatars.githubusercontent.com/u/131922918?v=4" width="100" height="100" alt="Lucas Gauto"/>
+        <br>
+        <sub><b>Lucas Gauto</b></sub>
       </a>
     </td>
     <td align="center">
-      <a href="#" title="defina o título do link">
-        <img src="https://miro.medium.com/max/360/0*1SkS3mSorArvY9kS.jpg" width="100px;" alt="Foto do Steve Jobs"/><br>
-        <sub>
-          <b>Steve Jobs</b>
-        </sub>
+      <a href="#" title="Ana Paula Lima">
+        <img src="https://avatars.githubusercontent.com/u/106444181?v=4" width="100" height="100" alt="Ana Paula Lima"/>
+        <br>
+        <sub><b>Ana Paula Lima</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="Amanda Nascimento">
+        <img src="https://avatars.githubusercontent.com/u/104909894?v=4" width="100" height="100" alt="Amanda Nascimento"/>
+        <br>
+        <sub><b>Amanda Nascimento</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="Anderson Ferreira">
+        <img src="https://avatars.githubusercontent.com/u/97910606?v=4" width="100" height="100" alt="Anderson Ferreira"/>
+        <br>
+        <sub><b>Anderson Ferreira</b></sub>
       </a>
     </td>
   </tr>
 </table>
-
-## 😄 Seja um dos contribuidores
-
-Quer fazer parte desse projeto? Clique [AQUI](CONTRIBUTING.md) e leia como contribuir.
-
-## 📝 Licença
-
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
