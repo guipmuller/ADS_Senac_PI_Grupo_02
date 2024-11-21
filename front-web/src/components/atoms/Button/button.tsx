@@ -1,24 +1,16 @@
 import React from 'react';
+import { ButtonProps } from './types';
 
-type ButtonProps = {
-	classname: string;
-	onclick: () => void;
-	onsubmit: () => void;
-	type?: string;
-	submit?: string;
-	text: string;
-};
-
-function Button(props: ButtonProps) {
+const Button = ({ classname, onclick, text, type }: ButtonProps) => {
 	return (
 		<button
-			className={props.classname}
-			onClick={props.onclick}
-			onSubmit={props.onsubmit}
+			className={classname}
+			onClick={onclick}
+			type={type}
 		>
-			{props.text}
+			{text}
 		</button>
 	);
-}
+};
 
 export default Button;

@@ -1,7 +1,4 @@
-type TextProps = {
-	classname: string;
-	text: string;
-};
+import { TextProps } from './types';
 
 const Text = ({ classname, text }: TextProps) => {
 	return <p className={classname}>{text}</p>;

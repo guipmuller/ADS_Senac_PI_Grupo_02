@@ -1,8 +1,4 @@
-type InputProps = {
-	classname: string;
-	placeholder: string;
-	type: string;
-};
+import { InputProps } from './types';
 
 const Input = ({ classname, placeholder, type }: InputProps) => {
 	return (

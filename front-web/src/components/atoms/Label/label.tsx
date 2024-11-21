@@ -1,10 +1,7 @@
-type LabelProps = {
-	classname: string;
-	text: string;
-};
+import { LabelProps } from './types';
 
 const Label = ({ classname, text }: LabelProps) => {
-	<label className={classname}>{text}</label>;
+	return <label className={classname}>{text}</label>;
 };
 
 export default Label;
