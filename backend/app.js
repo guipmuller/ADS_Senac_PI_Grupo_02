@@ -14,6 +14,24 @@ var appointmentsRoutes = require("./routes/appointmentsRoutes");
 
 var app = express();
 
+// Configuração Swagger
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'HomeCare API',
+      version: '1.0.0',
+      description: '[Swagger UI](http://localhost:3000/swagger/)',
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(options);
+
+// Middleware para servir a documentação Swagger
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
