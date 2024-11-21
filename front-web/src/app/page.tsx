@@ -28,7 +28,9 @@ function LoginTemplate() {
 				<h1 className="text-2xl font-semibold text-center mb-6">
 					Pacientes & Cuidadores
 				</h1>
-				{error && <p style={{ color: 'red' }}>{error}</p>}
+				{error && (
+					<p className="text-red-500">Usuário ou senha inválidos.</p>
+				)}
 				<form className="space-y-4">
 					<div>
 						<label
