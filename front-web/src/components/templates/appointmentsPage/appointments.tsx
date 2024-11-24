@@ -112,25 +112,21 @@ const AppointmentsTemplate = () => {
     }
   };
 
-  const getName = () => {
-    for (let e of appointmentsData) {
-      for (let f of careProfessionalsData) {
-        for (let g of usersData) {
-          if (
-            e.idCareProfessional === f.idCareProfessional &&
-            f.idUser === g.idUser
-          ) {
-            return g.name;
-          }
+  const getName = (idPerson: string) => {
+    for (const f of careProfessionalsData) {
+      for (const g of usersData) {
+        if (+idPerson === f.idCareProfessional && f.idUser === g.idUser) {
+          return g.name;
         }
       }
     }
+
     return null;
   };
 
-  const CuidadorNome = () => {
-    const name = getName();
-    return name;
+  const CuidadorNome = ({ idPerson }) => {
+    const name = getName(idPerson);
+    return <span>{name}</span>;
   };
 
   if (error) return <p>Erro: {error}</p>;
@@ -161,7 +157,10 @@ const AppointmentsTemplate = () => {
                   <CiCalendarDate className="text-5xl" />
                   <div className="flex flex-col">
                     <span>
-                      Cuidador: <CuidadorNome />
+                      Cuidador:{" "}
+                      <CuidadorNome
+                        idPerson={e.idCareProfessional.toString()}
+                      />
                     </span>
                     <span className="text-gray-500">Local: {e.location}</span>
                   </div>
