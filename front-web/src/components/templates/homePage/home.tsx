@@ -1,10 +1,56 @@
-import Button from "@/components/atoms/Button/button";
+"use client";
+
 import Input from "@/components/atoms/Input/input";
 import ProfileCard from "@/components/atoms/ProfileCard/ProfileCard";
 import ProfileList from "@/components/atoms/ProfileList/ProfileList";
-import Image from "next/image";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface CareProfessional {
+  idCareProfessional: number;
+  professionalRegistryCode: string;
+  professionalBiography: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  idUser: number;
+}
+
+interface User {
+  idUser: number;
+  name: React.ReactNode;
+  email: string;
+}
 
 const HomeTemplate = () => {
+  const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
+
+  const [professionals, setProfessionals] = useState<CareProfessional[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    Promise.all([
+      axios.get<CareProfessional[]>(`${URL}careProfessionals`),
+      axios.get<User[]>(`${URL}users`),
+    ])
+      .then(([professionalResponse, userResponse]) => {
+        setProfessionals(professionalResponse.data);
+        setUsers(userResponse.data);
+      })
+      .catch((error) => console.error("Erro ao carregar dados:", error));
+  }, []);
+
+  const getName = (idPerson: string) => {
+    for (const f of professionals) {
+      for (const g of users) {
+        if (+idPerson === f.idCareProfessional && f.idUser === g.idUser) {
+          return g.name;
+        }
+      }
+    }
+    return null;
+  };
+
   return (
     <>
       <header className="shadow flex h-20 items-end">
@@ -25,24 +71,42 @@ const HomeTemplate = () => {
         </section>
         <h2 className="text-2xl font-semibold my-3">Cuidadores em destaque</h2>
         <span className="flex gap-4">
-          <ProfileCard name="Maria Silva" experience="3 anos de experiência" />
-          <ProfileCard name="Maria Silva" experience="3 anos de experiência" />
+          {professionals.slice(0, 2).map((professional) => {
+            const name = getName(String(professional.idUser));
+            return (
+              <ProfileCard
+                key={professional.idUser}
+                name={String(name)}
+                experience={professional.professionalBiography}
+                idUser={professional.idUser}
+              />
+            );
+          })}
         </span>
+
         <h2 className="text-2xl font-semibold my-3">
           Profissionais disponíveis agora:
         </h2>
         <span>
-          <ProfileList
-            name="Carla Pereira"
-            role="Enfermeira Registrada"
-            label="Disponível para plantão noturno"
-          />
+          {professionals.map((professional) => {
+            const name = getName(String(professional.idUser));
+            return (
+              <ProfileList
+                key={professional.idCareProfessional}
+                name={String(name)}
+                role={`${professional.professionalBiography}`}
+                label="Disponível para plantão"
+              />
+            );
+          })}
         </span>
-        <Button
-        text="Ver todos"
-          classname="w-full py-2 text-sm font-medium text-white border border-gray-300 rounded-md focus:outline-none bg-black hover:bg-white hover:text-black"
-          type="button"
-        />
+
+        <button
+              className="mt-4 bg-black text-white px-6 py-2 font-semibold rounded w-full"
+              type="button"
+            >
+              Ver todos
+            </button>
       </main>
     </>
   );
