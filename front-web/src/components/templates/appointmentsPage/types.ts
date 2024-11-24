@@ -28,3 +28,14 @@ export type careProfessionalType = {
   updatedAt: string;
   idUser: number;
 };
+
+export type userType = {
+  idUser: number,
+  name: string,
+  email: string,
+  phoneNumber: number,
+  cpf: number,
+  password: string,
+  createdAt: string,
+  updatedAt: string
+}

@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import BaseTemplate from "../BaseTemplate/BaseTemplate";
 import Button from "@/components/atoms/Button/button";
 import { ButtonProps } from "@/components/atoms/Button/types";
-import { appointmentType, patientType, careProfessionalType } from "./types";
+import {
+  appointmentType,
+  patientType,
+  careProfessionalType,
+  userType,
+} from "./types";
 import { FaChevronLeft } from "react-icons/fa6";
 import { CiCalendarDate } from "react-icons/ci";
 import { FiRefreshCcw } from "react-icons/fi";
@@ -17,6 +22,7 @@ const AppointmentsTemplate = () => {
   const [careProfessionalsData, setCareProfessionalsData] = useState<
     careProfessionalType[]
   >([]);
+  const [usersData, setUsersData] = useState<userType[]>([]);
   const formObj = {
     date: "",
     time: "",
@@ -69,6 +75,15 @@ const AppointmentsTemplate = () => {
       .then((patientsData) => setPatientsData(patientsData))
       .catch((err) => setError(err.message));
   }, []);
+  useEffect(() => {
+    fetch(`${URL}users`)
+      .then((res) => {
+        if (!res) throw new Error("Erro ao buscar dados");
+        return res.json();
+      })
+      .then((usersData) => setUsersData(usersData))
+      .catch((err) => setError(err.message));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -95,6 +110,27 @@ const AppointmentsTemplate = () => {
       setError("Erro ao salvar agendamento");
       return;
     }
+  };
+
+  const getName = () => {
+    for (let e of appointmentsData) {
+      for (let f of careProfessionalsData) {
+        for (let g of usersData) {
+          if (
+            e.idCareProfessional === f.idCareProfessional &&
+            f.idUser === g.idUser
+          ) {
+            return g.name;
+          }
+        }
+      }
+    }
+    return null;
+  };
+
+  const CuidadorNome = () => {
+    const name = getName();
+    return name;
   };
 
   if (error) return <p>Erro: {error}</p>;
@@ -124,7 +160,9 @@ const AppointmentsTemplate = () => {
                 <div className="flex">
                   <CiCalendarDate className="text-5xl" />
                   <div className="flex flex-col">
-                    <span>Cuidador: Teste Silva</span>
+                    <span>
+                      Cuidador: <CuidadorNome />
+                    </span>
                     <span className="text-gray-500">Local: {e.location}</span>
                   </div>
                 </div>
