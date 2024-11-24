@@ -1,36 +1,40 @@
 require("dotenv").config();
 
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cors = require("cors");
+const syncDatabase = require("./syncDatabase");
+// const swaggerJSDoc = require("swagger-jsdoc");
+// const swaggerUi = require("swagger-ui-express");
 
-var indexRouter = require("./routes/index");
-var usersRoutes = require("./routes/usersRoutes");
-var careProfessionalsRoutes = require("./routes/careProfessionalsRoutes");
-var patientsRoutes = require("./routes/patientsRoutes");
-var appointmentsRoutes = require("./routes/appointmentsRoutes");
+const indexRouter = require("./routes/index");
+const usersRoutes = require("./routes/usersRoutes");
+const careProfessionalsRoutes = require("./routes/careProfessionalsRoutes");
+const patientsRoutes = require("./routes/patientsRoutes");
+const appointmentsRoutes = require("./routes/appointmentsRoutes");
 
-var app = express();
+const app = express();
 
 // Configuração Swagger
 const options = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'HomeCare API',
-      version: '1.0.0',
-      description: '[Swagger UI](http://localhost:3000/swagger/)',
+      title: "HomeCare API",
+      version: "1.0.0",
+      description: "[Swagger UI](http://localhost:3000/swagger/)",
     },
   },
-  apis: ['./routes/*.js'],
+  apis: ["./routes/*.js"],
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJSDoc(options);
 
 // Middleware para servir a documentação Swagger
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -40,8 +44,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
-const syncDatabase = require("./syncDatabase");
 syncDatabase();
 
 console.log("Carregando rotas...");
