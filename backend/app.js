@@ -1,18 +1,19 @@
 require("dotenv").config();
 
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var usersRoutes = require("./routes/usersRoutes");
-var careProfessionalsRoutes = require("./routes/careProfessionalsRoutes");
-var patientsRoutes = require("./routes/patientsRoutes");
-var appointmentsRoutes = require("./routes/appointmentsRoutes");
+const indexRouter = require("./routes/index");
+const usersRoutes = require("./routes/usersRoutes");
+const careProfessionalsRoutes = require("./routes/careProfessionalsRoutes");
+const patientsRoutes = require("./routes/patientsRoutes");
+const appointmentsRoutes = require("./routes/appointmentsRoutes");
 
-var app = express();
+const app = express();
 
 // Configuração Swagger
 // const options = {
@@ -40,6 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 const syncDatabase = require("./syncDatabase");
 syncDatabase();
