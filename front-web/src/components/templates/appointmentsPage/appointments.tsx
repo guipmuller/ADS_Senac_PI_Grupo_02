@@ -28,25 +28,27 @@ const AppointmentsTemplate = () => {
     time: "",
     location: "",
     idPatient: 0,
-    idCareProfessional: 1,
+    idCareProfessional: 0,
   };
   const [formData, setFormData] = useState<appointmentType>(formObj);
   const [error, setError] = useState("");
-  const [toggleNewAppointments, setToggleNewAppointments] = useState(false);
+  const [toggleNewAppointments, setToggleNewAppointments] =
+    useState<boolean>(false);
+  const [sendEdit, setSendEdit] = useState<boolean>(false);
 
   const appointmentButton = {
     text: "Agendar novo",
     classname:
       "w-full py-2 mt-2 text-sm font-medium text-white border border-gray-100 bg-black rounded focus:outline-none hover:bg-gray-100 hover:text-gray-700",
     onclick: () => {
-      setToggleNewAppointments(true);
+      setToggleNewAppointments(!toggleNewAppointments);
     },
     type: "submit",
   } as ButtonProps;
 
   const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
 
-  useEffect(() => {
+  const getAppointments = () => {
     fetch(`${URL}appointments`)
       .then((res) => {
         if (!res) throw new Error("Erro ao buscar dados");
@@ -54,6 +56,10 @@ const AppointmentsTemplate = () => {
       })
       .then((appointmentsData) => setAppointmentsData(appointmentsData))
       .catch((err) => setError(err.message));
+  };
+
+  useEffect(() => {
+    getAppointments();
   }, []);
   useEffect(() => {
     fetch(`${URL}careProfessionals`)
@@ -104,10 +110,64 @@ const AppointmentsTemplate = () => {
         const res = await req.json();
         console.log(res.message);
         setFormData(formObj);
+        setToggleNewAppointments(false);
+        getAppointments();
       }
     } catch (error) {
       console.error("Error:", error);
       setError("Erro ao salvar agendamento");
+      return;
+    }
+  };
+
+  const editAppointment = (appointment) => {
+    console.log("appointment", appointment);
+
+    setSendEdit(true);
+    setToggleNewAppointments(true);
+    setFormData(appointment);
+  };
+
+  const handleEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("formData", formData);
+
+    try {
+      const req = await fetch(`${URL}appointments/${formData.idAppointment}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!req.ok) {
+        throw new Error("Erro ao salvar agendamento");
+      } else {
+        const res = await req.json();
+        console.log(res.message);
+        setFormData(formObj);
+        setToggleNewAppointments(false);
+        getAppointments();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("Erro ao salvar agendamento");
+      return;
+    }
+  };
+
+  const handleDelete = async (idAppointment) => {
+    try {
+      const req = await fetch(`${URL}appointments/${idAppointment}`, {
+        method: "DELETE",
+      });
+      if (!req.ok) {
+        throw new Error("Erro ao deletar agendamento");
+      } else {
+        console.log("Agendamento deletado!");
+        await getAppointments();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("Erro ao deletar agendamento");
       return;
     }
   };
@@ -128,6 +188,9 @@ const AppointmentsTemplate = () => {
     const name = getName(idPerson);
     return <span>{name}</span>;
   };
+  // console.log("appointmentsData", appointmentsData);
+  // console.log("careProfessionalsData", careProfessionalsData);
+  // console.log("patientsData", patientsData);
 
   if (error) return <p>Erro: {error}</p>;
   if (
@@ -172,8 +235,14 @@ const AppointmentsTemplate = () => {
                       99999-6666
                     </span>
                   </span>
-                  <FiRefreshCcw className="text-xl mx-2" />
-                  <IoClose className="text-xl text-red-700" />
+                  <FiRefreshCcw
+                    className="text-xl mx-2 cursor-pointer"
+                    onClick={() => editAppointment(e)}
+                  />
+                  <IoClose
+                    className="text-xl text-red-700 cursor-pointer"
+                    onClick={() => handleDelete(e.idAppointment)}
+                  />
                 </div>
               </div>
               <hr />
@@ -184,7 +253,10 @@ const AppointmentsTemplate = () => {
         {toggleNewAppointments && (
           <div className="my-4 w-full">
             <h3 className="text-xl font-semibold">Novo agendamento</h3>
-            <form onSubmit={handleSubmit} className="w-full flex flex-col">
+            <form
+              onSubmit={sendEdit ? handleEdit : handleSubmit}
+              className="w-full flex flex-col"
+            >
               <label>
                 Digite o ID do Paciente
                 <input
@@ -194,6 +266,17 @@ const AppointmentsTemplate = () => {
                   className="border mx-3 my-1"
                   onChange={handleChange}
                   value={formData.idPatient}
+                />
+              </label>
+              <label>
+                Digite o ID do Profissional
+                <input
+                  id="idCareProfessional"
+                  name="idCareProfessional"
+                  type="number"
+                  className="border mx-3 my-1"
+                  onChange={handleChange}
+                  value={formData.idCareProfessional}
                 />
               </label>
               <label>
@@ -229,7 +312,15 @@ const AppointmentsTemplate = () => {
                   value={formData.time}
                 />
               </label>
-              <button type="submit">Enviar</button>
+              {sendEdit ? (
+                <button type="submit" className="bg-lime-800 text-white">
+                  Atualizar
+                </button>
+              ) : (
+                <button type="submit" className="bg-lime-800 text-white">
+                  Enviar
+                </button>
+              )}
             </form>
           </div>
         )}
