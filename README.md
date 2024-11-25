@@ -79,11 +79,6 @@ Instale as dependências:
 npm run dev 
 
 
-## ☕ Uso
-Acesse o frontend no aplicativo Expo Go (disponível na Play Store/App Store).
-Escaneie o QR Code exibido no terminal para abrir o aplicativo.
-Navegue pela interface para explorar funcionalidades como login, busca por cuidadores e agendamentos.
-
 ---
 
 ## 🤝 Autores
