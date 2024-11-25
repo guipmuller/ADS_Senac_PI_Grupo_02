@@ -1,12 +1,14 @@
 'use client';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 function LoginTemplate() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const router = useRouter();
 
 	const handleLogin = () => {
-		console.log('Fazendo login com:', email, password);
+		router.push('/home-page');
 	};
 
 	return (
