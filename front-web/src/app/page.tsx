@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 function LoginTemplate() {
 	const { login } = useAuth();
@@ -67,12 +68,14 @@ function LoginTemplate() {
 						/>
 					</div>
 					<div className="flex space-x-2">
-						<button
-							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
-							type="button"
-						>
-							Criar conta
-						</button>
+						<Link href='register-page' className='w-full'>
+							<button
+								className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
+								type="button"
+								>
+								Criar conta
+							</button>
+						</Link>
 						<button
 							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
 							type="submit"
