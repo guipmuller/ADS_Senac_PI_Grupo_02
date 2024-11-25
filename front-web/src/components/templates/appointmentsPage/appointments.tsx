@@ -13,6 +13,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { CiCalendarDate } from "react-icons/ci";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import Link from "next/link";
 
 const AppointmentsTemplate = () => {
   const [appointmentsData, setAppointmentsData] = useState<appointmentType[]>(
@@ -202,7 +203,9 @@ const AppointmentsTemplate = () => {
   return (
     <BaseTemplate>
       <header className="py-4 flex items-center justify-start w-full">
-        <FaChevronLeft />
+        <Link href="/home-page">
+          <FaChevronLeft />
+        </Link>
         <h2 className="text-2xl font-semibold mx-4">Meus agendamentos</h2>
       </header>
       <div className="my-4 w-full">
