@@ -43,7 +43,7 @@ Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a
 
 ### Frontend:
 - **components/**: Componentes reutilizáveis da interface.
-- **screens/**: Telas principais do aplicativo, como Login, Cadastro, Busca, etc.
+- **pages/**: Telas principais do aplicativo, como Login, Cadastro, Busca, etc.
 - **services/**: Comunicação com o backend via API.
 
 ---
