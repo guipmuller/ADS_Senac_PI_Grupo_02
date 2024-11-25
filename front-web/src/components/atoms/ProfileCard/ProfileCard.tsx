@@ -118,7 +118,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               </p>
             </div>
 
-            <Link href="/appointments-page">
+            <Link href="/pages/appointments-page">
             <button
               className="mt-4 bg-black text-white px-6 py-2 rounded w-full"
               type="button"
