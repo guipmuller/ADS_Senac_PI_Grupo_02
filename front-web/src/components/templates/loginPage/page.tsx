@@ -1,36 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
-import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 function LoginTemplate() {
-	const { login } = useAuth();
-	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [error, setError] = useState('');
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		try {
-			await login(email, password);
-			router.push('/home-page');
-		} catch (err: any) {
-			setError(err.message);
-		}
+	const handleLogin = () => {
+		console.log('Fazendo login com:', email, password);
 	};
 
 	return (
 		<div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-			<div className="w-full max-w-xs p-4 bg-white rounded shadow-md">
+			<div className="w-full max-w-xs p-4 bg-white rounded shadow-mdw-full shadow-md">
 				<h1 className="text-2xl font-semibold text-center mb-6">
 					Pacientes & Cuidadores
 				</h1>
-				{error && (
-					<p className="text-red-500">Usuário ou senha inválidos.</p>
-				)}
 				<form className="space-y-4">
 					<div>
 						<label
@@ -46,7 +30,6 @@ function LoginTemplate() {
 							value={email}
 							placeholder="Digite seu e-mail"
 							onChange={(e) => setEmail(e.target.value)}
-							required
 						/>
 					</div>
 					<div>
@@ -63,7 +46,6 @@ function LoginTemplate() {
 							value={password}
 							placeholder="Digite sua senha"
 							onChange={(e) => setPassword(e.target.value)}
-							required
 						/>
 					</div>
 					<div className="flex space-x-2">
@@ -75,8 +57,8 @@ function LoginTemplate() {
 						</button>
 						<button
 							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
-							type="submit"
-							onClick={handleSubmit}
+							type="button"
+							onClick={handleLogin}
 						>
 							Login
 						</button>
