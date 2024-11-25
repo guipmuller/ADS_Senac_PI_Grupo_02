@@ -26,7 +26,7 @@ Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a
 - Banco de dados **PostgreSQL** hospedado no **Render**.
 
 ### Frontend:
-- Desenvolvido com **Expo** e **React Native**.
+- Desenvolvido com React + Next
 - Utiliza **TypeScript** para maior confiabilidade no desenvolvimento.
 - Design responsivo e intuitivo.
 
@@ -52,7 +52,6 @@ Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a
 
 ### Pré-requisitos:
 - Node.js (versão mínima recomendada: 16.x).
-- Expo CLI para executar o frontend.
 - PostgreSQL configurado e rodando.
 
 ### Passos:
@@ -77,10 +76,8 @@ Navegue até o diretório do frontend:
 cd front-web
 
 Instale as dependências:
-npm install
+npm run dev 
 
-Inicie o Expo:
-expo start
 
 ## ☕ Uso
 Acesse o frontend no aplicativo Expo Go (disponível na Play Store/App Store).
