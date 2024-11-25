@@ -1,57 +1,93 @@
 # ADS_Senac_PI_Grupo_04_quarto_semestre
 
-![Banner](frontend/assets/banner/banner_img.gif) 
+O projeto **Pacientes & Cuidadores** visa facilitar a conexão entre clientes que necessitam de cuidados domiciliares, como idosos, pessoas em recuperação pós-cirúrgica ou com necessidades especiais, e profissionais de enfermagem qualificados, como enfermeiros e técnicos. 
 
-O projeto tem como objetivo desenvolver um aplicativo mobile que conecta clientes que precisam de cuidados domiciliares (como idosos, pessoas em recuperação pós-cirúrgica ou com necessidades especiais) a enfermeiros e técnicos de enfermagem que desejam atuar como cuidadores.
+Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a contratação de serviços de saúde domiciliares, promovendo qualidade de vida para os pacientes e oportunidades justas para os cuidadores.
 
 ---
+
+## 🛠️ Funcionalidades Principais
+
+- **Cadastro de usuários**: Clientes e cuidadores podem criar perfis personalizados.
+- **Busca avançada**: Clientes podem filtrar profissionais por especialização, disponibilidade e localização.
+- **Agendamento de serviços**: Interface para gerenciar compromissos e histórico de serviços.
+- **Chat integrado**: Comunicação direta e segura entre clientes e cuidadores.
+- **Avaliação de serviços**: Sistema de feedback para garantir a qualidade do atendimento.
+
+---
+
 ## 🔧 Tecnologias e Arquitetura
 
+### Backend:
+- **Node.js v22.11.0** (atual LTS).
+- Desenvolvido com **Express**, utilizando a stack **JavaScript/Node.js**.
+- Arquitetura baseada no padrão **MVC**.
+- APIs desenvolvidas seguindo o padrão **REST**.
+- Banco de dados **PostgreSQL** hospedado no **Render**.
 
-- Node.js v22.11.0 (atual LTS) para o backend.
-- Backend criado com express-generator, utilizando a stack JavaScript/Node.js.
-- Frontend desenvolvido com Expo, utilizando a stack TypeScript/React Native.
-- Backend hospedado na plataforma Render, com uso de banco de dados PostgreSQL.
-- O backend segue o padrão MVC para a estruturação do código e o padrão REST para as rotas da API.
+### Frontend:
+- Desenvolvido com **Expo** e **React Native**.
+- Utiliza **TypeScript** para maior confiabilidade no desenvolvimento.
+- Design responsivo e intuitivo.
 
---- 
-## 🚀 Instalando <nome_do_projeto>
+---
 
-Para instalar o <nome_do_projeto>, siga estas etapas:
+## 📂 Estrutura do Projeto
 
-Linux e macOS:
+### Backend:
+- **controllers/**: Arquivos que contêm a lógica do negócio.
+- **models/**: Modelos para interação com o banco de dados.
+- **routes/**: Rotas da API que definem os endpoints.
+- **utils/**: Funções auxiliares e utilitários.
+- **index.js**: Ponto de entrada para iniciar o servidor.
 
-```
-<comando_de_instalação>
-```
+### Frontend:
+- **components/**: Componentes reutilizáveis da interface.
+- **screens/**: Telas principais do aplicativo, como Login, Cadastro, Busca, etc.
+- **services/**: Comunicação com o backend via API.
 
-Windows:
+---
 
-```
-<comando_de_instalação>
-```
+## 🚀 Instalação e Configuração
 
-## ☕ Usando <nome_do_projeto>
+### Pré-requisitos:
+- Node.js (versão mínima recomendada: 16.x).
+- Expo CLI para executar o frontend.
+- PostgreSQL configurado e rodando.
 
-Para usar <nome_do_projeto>, siga estas etapas:
+### Passos:
 
-```
-<exemplo_de_uso>
-```
+#### 1. Clone o repositório:
+git clone ADS_Senac_PI_Grupo_04_quarto_semestre.git
 
-Adicione comandos de execução e exemplos que você acha que os usuários acharão úteis. Forneça uma referência de opções para pontos de bônus!
+#### 2. Configuração do Backend:
+Navegue até o diretório do backend:
+cd backend
 
-## 📫 Contribuindo para <nome_do_projeto>
+Instale as dependências:
+npm install
 
-Para contribuir com <nome_do_projeto>, siga estas etapas:
+Configure as variáveis de ambiente no arquivo .env (baseado no .env.example).
 
-1. Bifurque este repositório.
-2. Crie um branch: `git checkout -b <nome_branch>`.
-3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
-4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
-5. Crie a solicitação de pull.
+Inicie o servidor:
+npm start
 
-Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+#### 3. Configuração do Frontend:
+Navegue até o diretório do frontend:
+cd front-web
+
+Instale as dependências:
+npm install
+
+Inicie o Expo:
+expo start
+
+## ☕ Uso
+Acesse o frontend no aplicativo Expo Go (disponível na Play Store/App Store).
+Escaneie o QR Code exibido no terminal para abrir o aplicativo.
+Navegue pela interface para explorar funcionalidades como login, busca por cuidadores e agendamentos.
+
+---
 
 ## 🤝 Autores
 
@@ -91,6 +127,13 @@ Como alternativa, consulte a documentação do GitHub em [como criar uma solicit
         <img src="https://avatars.githubusercontent.com/u/97910606?v=4" width="100" height="100" alt="Anderson Ferreira"/>
         <br>
         <sub><b>Anderson Ferreira</b></sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="#" title="Monaliza Santos">
+        <img src=https://avatars.githubusercontent.com/u/168979776?v=4" width="100" height="100" alt="Monaliza Santos"/>
+        <br>
+        <sub><b>Monaliza Santos</b></sub>
       </a>
     </td>
   </tr>
