@@ -23,10 +23,10 @@ function LoginTemplate() {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+		<div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-300 via-cyan-50 to-green-100">
 			<div className="w-full max-w-xs p-4 bg-white rounded shadow-md">
 				<h1 className="text-2xl font-semibold text-center mb-6">
-					Pacientes & Cuidadores
+					Pacientes & Cuidadores 
 				</h1>
 				{error && (
 					<p className="text-red-500">Usuário ou senha inválidos.</p>
@@ -68,13 +68,13 @@ function LoginTemplate() {
 					</div>
 					<div className="flex space-x-2">
 						<button
-							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
+							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 transition-colors duration-400 ease-in-out rounded focus:outline-none hover:bg-blue-300 hover:text-white"
 							type="button"
 						>
 							Criar conta
 						</button>
 						<button
-							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
+							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-blue-300 hover:text-white transition-colors duration-400 ease-in-out"
 							type="submit"
 							onClick={handleSubmit}
 						>
