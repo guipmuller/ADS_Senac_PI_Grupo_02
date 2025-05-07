@@ -1,4 +1,4 @@
-# ADS_Senac_PI_Grupo_04_quarto_semestre
+# ADS_Senac_PI_Grupo_02
 
 O projeto **Pacientes & Cuidadores** visa facilitar a conexão entre clientes que necessitam de cuidados domiciliares, como idosos, pessoas em recuperação pós-cirúrgica ou com necessidades especiais, e profissionais de enfermagem qualificados, como enfermeiros e técnicos. 
 
