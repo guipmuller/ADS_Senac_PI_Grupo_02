@@ -1,4 +1,4 @@
-enum AppointmentStatus {
+export enum AppointmentStatus {
   SCHEDULED = 'Scheduled',
   COMPLETED = 'Completed',
   CANCELLED = 'Canceled',

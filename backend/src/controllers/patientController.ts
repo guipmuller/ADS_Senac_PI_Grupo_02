@@ -10,7 +10,7 @@ const patientService = new PatientService(patientRepository);
 const userRepository = new UserRepository(AppDataSource);
 const userService = new UserService(userRepository);
 
-export const getAllPatients = async (req: Request, res : Response, next: NextFunction) => {
+export const getAllPatients = async (req: Request, res : Response, next: NextFunction) : Promise<void> => {
   try {
     const patients = await patientService.getAllPatients();
     res.json(patients);
@@ -19,7 +19,7 @@ export const getAllPatients = async (req: Request, res : Response, next: NextFun
   }
 };
 
-export const getPatientById = async (req: Request, res: Response, next: NextFunction) => {
+export const getPatientById = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   try {
     const patient = await patientService.getPatientById(Number(req.params.id));
     if (patient) res.json(patient);
@@ -41,23 +41,30 @@ export const createPatient = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const updatePatient = async (req: Request, res: Response, next: NextFunction) => {
+export const updatePatient = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   try {
     const updatedUser = await patientService.updatePatient(Number(req.params.id), req.body);
     if (updatedUser) {
       const updatePatient = await patientService.getPatientById(Number(req.params.id));
       res.status(200).json(updatePatient);
-    } else  res.status(404).send("Patient not found");
+      return;
+    } else { 
+      res.status(404).send("Patient not found");
+      return;
+    }
   } catch (err) {
     next(err);
   }
 };
 
-export const deletePatient = async (req: Request, res: Response, next: NextFunction) => {
+export const deletePatient = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   try {
     const deleted = await patientService.deletePatient(Number(req.params.id))
-    if (deleted) res.status(204).send();
-    else res.status(404).send("Patient not found");
+    if (deleted) {
+      res.status(204).send();
+    } else {
+      res.status(404).send("Patient not found");
+    }
   } catch (err) {
     next(err);
   }

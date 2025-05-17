@@ -14,6 +14,7 @@ import usersRoutes from "./routes/userRoutes";
 import careProfessionalsRoutes from "./routes/careProfessionalsRoutes";
 import patientsRoutes from "./routes/patientsRoutes";
 import appointmentsRoutes from "./routes/appointmentsRoutes";
+import addressRoutes from "./routes/addressRoutes"
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -28,7 +29,7 @@ const app = express();
        description: '[Swagger UI](http://localhost:3000/swagger/)',
      },
    },
-   apis: ['./routes/*.ts'],
+   apis: ['./src/routes/*.ts'],
  };
  const swaggerSpec = swaggerJsdoc(options);
  // Middleware para servir a documentação Swagger
@@ -63,6 +64,9 @@ console.log("/api/patients rota carregada");
 
 app.use("/api/appointments", appointmentsRoutes);
 console.log("/api/appointments rota carregada");
+
+app.use("/api/addresses", addressRoutes);
+console.log("/api/addresses rota carregada");
 
 app.use(function (req, res, next) {
   console.log("404 - Rota não encontrada");

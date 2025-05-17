@@ -18,8 +18,13 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await userService.getUserById(Number(req.params.id));
-    if (user) res.json(user);
-    else res.status(404).send("User not found");
+    if (user) {
+      res.json(user);
+      return;
+    } else {
+      res.status(404).send("User not found");
+      return;
+    }
   } catch (err) {
     next(err);
   }
@@ -29,6 +34,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   try {
     const user = await userService.createUser(req.body);
     res.status(201).json(user.idUser);
+    return;
   } catch (err) {
     next(err);
   }
@@ -37,8 +43,13 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const updatedUser = await userService.updateUser(Number(req.params.id), req.body);
-    if (updatedUser) res.json(updatedUser);
-    else res.status(404).send("User not found");
+    if (updatedUser) {
+      res.json(updatedUser);
+      return;
+    } else {
+      res.status(404).send("User not found");
+      return;
+    }
   } catch (err) {
     next(err);
   }

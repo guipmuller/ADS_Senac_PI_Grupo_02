@@ -5,7 +5,7 @@ import {
   createCareProfessional,
   updateCareProfessional,
   deleteCareProfessional
-} from "../controllers/careProfessionalController";
+} from "../controllers/CareProfessionalController";
 
 const router = Router();
 

@@ -1,0 +1,31 @@
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Appointment } from "./Appointment";
+
+@Entity({name: "Addresses", schema: "public"})
+export class Address {
+  @PrimaryGeneratedColumn()
+  idAddress!: number;
+  @Column({ type: "varchar", length: 150, nullable: false })
+  street!: string;
+  @Column({ type: "varchar", length: 20, nullable: false})
+  number!: string;
+  @Column({ type: "varchar", length: 150 })
+  complement?: string;
+  @Column({ type: "varchar", length: 40, nullable: false })
+  neighborhood!: string;
+  @Column({ type: "varchar", length: 40, nullable: false })
+  city!: string;
+  @Column({ type: "varchar", length: 40, nullable: false })
+  state!: string;
+  @Column({ type: "varchar", length: 9, nullable: false })
+  postalCode!: string;
+  @Column({ type: "varchar", length: 20, nullable: false })
+  country!: string;
+  @CreateDateColumn()
+  createAt!: Date;
+  @UpdateDateColumn()
+  updateAt!: Date;
+
+  @OneToMany(() => Appointment, appointment => appointment.idAddress)
+  appointments!: Appointment[];
+}

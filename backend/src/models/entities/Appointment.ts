@@ -10,6 +10,8 @@ import {
 } from "typeorm";
 import { Patient } from "./Patient";
 import { CareProfessional } from "./CareProfessional";
+import { Address } from "./Address";
+import { AppointmentStatus } from "../enums/AppointmentStatus";
 
 @Entity({ name: "Appointments", schema: "public" })
 export class Appointment {
@@ -17,10 +19,10 @@ export class Appointment {
   idAppointment!: number;
   @Column({ type: "timestamp", nullable: false })
   scheduledAt!: Date;
-  @Column({ type: "varchar", length: 10, nullable: false })
+  @Column({ type: "enum", enum: AppointmentStatus, default: AppointmentStatus.SCHEDULED, nullable: false })
   status!: AppointmentStatus;
-  @Column({ type: "varchar", nullable: false, unique: true })
-  idLocation!: number;
+  @Column({ type: "varchar", nullable: false })
+  idAddress!: number;
   @CreateDateColumn()
   createAt!: Date;
   @UpdateDateColumn()
@@ -33,4 +35,8 @@ export class Appointment {
   @ManyToOne(() => CareProfessional)
   @JoinColumn({ name: "idCareProfessional" })
   careProfessional!: CareProfessional;
+
+  @ManyToOne(() => Address, address => address.appointments, { nullable: false })
+  @JoinColumn({ name: "idAddress" })
+  address!: Address;
 }

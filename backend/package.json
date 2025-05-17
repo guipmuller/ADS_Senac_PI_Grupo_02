@@ -2,8 +2,12 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "main": ".eslintrc.js",
   "scripts": {
-    "start": "node --loader ts-node/esm ./bin/www.ts",
+    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./bin/www.ts",
     "dev": "ts-node-dev app.ts"
   },
   "type": "module",
