@@ -16,9 +16,9 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   idAppointment!: number;
   @Column({ type: "timestamp", nullable: false })
-  date!: Date;
-  @Column({ type: "time", nullable: false })
-  time!: string;
+  scheduledAt!: Date;
+  @Column({ type: "varchar", length: 10, nullable: false })
+  status!: AppointmentStatus;
   @Column({ type: "varchar", nullable: false, unique: true })
   idLocation!: number;
   @CreateDateColumn()

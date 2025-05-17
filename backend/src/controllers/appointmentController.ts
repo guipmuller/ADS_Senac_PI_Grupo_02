@@ -38,16 +38,24 @@ export const getAppointmentById = async (req: Request, res : Response, next: Nex
 
 export const createAppointment = async (req: Request, res : Response, next: NextFunction) : Promise<void> => {
   try {
+    const { status } = req.body;
+
     const careProfessionalExists = await careProfessionalService.getCareProfessionalById(
       req.body.idCareProfessional
     );
     if (!careProfessionalExists) {
       res.status(404).json({ error: "Care professional not found" });
     }
+
     const patientExists = await patientService.getPatientById(req.body.idPatient);
     if (!patientExists) {
       res.status(404).json({ error: "Patient not found" });
     }
+
+    if (!Object.values(AppointmentStatus).includes(status)) {
+      res.status(400).json({ message: "Invalid appointment status" });
+    }
+
     const appointment = await appointmentService.createAppointments(req.body);
     res.status(201).json(appointment);
   } catch (err) {
@@ -57,7 +65,14 @@ export const createAppointment = async (req: Request, res : Response, next: Next
 
 export const updateAppointment = async (req: Request, res : Response, next: NextFunction) => {
   try {
+    const { status } = req.body;
+
+    if (status && !Object.values(AppointmentStatus).includes(status)) {
+      return res.status(400).json({ message: "Invalid appointment status" });
+    }
+
     const updated = await appointmentService.updateAppointments(Number(req.params.id), req.body);
+    
     if (updated) {
       const updateAppointment = await appointmentService.getAppointmentById(Number(req.params.id));
       res.status(200).json(updateAppointment);
