@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("./database");
+import sequelize from "./database/data-source";
 
 const queryInterface = sequelize.getQueryInterface();
 
-async function syncDatabase() {
+export default async function syncDatabase() {
   try {
     await sequelize.authenticate();
     console.log("Conexão estabelecida com sucesso.");
@@ -174,5 +174,3 @@ async function syncDatabase() {
     console.error("Erro ao sincronizar banco de dados ", error);
   }
 }
-
-module.exports = syncDatabase;

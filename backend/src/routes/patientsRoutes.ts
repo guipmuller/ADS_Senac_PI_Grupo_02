@@ -1,6 +1,13 @@
-var express = require("express");
-var router = express.Router();
-const Controller = require("../controllers/patientController");
+import { Router } from "express";
+import { 
+  getAllPatients, 
+  getPatientById, 
+  createPatient, 
+  updatePatient, 
+  deletePatient 
+} from "../controllers/patientController";
+
+const router = Router();
 
 /**
  * @swagger
@@ -42,7 +49,7 @@ const Controller = require("../controllers/patientController");
  *               items:
  *                 $ref: '#/components/schemas/Patient'
  */
-router.get("/", Controller.getAllPatients);
+router.get("/", getAllPatients);
 
 /**
  * @swagger
@@ -67,7 +74,7 @@ router.get("/", Controller.getAllPatients);
  *       404:
  *         description: Patient not found
  */
-router.get("/:id", Controller.getPatientById);
+router.get("/:id", getPatientById);
 
 /**
  * @swagger
@@ -106,7 +113,7 @@ router.get("/:id", Controller.getPatientById);
  *       400:
  *         description: Invalid data provided
  */
-router.post("/", Controller.createPatient);
+router.post("/", createPatient);
 
 /**
  * @swagger
@@ -152,7 +159,7 @@ router.post("/", Controller.createPatient);
  *       404:
  *         description: Patient not found
  */
-router.put("/:id", Controller.updatePatient);
+router.put("/:id", updatePatient);
 
 /**
  * @swagger
@@ -173,6 +180,6 @@ router.put("/:id", Controller.updatePatient);
  *       404:
  *         description: Patient not found
  */
-router.delete("/:id", Controller.deletePatient);
+router.delete("/:id", deletePatient);
 
-module.exports = router;
+export default router;

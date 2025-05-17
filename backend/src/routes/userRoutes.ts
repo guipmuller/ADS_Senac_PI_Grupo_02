@@ -1,6 +1,13 @@
-var express = require("express");
-var router = express.Router();
-const userController = require("../controllers/userController");
+import { Router } from "express";
+import { 
+  getAllUsers, 
+  getUserById, 
+  createUser, 
+  updateUser, 
+  deleteUser
+} from "../controllers/UserController";
+
+const router = Router();
 
 /**
  * @swagger
@@ -56,7 +63,7 @@ const userController = require("../controllers/userController");
  *                   cpf:
  *                     type: string
  */
-router.get("/", userController.getAllUsers);
+router.get("/", getAllUsers);
 
 /**
  * @swagger
@@ -91,7 +98,7 @@ router.get("/", userController.getAllUsers);
  *       404:
  *         description: User not found
  */
-router.get("/:id", userController.getUserById);
+router.get("/:id", getUserById);
 
 /**
  * @swagger
@@ -132,7 +139,7 @@ router.get("/:id", userController.getUserById);
  *       400:
  *         description: Invalid data
  */
-router.post("/", userController.createUser);
+router.post("/", createUser);
 
 /**
  * @swagger
@@ -175,7 +182,7 @@ router.post("/", userController.createUser);
  *       404:
  *         description: User not found
  */
-router.put("/:id", userController.updateUser);
+router.put("/:id", updateUser);
 
 /**
  * @swagger
@@ -195,6 +202,6 @@ router.put("/:id", userController.updateUser);
  *       404:
  *         description: User not found
  */
-router.delete("/:id", userController.deleteUser);
+router.delete("/:id", deleteUser);
 
-module.exports = router;
+export default router;

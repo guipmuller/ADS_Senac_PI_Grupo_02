@@ -1,6 +1,7 @@
-var express = require("express");
-var router = express.Router();
-const appointmentController = require("../controllers/appointmentController");
+import { Router } from "express";
+import { createAppointment, deleteAppointment, getAllAppointments, getAppointmentById, updateAppointment } from "../controllers/appointmentController";
+
+const router = Router();
 
 /**
  * @swagger
@@ -47,7 +48,7 @@ const appointmentController = require("../controllers/appointmentController");
  *               items:
  *                 $ref: '#/components/schemas/Appointment'
  */
-router.get("/", appointmentController.getAllAppointments);
+router.get("/", getAllAppointments);
 
 /**
  * @swagger
@@ -71,7 +72,7 @@ router.get("/", appointmentController.getAllAppointments);
  *       404:
  *         description: Appointment not found
  */
-router.get("/:id", appointmentController.getAppointmentById);
+router.get("/:id", getAppointmentById);
 
 /**
  * @swagger
@@ -112,7 +113,7 @@ router.get("/:id", appointmentController.getAppointmentById);
  *             schema:
  *               $ref: '#/components/schemas/Appointment'
  */
-router.post("/", appointmentController.createAppointment);
+router.post("/", createAppointment);
 
 /**
  * @swagger
@@ -161,7 +162,7 @@ router.post("/", appointmentController.createAppointment);
  *       404:
  *         description: Appointment not found
  */
-router.put("/:id", appointmentController.updateAppointment);
+router.put("/:id", updateAppointment);
 
 /**
  * @swagger
@@ -182,6 +183,6 @@ router.put("/:id", appointmentController.updateAppointment);
  *       404:
  *         description: Appointment not found
  */
-router.delete("/:id", appointmentController.deleteAppointment);
+router.delete("/:id", deleteAppointment);
 
-module.exports = router;
+export default router;

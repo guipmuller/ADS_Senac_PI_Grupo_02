@@ -1,6 +1,13 @@
-var express = require("express");
-var router = express.Router();
-const Controller = require("../controllers/careProfessionalController");
+import { Router } from "express";
+import {
+  getAllCareProfessionals, 
+  getCareProfessionalById, 
+  createCareProfessional,
+  updateCareProfessional,
+  deleteCareProfessional
+} from "../controllers/careProfessionalController";
+
+const router = Router();
 
 /**
  * @swagger
@@ -42,7 +49,7 @@ const Controller = require("../controllers/careProfessionalController");
  *               items:
  *                 $ref: '#/components/schemas/CareProfessional'
  */
-router.get("/", Controller.getAllCareProfessionals);
+router.get("/", getAllCareProfessionals);
 
 /**
  * @swagger
@@ -66,7 +73,7 @@ router.get("/", Controller.getAllCareProfessionals);
  *       404:
  *         description: Care professional not found
  */
-router.get("/:id", Controller.getCareProfessionalById);
+router.get("/:id", getCareProfessionalById);
 
 /**
  * @swagger
@@ -100,7 +107,7 @@ router.get("/:id", Controller.getCareProfessionalById);
  *             schema:
  *               $ref: '#/components/schemas/CareProfessional'
  */
-router.post("/", Controller.createCareProfessional);
+router.post("/", createCareProfessional);
 
 /**
  * @swagger
@@ -142,7 +149,7 @@ router.post("/", Controller.createCareProfessional);
  *       404:
  *         description: Care professional not found
  */
-router.put("/:id", Controller.updateCareProfessional);
+router.put("/:id", updateCareProfessional);
 
 /**
  * @swagger
@@ -162,6 +169,6 @@ router.put("/:id", Controller.updateCareProfessional);
  *       404:
  *         description: Care professional not found
  */
-router.delete("/:id", Controller.deleteCareProfessional);
+router.delete("/:id", deleteCareProfessional);
 
-module.exports = router;
+export default router;
