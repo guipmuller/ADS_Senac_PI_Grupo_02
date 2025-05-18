@@ -14,7 +14,7 @@ export class User {
   phoneNumber!: string;
   @Column({ type: "varchar", length: 11, nullable: false, unique: true })
   cpf!: string
-  @Column({ type: "varchar", length: 150 })
+  @Column({ type: "varchar", nullable: true, length: 150 })
   urlImage?: string
   @CreateDateColumn()
   createAt!: Date;

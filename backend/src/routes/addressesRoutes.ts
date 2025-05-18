@@ -34,7 +34,7 @@ const router = Router();
  *           type: string
  *         country:
  *           type: string
- *         createAt:
+ *         createdAt:
  *           type: string
  *           format: date-time
  *         updateAt:
@@ -84,7 +84,7 @@ const router = Router();
  *         - state
  *         - postalCode
  *         - country
-  *     GetAddressResponse:
+ *      GetAddressResponse:
  *       type: object
  *       properties:
  *         id:

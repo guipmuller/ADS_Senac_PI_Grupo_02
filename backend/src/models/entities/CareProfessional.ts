@@ -17,8 +17,8 @@ export class CareProfessional {
   professionalRegistryCode!: string;
   @Column({ type: "varchar", nullable: false })
   professionalBiography!: string;
-  @Column({ type: "float", nullable: false })
-  rating!: number;
+  @Column({ type: "float", nullable: true })
+  rating?: number;
   @CreateDateColumn()
   createAt!: Date;
   @UpdateDateColumn()

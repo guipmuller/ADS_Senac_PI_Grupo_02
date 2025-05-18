@@ -14,7 +14,8 @@ import usersRoutes from "./routes/userRoutes";
 import careProfessionalsRoutes from "./routes/careProfessionalsRoutes";
 import patientsRoutes from "./routes/patientsRoutes";
 import appointmentsRoutes from "./routes/appointmentsRoutes";
-import addressRoutes from "./routes/addressRoutes"
+import addressRoutes from "./routes/addressesRoutes";
+import reviewRoutes from "./routes/reviewsRoutes";
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -67,6 +68,9 @@ console.log("/api/appointments rota carregada");
 
 app.use("/api/addresses", addressRoutes);
 console.log("/api/addresses rota carregada");
+
+app.use("/api/reviews", reviewRoutes);
+console.log("/api/reviews rota carregada");
 
 app.use(function (req, res, next) {
   console.log("404 - Rota não encontrada");
