@@ -1,66 +1,94 @@
-import { Request, Response, NextFunction } from "express";
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Put,
+  Delete,
+  Route,
+  Tags,
+  SuccessResponse,
+} from "tsoa";
 import { UserService } from "../services/UserService";
 import { UserRepository } from "../repositories/UserRepository";
 import { AppDataSource } from "../database/data-source";
+import { UserRequest } from "../models/dtos/UserRequest";
+import { GetUserResponse } from "../models/dtos/GetUserResponse";
+import { CreateResponse } from "../models/dtos/CreateResponse";
 
 const userRepository = new UserRepository(AppDataSource);
 const userService = new UserService(userRepository);
 
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+function toGetUserResponse(user: any): GetUserResponse {
+  return {
+    id: user.idUser,
+    name: user.name,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    cpf: user.cpf,
+    urlImage: user.urlImage,
+    isPatient: user.isPatient,
+  };
+}
+@Route("users")
+@Tags("Users")
+export class UserController extends Controller {
+  @Get("/")
+  public async getAllUsers(): Promise<GetUserResponse[]> {
     const users = await userService.getAllUsers();
-    res.json(users);
-  } catch (err) {
-    next(err);
+    return users.map(toGetUserResponse);
   }
-};
-
-export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await userService.getUserById(Number(req.params.id));
-    if (user) {
-      res.json(user);
-      return;
-    } else {
-      res.status(404).send("User not found");
-      return;
+  @Get("/{id}")
+  public async getUserById(@Path() id: number): Promise<GetUserResponse> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid user id: ${id}`);
     }
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user.idUser);
-    return;
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const updatedUser = await userService.updateUser(Number(req.params.id), req.body);
-    if (updatedUser) {
-      res.json(updatedUser);
-      return;
-    } else {
-      res.status(404).send("User not found");
-      return;
+    const user = await userService.getUserById(id);
+    if (!user) {
+      this.setStatus(404);
+      throw new Error("User not found");
     }
-  } catch (err) {
-    next(err);
+    return toGetUserResponse(user);
   }
-};
+  @SuccessResponse("201", "Created")
+  @Post("/")
+  public async createUser(
+    @Body() userData: UserRequest
+  ): Promise<CreateResponse> {
+    const user = await userService.createUser(userData);
+    this.setStatus(201);
+    return { id: user.idUser };
+  }
+  @Put("/{id}")
+  public async updateUser(
+    @Path() id: number,
+    @Body() userData: UserRequest
+  ): Promise<void> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid user id: ${id}`);
+    }
+    const updated = await userService.updateUser(id, userData);
+    if (!updated) {
+      this.setStatus(404);
+      throw new Error(`There is no user associated with id ${id}.`);
+    }
+    this.setStatus(204);
+  }
+  @Delete("/{id}")
+  public async deleteUser(@Path() id: number): Promise<void> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid user id: ${id}`);
+    }
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await userService.deleteUser(Number(req.params.id));
-    if (result.affected) res.status(204).send();
-    else res.status(404).send("User not found");
-  } catch (err) {
-    next(err);
+    const result = await userService.deleteUser(id);
+    if (!result.affected) {
+      this.setStatus(404);
+      throw new Error("User not found");
+    }
+    this.setStatus(204);
   }
-};
+}

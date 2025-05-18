@@ -16,6 +16,8 @@ export class User {
   cpf!: string
   @Column({ type: "varchar", nullable: true, length: 150 })
   urlImage?: string
+  @Column({ type: "boolean", nullable: false })
+  isPatient!: boolean
   @CreateDateColumn()
   createAt!: Date;
   @UpdateDateColumn()

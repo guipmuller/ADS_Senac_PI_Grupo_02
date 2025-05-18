@@ -1,7 +1,20 @@
-import { Response, Request, NextFunction } from "express";
+import {
+  Controller,
+  Route,
+  Tags,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Path,
+  Body,
+  SuccessResponse,
+  Response as TsoaResponse,
+} from "tsoa";
+
+import { AddressService } from "../services/AddressService";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { AppDataSource } from "../database/data-source";
-import { AddressService } from "../services/AddressService";
 import { AddressRequest } from "../models/dtos/AddressRequest";
 import { CreateResponse } from "../models/dtos/CreateResponse";
 import { GetAddressResponse } from "../models/dtos/GetAddressResponse";
@@ -9,119 +22,82 @@ import { GetAddressResponse } from "../models/dtos/GetAddressResponse";
 const addressRepository = new AddressRepository(AppDataSource);
 const addressService = new AddressService(addressRepository);
 
-function toGetAddressResponse(address: any): GetAddressResponse {
+function toGeResponse(entity: any): GetAddressResponse {
   return {
-    id: address.id,
-    street: address.street,
-    number: address.number,
-    neighborhood: address.neighborhood,
-    city: address.city,
-    state: address.state,
-    postalCode: address.postalCode,
-    country: address.country,
+    id: entity.idAddress,
+    street: entity.street,
+    number: entity.number,
+    neighborhood: entity.neighborhood,
+    city: entity.city,
+    state: entity.state,
+    postalCode: entity.postalCode,
+    country: entity.country,
   };
 }
-
-export const getAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
+@Route("addresses")
+@Tags("Addresses")
+export class AddressController extends Controller {
+  @Get("/")
+  public async getAllAddresses(): Promise<GetAddressResponse[]> {
     const addresses = await addressService.getAll();
-    const dtoList: GetAddressResponse[] = addresses.map(toGetAddressResponse);
-    res.json(dtoList);
-  } catch (err) {
-    next(err);
+    return addresses.map(toGeResponse);
   }
-};
-
-export const getById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Get("/{id}")
+  @TsoaResponse<null>(404, "Address not found")
+  public async getAddressById(@Path() id: number): Promise<GetAddressResponse> {
     if (isNaN(id)) {
-      res.status(400).json({ message: `Invalid address id: ${id}.` });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid address id: ${id}`);
     }
     const address = await addressService.getById(id);
     if (!address) {
-      res.status(404).json({ message: "Address not found." });
-      return;
+      this.setStatus(404);
+      throw new Error("Address not found");
     }
-    const dto: GetAddressResponse = toGetAddressResponse(address);
-    res.json(dto);
-    return;
-  } catch (err) {
-    next(err);
+
+    return toGeResponse(address);
   }
-};
-
-export const create = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  const data: AddressRequest = req.body;
-
-  try {
+  @SuccessResponse("201", "Created")
+  @Post("/")
+  public async createAddress(@Body() data: AddressRequest): Promise<CreateResponse> {
     const newAddress = await addressService.create(data);
-    const response: CreateResponse = { id: newAddress.idAddress };
-    res.status(201).json(response);
-    return;
-  } catch (err) {
-    next(err);
+    this.setStatus(201);
+    return { id: newAddress.idAddress };
   }
-};
 
-export const update = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Put("/{id}")
+  @SuccessResponse("204", "No Content")
+  @TsoaResponse<null>(404, "Address not found")
+  public async updateAddress(
+    @Path() id: number,
+    @Body() data: AddressRequest
+  ): Promise<void> {
     if (isNaN(id)) {
-      res.status(400).json({ message: `Invalid address id: ${id}.` });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid address id: ${id}`);
     }
-    const data: AddressRequest = req.body;
     const updated = await addressService.update(id, data);
     if (!updated) {
-      res
-        .status(404)
-        .json({ message: `There is no address associated with id ${id}.` });
-      return;
+      this.setStatus(404);
+      throw new Error(`There is no address associated with id ${id}.`);
     }
-    res.status(204).send();
-  } catch (err) {
-    next(err);
+    this.setStatus(204);
   }
-};
 
-export const remove = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Delete("{id}")
+  @SuccessResponse("204", "No Content")
+  @TsoaResponse<null>(404, "Address not found")
+  public async removeAddress(@Path() id: number): Promise<void> {
     if (isNaN(id)) {
-      res.status(400).json({ message: "Invalid address id." });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid user id: ${id}`);
     }
+
     const deleted = await addressService.delete(id);
     if (!deleted) {
-      res
-        .status(404)
-        .json({ message: `There is no address associated with id ${id}.` });
-      return;
+      this.setStatus(404);
+      throw new Error(`There is no address associated with id ${id}.`);
     }
-    res.status(204).send();
-  } catch (err) {
-    next(err);
+    this.setStatus(204);
   }
-};
+}

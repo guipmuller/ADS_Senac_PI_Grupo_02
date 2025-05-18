@@ -8,6 +8,7 @@
   "main": ".eslintrc.js",
   "scripts": {
     "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./bin/www.ts",
+    "tsoa:gen": "tsoa routes && tsoa swagger",
     "dev": "ts-node-dev app.ts"
   },
   "type": "module",

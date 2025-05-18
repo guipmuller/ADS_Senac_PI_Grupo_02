@@ -1,0 +1,1261 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"GetUserResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"urlImage": {
+						"type": "string"
+					},
+					"isPatient": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"phoneNumber",
+					"cpf",
+					"urlImage",
+					"isPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"urlImage": {
+						"type": "string"
+					},
+					"isPatient": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"phoneNumber",
+					"cpf",
+					"urlImage",
+					"isPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetReviewResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"rating",
+					"comment",
+					"idCareProfessional",
+					"idPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewRequest": {
+				"properties": {
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"rating",
+					"comment",
+					"idCareProfessional",
+					"idPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetPatientResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"patientName": {
+						"type": "string"
+					},
+					"patientCpf": {
+						"type": "string"
+					},
+					"patientBirthDate": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"idUser",
+					"patientName",
+					"patientCpf",
+					"patientBirthDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PatientRequest": {
+				"properties": {
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"patientName": {
+						"type": "string"
+					},
+					"patientCpf": {
+						"type": "string"
+					},
+					"patientBirthDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"idUser",
+					"patientName",
+					"patientCpf",
+					"patientBirthDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetCareProfessionalResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"professionalRegistryCode": {
+						"type": "string"
+					},
+					"professionalBiography": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"idUser",
+					"professionalRegistryCode",
+					"professionalBiography"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CareProfessionalRequest": {
+				"properties": {
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"professionalRegistryCode": {
+						"type": "string"
+					},
+					"professionalBiography": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"idUser",
+					"professionalRegistryCode",
+					"professionalBiography"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AppointmentStatus": {
+				"enum": [
+					"Scheduled",
+					"Completed",
+					"Canceled"
+				],
+				"type": "string"
+			},
+			"GetAppointmentResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"idAdress": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"$ref": "#/components/schemas/AppointmentStatus"
+					}
+				},
+				"required": [
+					"id",
+					"scheduledAt",
+					"idAdress",
+					"idPatient",
+					"idCareProfessional",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetAddressResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "string"
+					},
+					"complement": {
+						"type": "string"
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"street",
+					"number",
+					"neighborhood",
+					"city",
+					"state",
+					"postalCode",
+					"country"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AddressRequest": {
+				"properties": {
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "string"
+					},
+					"complement": {
+						"type": "string"
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"street",
+					"number",
+					"neighborhood",
+					"city",
+					"state",
+					"postalCode",
+					"country"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "backend",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetUserResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/reviews": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetReviewResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reviews/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetReviewResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/patients": {
+			"get": {
+				"operationId": "GetAllPatients",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetPatientResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreatePatient",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PatientRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/patients/{id}": {
+			"get": {
+				"operationId": "GetPatientById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetPatientResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdatePatient",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PatientRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletePatient",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/care-professionals": {
+			"get": {
+				"operationId": "GetAllCareProfessinals",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetCareProfessionalResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCareProfessinal",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CareProfessionalRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/care-professionals/{id}": {
+			"get": {
+				"operationId": "GetCareProfessinalById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetCareProfessionalResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCareProfessinal",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CareProfessionalRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCareProfessinal",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/appointments": {
+			"get": {
+				"operationId": "GetAllAppointments",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetAppointmentResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateAppointment",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			}
+		},
+		"/appointments/{id}": {
+			"get": {
+				"operationId": "GetAppointmentById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetAppointmentResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAppointment",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteAppointment",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/addresses": {
+			"get": {
+				"operationId": "GetAllAddresses",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetAddressResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateAddress",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/addresses/{id}": {
+			"get": {
+				"operationId": "GetAddressById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetAddressResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAddress",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "RemoveAddress",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

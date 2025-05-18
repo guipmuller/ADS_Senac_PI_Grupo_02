@@ -1,4 +1,14 @@
-import { Response, Request, NextFunction } from "express";
+import {
+  Controller,
+  Get,
+  Route,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Path,
+  Tags,
+} from "tsoa";
 import { AppDataSource } from "../database/data-source";
 import { GetReviewResponse } from "../models/dtos/GetReviewResponse";
 import { ReviewRepository } from "../repositories/ReviewRepository";
@@ -15,109 +25,65 @@ function toGetReviewResponse(review: any): GetReviewResponse {
     rating: review.rating,
     comment: review.comment,
     idCareProfessional: review.idCareProfessional,
-    idPatient: review.idPatient
+    idPatient: review.idPatient,
   };
 }
-
-export const getAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
+@Route("reviews")
+@Tags("Reviews")
+export class ReviewController extends Controller {
+  @Get("/")
+  public async getAll(): Promise<GetReviewResponse[]> {
     const reviews = await reviewService.getAll();
-    const dtoList: GetReviewResponse[] = reviews.map(toGetReviewResponse);
-    res.json(dtoList);
-  } catch (err) {
-    next(err);
+    return reviews.map(toGetReviewResponse);
   }
-};
-
-export const getById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Get("/{id}")
+  public async getById(@Path() id: number): Promise<GetReviewResponse> {
     if (isNaN(id)) {
-      res.status(400).json({ message: `Invalid review id: ${id}.` });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid review id: ${id}`);
     }
     const review = await reviewService.getById(id);
     if (!review) {
-      res.status(404).json({ message: "Review not found." });
-      return;
+      this.setStatus(404);
+      throw new Error("Review not found.");
     }
-
-    const dto: GetReviewResponse = toGetReviewResponse(review);
-    res.json(dto);
-    return;
-  } catch (err) {
-    next(err);
+    return toGetReviewResponse(review);
   }
-};
-
-export const create = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  const data: ReviewRequest = req.body;
-  try {
+  @Post("/")
+  public async create(@Body() data: ReviewRequest): Promise<CreateResponse> {
     const newReview = await reviewService.create(data);
-    const response: CreateResponse = { id: newReview.idReview };
-    res.status(201).json(response);
-    return;
-  } catch (err) {
-    next(err);
+    this.setStatus(201);
+    return { id: newReview.idReview };
   }
-};
-
-export const update = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Put("/{id}")
+  public async update(
+    @Path() id: number,
+    @Body() data: ReviewRequest
+  ): Promise<void> {
     if (isNaN(id)) {
-      res.status(400).json({ message: `Invalid review id: ${id}.` });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid review id: ${id}`);
     }
-    const data: ReviewRequest = req.body;
+
     const updated = await reviewService.update(id, data);
     if (!updated) {
-      res
-        .status(404)
-        .json({ message: `There is no review associated with id ${id}.` });
-      return;
+      this.setStatus(404);
+      throw new Error(`There is no review associated with id ${id}.`);
     }
-  } catch (err) {
-    next(err);
+    this.setStatus(204);
   }
-};
-
-export const remove = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const id = Number(req.params.id);
+  @Delete("/{id}")
+  public async remove(@Path() id: number): Promise<void> {
     if (isNaN(id)) {
-      res.status(400).json({ message: `Invalid review id: ${id}.` });
-      return;
+      this.setStatus(400);
+      throw new Error(`Invalid review id: ${id}`);
     }
+
     const deleted = await reviewService.delete(id);
     if (!deleted) {
-      res
-        .status(404)
-        .json({ message: `There is no review associated with id ${id}.` });
-      return;
+      this.setStatus(404);
+      throw new Error(`There is no review associated with id ${id}.`);
     }
-    res.status(204).send();
-  } catch (err) {
-    next(err);
+    this.setStatus(204);
   }
-};
+}

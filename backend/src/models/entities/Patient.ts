@@ -16,7 +16,7 @@ export class Patient {
   @Column({ type: "varchar", nullable: false })
   patientName!: string;
   @Column({ type: "varchar", nullable: false, unique: true })
-  patientCPF!: string;
+  patientCpf!: string;
   @Column({ type: "date", nullable: false })
   patientBirthDate!: Date;
   @CreateDateColumn()

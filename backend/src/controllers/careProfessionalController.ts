@@ -1,82 +1,123 @@
-import { Request, Response, NextFunction } from "express";
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Put,
+  Delete,
+  Route,
+  Tags,
+} from "tsoa";
 import { CareProfessionalService } from "../services/CareProfessionalService";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
 import { AppDataSource } from "../database/data-source";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserService } from "../services/UserService";
+import { CareProfessionalRequest } from "../models/dtos/CareProfessionalRequest";
+import { GetCareProfessionalResponse } from "../models/dtos/GetCareProfessionalResponse";
+import { CreateResponse } from "../models/dtos/CreateResponse";
 
-const careProfessionalRepository = new CareProfessionalRepository(AppDataSource);
-const careProfessionalService = new CareProfessionalService(careProfessionalRepository);
+const careProfessionalRepository = new CareProfessionalRepository(
+  AppDataSource
+);
+const careProfessionalService = new CareProfessionalService(
+  careProfessionalRepository
+);
 const userRepository = new UserRepository(AppDataSource);
 const userService = new UserService(userRepository);
 
-export const getAllCareProfessionals = async (req: Request, res : Response, next: NextFunction) : Promise<void> => {
-  try {
-    const careProfessionals = await careProfessionalService.getAllCareProfessionals();
-    res.json(careProfessionals);
-  } catch (err) {
-    next(err);
+function toGetCareProfessionalResponse(
+  entity: any
+): GetCareProfessionalResponse {
+  return {
+    id: entity.idCareProfessional,
+    idUser: entity.idUser,
+    professionalRegistryCode: entity.professionalRegistryCode,
+    professionalBiography: entity.professionalBiography,
+    rating: entity.rating,
+  };
+}
+@Route("care-professionals")
+@Tags("CareProfessionals")
+export class CareProfessionalController extends Controller {
+  @Get("/")
+  public async getAllCareProfessinals(): Promise<GetCareProfessionalResponse[]> {
+    const careProfessional =
+      await careProfessionalService.getAllCareProfessionals();
+    return careProfessional.map(toGetCareProfessionalResponse);
   }
-};
 
-export const getCareProfessionalById = async (req: Request, res : Response, next: NextFunction) : Promise<void> => {
-  try {
-    const careProfessional = await careProfessionalService.getCareProfessionalById(Number(req.params.id));
-    if (careProfessional) {
-      res.json(careProfessional);
-    } else {
-      res.status(404).send("CareProfessional not found");
+  @Get("/{id}")
+  public async getCareProfessinalById(
+    @Path() id: number
+  ): Promise<GetCareProfessionalResponse> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid CareProfessional id: ${id}`);
     }
-  } catch (err) {
-    next(err);
+    const careProfessional =
+      await careProfessionalService.getCareProfessionalById(id);
+    if (!careProfessional) {
+      this.setStatus(404);
+      throw new Error("CareProfessional not found");
+    }
+    return toGetCareProfessionalResponse(careProfessional);
   }
-};
 
-export const createCareProfessional = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
-  try {
-    const { idUser, ...careProfessionalData } = req.body;
-    const userExists = await userService.getUserById(idUser);
+  @Post("/")
+  public async createCareProfessinal(
+    @Body() careProfessionalData: CareProfessionalRequest
+  ): Promise<CreateResponse> {
+    const userExists = await userService.getUserById(
+      careProfessionalData.idUser
+    );
     if (!userExists) {
-      res.status(404).json({ error: "User not found" });
-      return;
+      this.setStatus(404);
+      throw new Error("User not found");
     }
-    const careProfessional = await careProfessionalService.createCareProfessionals({ idUser, ...careProfessionalData });
-    res.status(201).json({ id: careProfessional.idCareProfessional });
+
+    const careProfessional =
+      await careProfessionalService.createCareProfessionals(
+        careProfessionalData
+      );
+    this.setStatus(201);
+    return { id: careProfessional.idCareProfessional };
+  }
+
+  @Put("/{id}")
+  public async updateCareProfessinal(
+    @Path() id: number,
+    @Body() careProfessionalData: CareProfessionalRequest
+  ): Promise<void> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid CareProfessional id: ${id}`);
+    }
+    const updated = await careProfessionalService.updateCareProfessionals(
+      id,
+      careProfessionalData
+    );
+    if (!updated) {
+      this.setStatus(404);
+      throw new Error("CareProfessional not found");
+    }
+    this.setStatus(204);
+  }
+
+  @Delete("/{id}")
+  public async deleteCareProfessinal(@Path() id: number): Promise<void> {
+    if (isNaN(id)) {
+      this.setStatus(400);
+      throw new Error(`Invalid CareProfessional id: ${id}`);
+    }
+
+    const deleted = await careProfessionalService.deleteCareProfessionals(id);
+    if (!deleted) {
+      this.setStatus(404);
+      throw new Error("CareProfessional not found");
+    }
+    this.setStatus(204);
     return;
-  } catch (err) {
-    console.error("Erro ao criar CareProfessional:", err);
-    next(err);
   }
-};
-
-export const updateCareProfessional = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
-  try {
-    const updatedCareProfessional = await careProfessionalService.updateCareProfessionals(Number(req.params.id), req.body);
-    if (updatedCareProfessional) {
-      const updateCareProfessional = await careProfessionalService.getCareProfessionalById(Number(req.params.id));
-      res.status(200).json(updateCareProfessional);
-      return;
-    } else {
-      res.status(404).send("CareProfessional not found");
-      return;
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteCareProfessional = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
-  try {
-    const deleted = await careProfessionalService.deleteCareProfessionals(Number(req.params.id));
-    if (deleted) { 
-      res.status(204).send();
-      return;
-    }
-    else {
-      res.status(404).send("CareProfessional not found");
-      return;
-    }
-  } catch (err) {
-    next(err);
-  }
-};
+}
