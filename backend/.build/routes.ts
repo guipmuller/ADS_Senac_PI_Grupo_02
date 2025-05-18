@@ -51,7 +51,7 @@ const models: TsoaRoute.Models = {
             "email": {"dataType":"string","required":true},
             "phoneNumber": {"dataType":"string","required":true},
             "cpf": {"dataType":"string","required":true},
-            "urlImage": {"dataType":"string","required":true},
+            "urlImage": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "isPatient": {"dataType":"boolean","required":true},
         },
         "additionalProperties": false,
@@ -140,6 +140,17 @@ const models: TsoaRoute.Models = {
             "idPatient": {"dataType":"double","required":true},
             "idCareProfessional": {"dataType":"double","required":true},
             "status": {"ref":"AppointmentStatus","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AppointmentRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "scheduledAt": {"dataType":"datetime","required":true},
+            "idPatient": {"dataType":"double","required":true},
+            "idCareProfessional": {"dataType":"double","required":true},
+            "idAdress": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -852,7 +863,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentController_createAppointment: Record<string, TsoaRoute.ParameterSchema> = {
-                body: {"in":"body","name":"body","required":true,"dataType":"any"},
+                body: {"in":"body","name":"body","required":true,"ref":"AppointmentRequest"},
         };
         app.post('/appointments',
             ...(fetchMiddlewares<RequestHandler>(AppointmentController)),
@@ -883,7 +894,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentController_updateAppointment: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                body: {"in":"body","name":"body","required":true,"dataType":"any"},
+                body: {"in":"body","name":"body","required":true,"ref":"AppointmentRequest"},
         };
         app.put('/appointments/:id',
             ...(fetchMiddlewares<RequestHandler>(AppointmentController)),

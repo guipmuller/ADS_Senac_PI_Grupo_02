@@ -19,9 +19,9 @@ export class User {
   @Column({ type: "boolean", nullable: false })
   isPatient!: boolean
   @CreateDateColumn()
-  createAt!: Date;
+  createdAt!: Date;
   @UpdateDateColumn()
-  updateAt!: Date;
+  updatedAt!: Date;
 
   @OneToOne(() => Patient, (patient) => patient.user)
   patient?: Patient;

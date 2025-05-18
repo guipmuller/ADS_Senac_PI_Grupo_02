@@ -1,6 +1,6 @@
 export interface AppointmentRequest {
   scheduledAt: Date,
-  idAdress: number,
   idPatient: number,
-  idCareProfessional: number
+  idCareProfessional: number,
+  idAdress: number
 }

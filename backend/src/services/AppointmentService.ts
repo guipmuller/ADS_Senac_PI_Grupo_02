@@ -1,8 +1,17 @@
 import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { Appointment } from "../models/entities/Appointment";
+import { AddressRepository } from "../repositories/AddressRepository";
+import { PatientRepository } from "../repositories/PatientRepository";
+import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
+import { AppointmentRequest } from "../models/dtos/AppointmentRequest";
 
 export class AppointmentService {
-  constructor(private appointmentRepository: AppointmentRepository) {}
+  constructor(
+    private appointmentRepository: AppointmentRepository,
+    private addressRepository: AddressRepository,
+    private patientRepository: PatientRepository,
+    private careProfessionalRepository: CareProfessionalRepository
+  ) {}
 
   getAllAppointments() {
       return this.appointmentRepository.findAll();
@@ -12,9 +21,27 @@ export class AppointmentService {
       return this.appointmentRepository.findById(id)
     }
   
-    createAppointments(appointmentData: Partial<Appointment>) {
-      return this.appointmentRepository.create(appointmentData)
+    async createAppointments(appointmentData: AppointmentRequest) {
+    const address = await this.addressRepository.findById(appointmentData.idAdress);
+    const patient = await this.patientRepository.findById(appointmentData.idPatient);
+    const careProfessional = await this.careProfessionalRepository.findById(appointmentData.idCareProfessional);
+
+    if (!address || !patient || !careProfessional) {
+      throw new Error("Relacionamento inválido: endereço, paciente ou profissional não encontrado.");
     }
+
+    const appointment = await this.appointmentRepository.create({
+      scheduledAt: appointmentData.scheduledAt,
+      idPatient: appointmentData.idPatient,
+      idCareProfessional: appointmentData.idCareProfessional,
+      idAddress: appointmentData.idAdress,
+      address,
+      patient,
+      careProfessional,
+    });
+
+    return this.appointmentRepository.create(appointment);
+  }
   
     updateAppointments(id: number, appointmentData: Partial<Appointment>) {
       return this.appointmentRepository.update(id, appointmentData)

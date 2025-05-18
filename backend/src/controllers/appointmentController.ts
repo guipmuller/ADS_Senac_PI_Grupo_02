@@ -18,22 +18,26 @@ import { CareProfessionalRepository } from "../repositories/CareProfessionalRepo
 import { CareProfessionalService } from "../services/CareProfessionalService";
 import { PatientRepository } from "../repositories/PatientRepository";
 import { PatientService } from "../services/PatientService";
-import { AppointmentStatus } from "../models/enums/AppointmentStatus";
-import { Appointment } from "../models/entities/Appointment";
-import { AppointmentRequest } from "../models/dtos/AppointmentRequest";
 import { GetAppointmentResponse } from "../models/dtos/GetAppointmentResponse";
 import { CreateResponse } from "../models/dtos/CreateResponse";
+import { AppointmentRequest } from "../models/dtos/AppointmentRequest";
+import { AddressRepository } from "../repositories/AddressRepository";
 
 const appointmentRepository = new AppointmentRepository(AppDataSource);
-const appointmentService = new AppointmentService(appointmentRepository);
-const careProfessionalRepository = new CareProfessionalRepository(
-  AppDataSource
-);
-const careProfessionalService = new CareProfessionalService(
+const addressRepository = new AddressRepository(AppDataSource);
+
+const patientRepository = new PatientRepository(AppDataSource);
+const careProfessionalRepository = new CareProfessionalRepository(AppDataSource);
+
+const patientService = new PatientService(patientRepository);
+const careProfessionalService = new CareProfessionalService(careProfessionalRepository);
+
+const appointmentService = new AppointmentService(
+  appointmentRepository,
+  addressRepository,
+  patientRepository,
   careProfessionalRepository
 );
-const patientRepository = new PatientRepository(AppDataSource);
-const patientService = new PatientService(patientRepository);
 
 function toGetResponse(entity: any): GetAppointmentResponse {
   return {
@@ -73,8 +77,8 @@ export class AppointmentController extends Controller {
   }
   @SuccessResponse("201", "Created")
   @Post("/")
-  public async createAppointment(@Body() body: any): Promise<CreateResponse> {
-    const { idCareProfessional, idPatient, status } = body;
+  public async createAppointment(@Body() body: AppointmentRequest): Promise<CreateResponse> {
+    const { idCareProfessional, idPatient } = body;
 
     const careProfessionalExists =
       await careProfessionalService.getCareProfessionalById(idCareProfessional);
@@ -89,11 +93,6 @@ export class AppointmentController extends Controller {
       throw new Error("Patient not found");
     }
 
-    if (!Object.values(AppointmentStatus).includes(status)) {
-      this.setStatus(400);
-      throw new Error("Invalid appointment status");
-    }
-
     const appointment = await appointmentService.createAppointments(body);
     this.setStatus(201);
     return { id: appointment.idAppointment };
@@ -102,18 +101,11 @@ export class AppointmentController extends Controller {
   @Put("{id}")
   public async updateAppointment(
     @Path() id: number,
-    @Body() body: any
+    @Body() body: AppointmentRequest
   ): Promise<void> {
     if (isNaN(id)) {
       this.setStatus(400);
       throw new Error(`Invalid appointment id: ${id}`);
-    }
-
-    const { status } = body;
-
-    if (status && !Object.values(AppointmentStatus).includes(status)) {
-      this.setStatus(400);
-      throw new Error("Invalid appointment status");
     }
 
     const updated = await appointmentService.updateAppointments(id, body);
@@ -121,7 +113,7 @@ export class AppointmentController extends Controller {
       this.setStatus(404);
       throw new Error("Appointment not found");
     }
-    this.setStatus(204)
+    this.setStatus(204);
   }
   @SuccessResponse("204", "No Content")
   @Delete("{id}")
@@ -130,7 +122,7 @@ export class AppointmentController extends Controller {
       this.setStatus(400);
       throw new Error(`Invalid user id: ${id}`);
     }
-    
+
     const deleted = await appointmentService.deleteAppointments(id);
     if (!deleted) {
       this.setStatus(404);

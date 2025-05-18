@@ -7,12 +7,14 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from "typeorm";
-import { User } from "./User.js";
+import { User } from "./User";
 
 @Entity({ name: "CareProfessionals", schema: "public" })
 export class CareProfessional {
   @PrimaryGeneratedColumn()
   idCareProfessional!: number;
+  @Column({ type: "int", nullable: false })
+  idUser!: number;
   @Column({ type: "varchar", nullable: false })
   professionalRegistryCode!: string;
   @Column({ type: "varchar", nullable: false })
@@ -20,9 +22,9 @@ export class CareProfessional {
   @Column({ type: "float", nullable: true })
   rating?: number;
   @CreateDateColumn()
-  createAt!: Date;
+  createdAt!: Date;
   @UpdateDateColumn()
-  updateAt!: Date;
+  updatedAt!: Date;
 
   @OneToOne(() => User, (user) => user.careProfessional)
   @JoinColumn({ name: "idUser" })

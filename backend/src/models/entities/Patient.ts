@@ -15,6 +15,8 @@ import { Appointment } from "./Appointment";
 export class Patient {
   @PrimaryGeneratedColumn()
   idPatient!: number;
+  @Column({ type: "int", nullable: false })
+  idUser!: number;
   @Column({ type: "varchar", nullable: false })
   patientName!: string;
   @Column({ type: "varchar", nullable: false, unique: true })
@@ -22,9 +24,9 @@ export class Patient {
   @Column({ type: "date", nullable: false })
   patientBirthDate!: Date;
   @CreateDateColumn()
-  createAt!: Date;
+  createdAt!: Date;
   @UpdateDateColumn()
-  updateAt!: Date;
+  updatedAt!: Date;
 
   @OneToOne(() => User, (user) => user.patient)
   @JoinColumn({ name: "idUser" })

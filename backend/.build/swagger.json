@@ -71,7 +71,8 @@
 						"type": "string"
 					},
 					"urlImage": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"isPatient": {
 						"type": "boolean"
@@ -82,7 +83,6 @@
 					"email",
 					"phoneNumber",
 					"cpf",
-					"urlImage",
 					"isPatient"
 				],
 				"type": "object",
@@ -299,6 +299,34 @@
 					"idPatient",
 					"idCareProfessional",
 					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AppointmentRequest": {
+				"properties": {
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idAdress": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"scheduledAt",
+					"idPatient",
+					"idCareProfessional",
+					"idAdress"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1017,7 +1045,9 @@
 					"required": true,
 					"content": {
 						"application/json": {
-							"schema": {}
+							"schema": {
+								"$ref": "#/components/schemas/AppointmentRequest"
+							}
 						}
 					}
 				}
@@ -1080,7 +1110,9 @@
 					"required": true,
 					"content": {
 						"application/json": {
-							"schema": {}
+							"schema": {
+								"$ref": "#/components/schemas/AppointmentRequest"
+							}
 						}
 					}
 				}

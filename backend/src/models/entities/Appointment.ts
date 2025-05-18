@@ -18,6 +18,12 @@ export class Appointment {
   idAppointment!: number;
   @Column({ type: "timestamp", nullable: false })
   scheduledAt!: Date;
+  @Column({ type: "int", nullable: false })
+  idPatient!: number;
+  @Column({ type: "int", nullable: false })
+  idCareProfessional!: number;
+  @Column({ type: "varchar", nullable: false })
+  idAddress!: number;
   @Column({
     type: "enum",
     enum: AppointmentStatus,
@@ -25,12 +31,10 @@ export class Appointment {
     nullable: false,
   })
   status!: AppointmentStatus;
-  @Column({ type: "varchar", nullable: false })
-  idAddress!: number;
   @CreateDateColumn()
-  createAt!: Date;
+  createdAt!: Date;
   @UpdateDateColumn()
-  updateAt!: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => Patient, (patient) => patient.appointments)
   @JoinColumn({ name: "idPatient" })

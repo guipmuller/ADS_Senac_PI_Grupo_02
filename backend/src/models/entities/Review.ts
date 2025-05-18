@@ -18,10 +18,14 @@ export class Review {
   rating!: number;
   @Column({ type: "varchar", length: 250, nullable: true })
   comment?: string;
+  @Column()
+  idPatient!: number;
+  @Column()
+  idCareProfessional!: number;
   @CreateDateColumn()
-  createAt!: Date;
+  createdAt!: Date;
   @UpdateDateColumn()
-  updateAt!: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => Patient)
   @JoinColumn({ name: "idPatient" })
