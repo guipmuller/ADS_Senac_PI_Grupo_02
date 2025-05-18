@@ -4,7 +4,6 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -19,7 +18,12 @@ export class Appointment {
   idAppointment!: number;
   @Column({ type: "timestamp", nullable: false })
   scheduledAt!: Date;
-  @Column({ type: "enum", enum: AppointmentStatus, default: AppointmentStatus.SCHEDULED, nullable: false })
+  @Column({
+    type: "enum",
+    enum: AppointmentStatus,
+    default: AppointmentStatus.SCHEDULED,
+    nullable: false,
+  })
   status!: AppointmentStatus;
   @Column({ type: "varchar", nullable: false })
   idAddress!: number;
@@ -28,15 +32,17 @@ export class Appointment {
   @UpdateDateColumn()
   updateAt!: Date;
 
-  @OneToOne(() => Patient)
+  @ManyToOne(() => Patient, (patient) => patient.appointments)
   @JoinColumn({ name: "idPatient" })
-  patient!: Patient;
+  patient: any;
 
   @ManyToOne(() => CareProfessional)
   @JoinColumn({ name: "idCareProfessional" })
   careProfessional!: CareProfessional;
 
-  @ManyToOne(() => Address, address => address.appointments, { nullable: false })
+  @ManyToOne(() => Address, (address) => address.appointments, {
+    nullable: false,
+  })
   @JoinColumn({ name: "idAddress" })
   address!: Address;
 }

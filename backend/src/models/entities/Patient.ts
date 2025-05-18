@@ -6,8 +6,10 @@ import {
   JoinColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./User";
+import { Appointment } from "./Appointment";
 
 @Entity({ name: "Patients", schema: "public" })
 export class Patient {
@@ -27,4 +29,7 @@ export class Patient {
   @OneToOne(() => User, (user) => user.patient)
   @JoinColumn({ name: "idUser" })
   user: any;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.patient)
+  appointments!: Appointment[];
 }
