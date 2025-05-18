@@ -15,7 +15,7 @@ export class User {
   @Column({ type: "varchar", length: 11, nullable: false, unique: true })
   cpf!: string
   @Column({ type: "varchar", nullable: true, length: 150 })
-  urlImage?: string
+  urlImage?: string | null
   @Column({ type: "boolean", nullable: false })
   isPatient!: boolean
   @CreateDateColumn()

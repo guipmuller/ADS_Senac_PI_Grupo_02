@@ -27,7 +27,7 @@ function toGetUserResponse(user: any): GetUserResponse {
     email: user.email,
     phoneNumber: user.phoneNumber,
     cpf: user.cpf,
-    urlImage: user.urlImage,
+    urlImage: user.urlImage ?? null,
     isPatient: user.isPatient,
   };
 }
