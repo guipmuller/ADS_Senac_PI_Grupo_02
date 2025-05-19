@@ -176,7 +176,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "street": {"dataType":"string","required":true},
             "number": {"dataType":"string","required":true},
-            "complement": {"dataType":"string"},
+            "complement": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "neighborhood": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
             "state": {"dataType":"string","required":true},

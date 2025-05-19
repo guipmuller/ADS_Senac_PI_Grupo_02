@@ -384,7 +384,8 @@
 						"type": "string"
 					},
 					"complement": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"neighborhood": {
 						"type": "string"
