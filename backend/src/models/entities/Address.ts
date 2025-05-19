@@ -17,7 +17,7 @@ export class Address {
   @Column({ type: "varchar", length: 20, nullable: false })
   number!: string;
   @Column({ type: "varchar", length: 150, nullable: true })
-  complement?: string;
+  complement?: string | null;
   @Column({ type: "varchar", length: 40, nullable: false })
   neighborhood!: string;
   @Column({ type: "varchar", length: 40, nullable: false })

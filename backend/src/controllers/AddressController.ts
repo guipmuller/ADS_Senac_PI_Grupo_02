@@ -27,6 +27,7 @@ function toGeResponse(entity: any): GetAddressResponse {
     id: entity.idAddress,
     street: entity.street,
     number: entity.number,
+    complement: entity.complement ?? null,
     neighborhood: entity.neighborhood,
     city: entity.city,
     state: entity.state,

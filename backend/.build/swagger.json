@@ -276,7 +276,7 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"idAdress": {
+					"idAddress": {
 						"type": "number",
 						"format": "double"
 					},
@@ -295,7 +295,7 @@
 				"required": [
 					"id",
 					"scheduledAt",
-					"idAdress",
+					"idAddress",
 					"idPatient",
 					"idCareProfessional",
 					"status"

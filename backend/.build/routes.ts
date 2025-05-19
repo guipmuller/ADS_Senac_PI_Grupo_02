@@ -136,7 +136,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": {"dataType":"double","required":true},
             "scheduledAt": {"dataType":"datetime","required":true},
-            "idAdress": {"dataType":"double","required":true},
+            "idAddress": {"dataType":"double","required":true},
             "idPatient": {"dataType":"double","required":true},
             "idCareProfessional": {"dataType":"double","required":true},
             "status": {"ref":"AppointmentStatus","required":true},
