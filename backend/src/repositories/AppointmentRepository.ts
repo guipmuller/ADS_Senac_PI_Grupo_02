@@ -16,7 +16,7 @@ export class AppointmentRepository {
       return this.repo.findOneBy({ idAppointment : id })
     }
   
-    create(appointmentData: Partial<Appointment>) {
+    createAndSave(appointmentData: Partial<Appointment>) {
       const appointment = this.repo.create(appointmentData)
       return this.repo.save(appointment)
     }

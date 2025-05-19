@@ -43,7 +43,7 @@ function toGetResponse(entity: any): GetAppointmentResponse {
   return {
     id: entity.idAppointment,
     scheduledAt: entity.scheduledAt,
-    idAdress: entity.idAdress,
+    idAddress: entity.idAddress,
     idPatient: entity.idPatient,
     idCareProfessional: entity.idCareProfessional,
     status: entity.status,
