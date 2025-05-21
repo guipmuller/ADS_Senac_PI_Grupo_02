@@ -4,8 +4,8 @@ export enum AppointmentStatus {
   CANCELLED = 'Canceled',
 }
 
-function updateStatus(status: AppointmentStatus) {
+/* function updateStatus(status: AppointmentStatus) {
   console.log('Status:', status);
 }
 
-updateStatus(AppointmentStatus.SCHEDULED);
+updateStatus(AppointmentStatus.SCHEDULED); */

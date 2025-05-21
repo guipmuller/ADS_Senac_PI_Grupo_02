@@ -1,16 +1,22 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": [
-    "src/**/*Controller.ts"
-  ],
+  "controllerPathGlobs": ["src/**/*Controller.ts"],
   "spec": {
     "outputDirectory": ".build",
     "specVersion": 3,
     "version": "1.0.0",
-    "specFileBaseName": "swagger"
+    "specFileBaseName": "swagger",
+    "securityDefinitions": {
+      "firebase": { 
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   },
   "routes": {
-    "routesDir": ".build"
+    "routesDir": ".build",
+    "authenticationModule": "./src/middlewares/firebaseAuth.ts"
   }
 }

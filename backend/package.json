@@ -7,11 +7,10 @@
   "author": "",
   "main": ".eslintrc.js",
   "scripts": {
-    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./bin/www.ts",
-    "tsoa:gen": "tsoa routes && tsoa swagger",
-    "dev": "ts-node-dev app.ts"
+    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm bin/www.ts",
+    "tsoa:gen": "tsoa routes && tsoa spec",
+    "dev": "ts-node-dev --transpile-only bin/www.ts"
   },
-  "type": "module",
   "dependencies": {
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -46,6 +45,7 @@
     "eslint": "^9.14.0",
     "globals": "^15.12.0",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsoa": "^6.6.0",
     "typescript": "^5.8.3"
   }

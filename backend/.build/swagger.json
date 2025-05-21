@@ -438,7 +438,13 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"firebase": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "backend",
@@ -454,7 +460,7 @@
 				"operationId": "GetAllUsers",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "200 - Lista de usuários e seus dados",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -467,6 +473,7 @@
 						}
 					}
 				},
+				"summary": "Retorna todos os usuários cadastrados",
 				"tags": [
 					"Users"
 				],
@@ -487,10 +494,15 @@
 						}
 					}
 				},
+				"summary": "Cria um novo usuário",
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"firebase": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -509,7 +521,7 @@
 				"operationId": "GetUserById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Dados do usuário",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -519,6 +531,7 @@
 						}
 					}
 				},
+				"summary": "Busca um usuário pelo seu ID",
 				"tags": [
 					"Users"
 				],
@@ -542,6 +555,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Altera os dados de um usuário",
 				"tags": [
 					"Users"
 				],
@@ -575,6 +589,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Remove o registro de um usuário da base",
 				"tags": [
 					"Users"
 				],
@@ -590,6 +605,33 @@
 						}
 					}
 				]
+			}
+		},
+		"/users/firebase": {
+			"get": {
+				"operationId": "GetUserByFirebaseUid",
+				"responses": {
+					"200": {
+						"description": "Dados do usuário",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um usuário pelo firebase UID dele",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"firebase": []
+					}
+				],
+				"parameters": []
 			}
 		},
 		"/reviews": {

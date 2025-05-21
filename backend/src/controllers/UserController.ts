@@ -10,7 +10,7 @@ import {
   Tags,
   SuccessResponse,
   Security,
-  Request
+  Request,
 } from "tsoa";
 import { UserService } from "../services/UserService";
 import { UserRepository } from "../repositories/UserRepository";
@@ -37,11 +37,19 @@ function toGetUserResponse(user: any): GetUserResponse {
 @Route("users")
 @Tags("Users")
 export class UserController extends Controller {
+  /**
+   * @summary Retorna todos os usuários cadastrados
+   * @returns 200 - Lista de usuários e seus dados
+   */
   @Get("/")
   public async getAllUsers(): Promise<GetUserResponse[]> {
     const users = await userService.getAllUsers();
     return users.map(toGetUserResponse);
   }
+  /**
+   * @summary Busca um usuário pelo seu ID
+   * @returns Dados do usuário
+   */
   @Get("/{id}")
   public async getUserById(@Path() id: number): Promise<GetUserResponse> {
     if (isNaN(id)) {
@@ -51,36 +59,57 @@ export class UserController extends Controller {
     const user = await userService.getUserById(id);
     if (!user) {
       this.setStatus(404);
-      throw new Error("User not found n database.");
+      throw new Error("User not found in database.");
     }
     return toGetUserResponse(user);
   }
-  /* @Get("/firebaseUid/{uid}")
+  /**
+   * @summary Busca um usuário pelo firebase UID dele
+   * @returns Dados do usuário
+   */
   @Security("firebase")
-  public async getUserByFirebaseUid(@Request() req: ExRequest): Promise<GetUserResponse> {
+  @Get("/firebase")
+  public async getUserByFirebaseUid(
+    @Request() req: ExRequest
+  ): Promise<GetUserResponse> {
     const firebaseUid = req.user?.uid;
 
     if (!firebaseUid) {
-    this.setStatus(401);
-    throw new Error("Invalid or missing Firebase UID.");
-  }
-    
+      this.setStatus(401);
+      throw new Error("Invalid or missing Firebase UID.");
+    }
+
     const user = await userService.getByFirebaseUid(firebaseUid);
     if (!user) {
       this.setStatus(404);
       throw new Error("User not found in database.");
     }
     return toGetUserResponse(user);
-  } */
+  }
+  /**
+   * @summary Cria um novo usuário
+   * @returns Usuário criado com sucesso
+   */
   @SuccessResponse("201", "Created")
+  @Security("firebase")
   @Post("/")
   public async createUser(
+    @Request() req: ExRequest,
     @Body() userData: UserRequest
   ): Promise<CreateResponse> {
-    const user = await userService.createUser(userData);
+    const firebaseUid = req.user?.uid;
+    if (!firebaseUid) {
+      this.setStatus(401);
+      throw new Error("Invalid or missing Firebase UID.");
+    }
+    const user = await userService.createUser(firebaseUid, userData);
     this.setStatus(201);
     return { id: user.idUser };
   }
+  /**
+   * @summary Altera os dados de um usuário
+   * @returns Usuário alterado com sucesso
+   */
   @Put("/{id}")
   public async updateUser(
     @Path() id: number,
@@ -97,6 +126,10 @@ export class UserController extends Controller {
     }
     this.setStatus(204);
   }
+  /**
+   * @summary Remove o registro de um usuário da base
+   * @returns Usuário removido com sucesso
+   */
   @Delete("/{id}")
   public async deleteUser(@Path() id: number): Promise<void> {
     if (isNaN(id)) {

@@ -1,3 +1,15 @@
+// Adicione isto no TOPO do arquivo, antes de qualquer outra lógica
+process.on('uncaughtException', (error) => {
+  console.error('❌ Erro não tratado (uncaughtException):', error);
+  process.exit(1);
+});
+
+// Adicione também para capturar rejeições de promises não tratadas
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🚨 Rejeição não tratada em Promise:', promise, 'Motivo:', reason);
+  process.exit(1);
+});
+
 import { createServer } from 'http';
 import debugLib from 'debug';
 import app from '../src/app';
@@ -16,7 +28,7 @@ app.set('port', port);
  */
 AppDataSource.initialize()
   .then(() => {
-    console.log('Data Source initialized');
+    console.log('✅ Data Source initialized');
 
     /**
      * Create HTTP server.
@@ -36,7 +48,7 @@ AppDataSource.initialize()
     function onListening(): void {
       const addr = server.address();
       const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr?.port}`;
-      debug(`Listening on ${bind}`);
+      debug(`🚀 Listening on ${bind}`);
     }
 
     /**
@@ -65,7 +77,7 @@ AppDataSource.initialize()
 
   })
   .catch((err) => {
-    console.error('Error during Data Source initialization:', err);
+    console.error('💥 Error during Data Source initialization:', err);
     process.exit(1);
   });
 
