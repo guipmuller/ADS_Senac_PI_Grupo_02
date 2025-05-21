@@ -22,7 +22,7 @@ export class Appointment {
   idPatient!: number;
   @Column({ type: "int", nullable: false })
   idCareProfessional!: number;
-  @Column({ type: "varchar", nullable: false })
+  @Column({ type: "int", nullable: false })
   idAddress!: number;
   @Column({
     type: "enum",

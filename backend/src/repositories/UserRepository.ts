@@ -15,7 +15,11 @@ export class UserRepository {
   findById(id: number) {
     return this.repo.findOneBy({ idUser: id });
   }
-
+/* 
+  findByFirebaseUid(uid: string) {
+    return this.repo.findOneBy({firebaseUid: uid});
+  }
+ */
   create(userData: Partial<User>) {
     const user = this.repo.create(userData);
     return this.repo.save(user);

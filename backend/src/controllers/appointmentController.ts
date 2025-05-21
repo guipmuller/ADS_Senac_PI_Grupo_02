@@ -15,22 +15,18 @@ import { AppointmentService } from "../services/AppointmentService";
 import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { AppDataSource } from "../database/data-source";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
-import { CareProfessionalService } from "../services/CareProfessionalService";
 import { PatientRepository } from "../repositories/PatientRepository";
-import { PatientService } from "../services/PatientService";
 import { GetAppointmentResponse } from "../models/dtos/GetAppointmentResponse";
 import { CreateResponse } from "../models/dtos/CreateResponse";
-import { AppointmentRequest } from "../models/dtos/AppointmentRequest";
+import { PostAppointmentRequest } from "../models/dtos/PostAppointmentRequest";
 import { AddressRepository } from "../repositories/AddressRepository";
+import { PutAppointmentRequest } from "../models/dtos/PutAppointmentRequest";
 
 const appointmentRepository = new AppointmentRepository(AppDataSource);
 const addressRepository = new AddressRepository(AppDataSource);
 
 const patientRepository = new PatientRepository(AppDataSource);
 const careProfessionalRepository = new CareProfessionalRepository(AppDataSource);
-
-const patientService = new PatientService(patientRepository);
-const careProfessionalService = new CareProfessionalService(careProfessionalRepository);
 
 const appointmentService = new AppointmentService(
   appointmentRepository,
@@ -77,22 +73,7 @@ export class AppointmentController extends Controller {
   }
   @SuccessResponse("201", "Created")
   @Post("/")
-  public async createAppointment(@Body() body: AppointmentRequest): Promise<CreateResponse> {
-    const { idCareProfessional, idPatient } = body;
-
-    const careProfessionalExists =
-      await careProfessionalService.getCareProfessionalById(idCareProfessional);
-    if (!careProfessionalExists) {
-      this.setStatus(404);
-      throw new Error("Care professional not found");
-    }
-
-    const patientExists = await patientService.getPatientById(idPatient);
-    if (!patientExists) {
-      this.setStatus(404);
-      throw new Error("Patient not found");
-    }
-
+  public async createAppointment(@Body() body: PostAppointmentRequest): Promise<CreateResponse> {
     const appointment = await appointmentService.createAppointments(body);
     this.setStatus(201);
     return { id: appointment.idAppointment };
@@ -101,7 +82,7 @@ export class AppointmentController extends Controller {
   @Put("{id}")
   public async updateAppointment(
     @Path() id: number,
-    @Body() body: AppointmentRequest
+    @Body() body: PutAppointmentRequest
   ): Promise<void> {
     if (isNaN(id)) {
       this.setStatus(400);

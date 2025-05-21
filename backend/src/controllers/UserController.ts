@@ -9,6 +9,8 @@ import {
   Route,
   Tags,
   SuccessResponse,
+  Security,
+  Request
 } from "tsoa";
 import { UserService } from "../services/UserService";
 import { UserRepository } from "../repositories/UserRepository";
@@ -16,6 +18,7 @@ import { AppDataSource } from "../database/data-source";
 import { UserRequest } from "../models/dtos/UserRequest";
 import { GetUserResponse } from "../models/dtos/GetUserResponse";
 import { CreateResponse } from "../models/dtos/CreateResponse";
+import { Request as ExRequest } from "express";
 
 const userRepository = new UserRepository(AppDataSource);
 const userService = new UserService(userRepository);
@@ -48,10 +51,27 @@ export class UserController extends Controller {
     const user = await userService.getUserById(id);
     if (!user) {
       this.setStatus(404);
-      throw new Error("User not found");
+      throw new Error("User not found n database.");
     }
     return toGetUserResponse(user);
   }
+  /* @Get("/firebaseUid/{uid}")
+  @Security("firebase")
+  public async getUserByFirebaseUid(@Request() req: ExRequest): Promise<GetUserResponse> {
+    const firebaseUid = req.user?.uid;
+
+    if (!firebaseUid) {
+    this.setStatus(401);
+    throw new Error("Invalid or missing Firebase UID.");
+  }
+    
+    const user = await userService.getByFirebaseUid(firebaseUid);
+    if (!user) {
+      this.setStatus(404);
+      throw new Error("User not found in database.");
+    }
+    return toGetUserResponse(user);
+  } */
   @SuccessResponse("201", "Created")
   @Post("/")
   public async createUser(

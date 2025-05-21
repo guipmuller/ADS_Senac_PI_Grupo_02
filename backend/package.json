@@ -20,6 +20,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
+    "firebase-admin": "^13.4.0",
     "http-errors": "~1.6.3",
     "install": "^0.13.0",
     "jade": "^0.29.0",

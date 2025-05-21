@@ -144,12 +144,22 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "AppointmentRequest": {
+    "PostAppointmentRequest": {
         "dataType": "refObject",
         "properties": {
             "scheduledAt": {"dataType":"datetime","required":true},
             "idPatient": {"dataType":"double","required":true},
             "idCareProfessional": {"dataType":"double","required":true},
+            "idAdress": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PutAppointmentRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "scheduledAt": {"dataType":"datetime","required":true},
+            "status": {"ref":"AppointmentStatus","required":true},
             "idAdress": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
@@ -863,7 +873,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentController_createAppointment: Record<string, TsoaRoute.ParameterSchema> = {
-                body: {"in":"body","name":"body","required":true,"ref":"AppointmentRequest"},
+                body: {"in":"body","name":"body","required":true,"ref":"PostAppointmentRequest"},
         };
         app.post('/appointments',
             ...(fetchMiddlewares<RequestHandler>(AppointmentController)),
@@ -894,7 +904,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentController_updateAppointment: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                body: {"in":"body","name":"body","required":true,"ref":"AppointmentRequest"},
+                body: {"in":"body","name":"body","required":true,"ref":"PutAppointmentRequest"},
         };
         app.put('/appointments/:id',
             ...(fetchMiddlewares<RequestHandler>(AppointmentController)),

@@ -12,6 +12,10 @@ export class UserService {
     return this.userRepository.findById(id);
   }
 
+/*   getByFirebaseUid(uid: string) {
+  return this.userRepository.findByFirebaseUid(uid);
+}
+ */
   createUser(userData: Partial<User>) {
     return this.userRepository.create(userData);
   }

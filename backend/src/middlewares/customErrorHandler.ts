@@ -1,5 +1,6 @@
 import { ValidateError } from "tsoa";
 import { Request, Response, NextFunction } from "express";
+import { NotFoundError } from "../errors/NotFoundError";
 
 export function customErrorHandler(
   err: unknown,
@@ -17,6 +18,13 @@ export function customErrorHandler(
       message: "Validation error.",
       errors: formatted,
     });
+  }
+
+  if (err instanceof NotFoundError) {
+    res.status(err.status).json({
+      message: err.message,
+    });
+    return;
   }
 
   next(err);

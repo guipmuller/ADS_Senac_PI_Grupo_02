@@ -2,7 +2,9 @@ import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { PatientRepository } from "../repositories/PatientRepository";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
-import { AppointmentRequest } from "../models/dtos/AppointmentRequest";
+import { PostAppointmentRequest } from "../models/dtos/PostAppointmentRequest";
+import { NotFoundError } from "../errors/NotFoundError";
+import { PutAppointmentRequest } from "../models/dtos/PutAppointmentRequest";
 
 export class AppointmentService {
   constructor(
@@ -20,60 +22,48 @@ export class AppointmentService {
     return this.appointmentRepository.findById(id);
   }
 
-  async createAppointments(appointmentData: AppointmentRequest) {
+  async createAppointments(appointmentData: PostAppointmentRequest) {
     const address = await this.addressRepository.findById(
       appointmentData.idAdress
     );
+    if (!address) throw new NotFoundError("Address not found.");
+  
     const patient = await this.patientRepository.findById(
       appointmentData.idPatient
     );
+    if (!patient) throw new NotFoundError("Patient not found.");
+
     const careProfessional = await this.careProfessionalRepository.findById(
       appointmentData.idCareProfessional
     );
-
-    if (!address || !patient || !careProfessional) {
-      throw new Error(
-        "Invalid relationship: address, patient or professional not found."
-      );
-    }
+    if (!careProfessional) throw new NotFoundError("Care professional not found.");
 
     return this.appointmentRepository.createAndSave({
       scheduledAt: appointmentData.scheduledAt,
       idPatient: appointmentData.idPatient,
       idCareProfessional: appointmentData.idCareProfessional,
-      idAddress: appointmentData.idAdress,
+      //idAddress: appointmentData.idAdress,
       address,
       patient,
       careProfessional,
     });
   }
 
-  async updateAppointments(id: number, appointmentData: AppointmentRequest) {
+  async updateAppointments(id: number, appointmentData: PutAppointmentRequest) {
     const address = await this.addressRepository.findById(
       appointmentData.idAdress
     );
-    const patient = await this.patientRepository.findById(
-      appointmentData.idPatient
-    );
-    const careProfessional = await this.careProfessionalRepository.findById(
-      appointmentData.idCareProfessional
-    );
+    if (!address) throw new Error("Address not found.");
 
-    if (!address || !patient || !careProfessional) {
-      throw new Error(
-        "Invalid relationship: address, patient or professional not found."
-      );
-    }
-
-    return this.appointmentRepository.update(id, {
+    const updated = await this.appointmentRepository.update(id, {
       scheduledAt: appointmentData.scheduledAt,
-      idPatient: appointmentData.idPatient,
-      idCareProfessional: appointmentData.idCareProfessional,
-      idAddress: appointmentData.idAdress,
-      address,
-      patient,
-      careProfessional,
+      status: appointmentData.status,
+      address
     });
+
+    if (!updated) return null;
+
+    return updated;
   }
 
   deleteAppointments(id: number) {

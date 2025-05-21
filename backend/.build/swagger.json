@@ -303,7 +303,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"AppointmentRequest": {
+			"PostAppointmentRequest": {
 				"properties": {
 					"scheduledAt": {
 						"type": "string",
@@ -326,6 +326,28 @@
 					"scheduledAt",
 					"idPatient",
 					"idCareProfessional",
+					"idAdress"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PutAppointmentRequest": {
+				"properties": {
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"$ref": "#/components/schemas/AppointmentStatus"
+					},
+					"idAdress": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"scheduledAt",
+					"status",
 					"idAdress"
 				],
 				"type": "object",
@@ -1047,7 +1069,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AppointmentRequest"
+								"$ref": "#/components/schemas/PostAppointmentRequest"
 							}
 						}
 					}
@@ -1112,7 +1134,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AppointmentRequest"
+								"$ref": "#/components/schemas/PutAppointmentRequest"
 							}
 						}
 					}
