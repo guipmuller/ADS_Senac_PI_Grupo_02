@@ -49,12 +49,19 @@ function toGetResponse(entity: any): GetAppointmentResponse {
 @Route("appointments")
 @Tags("Appointments")
 export class AppointmentController extends Controller {
+  /**
+   * @summary Busca por todos os agendamentos da base
+   * @returns Lista de todos os agendamentos
+   */
   @Get("/")
   public async getAllAppointments(): Promise<GetAppointmentResponse[]> {
     const response = await appointmentService.getAllAppointments();
     return response.map(toGetResponse);
   }
-
+  /**
+   * @summary Busca por um agendamento pelo seu ID
+   * @returns Exibe os dados do agendamento
+   */
   @Get("/{id}")
   @TsoaResponse<null>(404, "Appointment not found")
   public async getAppointmentById(
@@ -71,6 +78,10 @@ export class AppointmentController extends Controller {
     }
     return toGetResponse(appointment);
   }
+  /**
+   * @summary Cria um novo agendamento
+   * @returns Retorna o ID do agendamento criado
+   */
   @SuccessResponse("201", "Created")
   @Post("/")
   public async createAppointment(@Body() body: PostAppointmentRequest): Promise<CreateResponse> {
@@ -78,6 +89,9 @@ export class AppointmentController extends Controller {
     this.setStatus(201);
     return { id: appointment.idAppointment };
   }
+  /**
+   * @summary Atualiza um agendamento pelo ID
+   */
   @SuccessResponse("204", "No Content")
   @Put("{id}")
   public async updateAppointment(
@@ -96,6 +110,9 @@ export class AppointmentController extends Controller {
     }
     this.setStatus(204);
   }
+  /**
+   * @summary Remove um agendamento da base
+   */
   @SuccessResponse("204", "No Content")
   @Delete("{id}")
   public async deleteAppointment(@Path() id: number): Promise<void> {

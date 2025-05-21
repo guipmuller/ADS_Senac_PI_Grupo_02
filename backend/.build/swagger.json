@@ -460,7 +460,7 @@
 				"operationId": "GetAllUsers",
 				"responses": {
 					"200": {
-						"description": "200 - Lista de usuários e seus dados",
+						"description": "Lista de usuários e seus dados",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -639,7 +639,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Lista de todas as avaliações",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -652,6 +652,7 @@
 						}
 					}
 				},
+				"summary": "Busca a lista de as avaliações na base",
 				"tags": [
 					"Reviews"
 				],
@@ -662,7 +663,7 @@
 				"operationId": "Create",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna o ID da avaliação criada",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -672,6 +673,7 @@
 						}
 					}
 				},
+				"summary": "Cria uma nova avaliação",
 				"tags": [
 					"Reviews"
 				],
@@ -694,7 +696,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna a avaliação consultada",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -704,6 +706,7 @@
 						}
 					}
 				},
+				"summary": "Busca de uma avaliação pelo seu ID",
 				"tags": [
 					"Reviews"
 				],
@@ -727,6 +730,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Atualiza uma avaliação",
 				"tags": [
 					"Reviews"
 				],
@@ -760,6 +764,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Deleta a avaliação",
 				"tags": [
 					"Reviews"
 				],
@@ -782,7 +787,7 @@
 				"operationId": "GetAllPatients",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Lista de todos os pacientes e seus dados",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -795,6 +800,7 @@
 						}
 					}
 				},
+				"summary": "Busca a lista de todos os pacientes da base",
 				"tags": [
 					"Patients"
 				],
@@ -805,7 +811,7 @@
 				"operationId": "CreatePatient",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna o ID do cadastro criado",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -815,6 +821,7 @@
 						}
 					}
 				},
+				"summary": "Cria um novo cadastro de paciente na base",
 				"tags": [
 					"Patients"
 				],
@@ -837,7 +844,7 @@
 				"operationId": "GetPatientById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna os dados do paciente consultado",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -847,6 +854,7 @@
 						}
 					}
 				},
+				"summary": "Busca um paciente específico pelo seu ID",
 				"tags": [
 					"Patients"
 				],
@@ -870,6 +878,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Atualiza o cadastro de paciente na base",
 				"tags": [
 					"Patients"
 				],
@@ -903,6 +912,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Remove o resgistro de um paciente da base",
 				"tags": [
 					"Patients"
 				],
@@ -925,7 +935,7 @@
 				"operationId": "GetAllCareProfessinals",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Lista de todos os cuidadores e seus dados",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -938,6 +948,7 @@
 						}
 					}
 				},
+				"summary": "Busca a lista de todos os cuidadores da base",
 				"tags": [
 					"CareProfessionals"
 				],
@@ -948,7 +959,7 @@
 				"operationId": "CreateCareProfessinal",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna o ID do cadastro criado",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -958,6 +969,7 @@
 						}
 					}
 				},
+				"summary": "Cria um novo cadastro de cuidador na base",
 				"tags": [
 					"CareProfessionals"
 				],
@@ -980,7 +992,7 @@
 				"operationId": "GetCareProfessinalById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna os dados do cuidador consultado",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -990,6 +1002,7 @@
 						}
 					}
 				},
+				"summary": "Busca um cuidador específico pelo seu ID",
 				"tags": [
 					"CareProfessionals"
 				],
@@ -1013,6 +1026,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Atualiza o cadastro de cuidador na base",
 				"tags": [
 					"CareProfessionals"
 				],
@@ -1046,6 +1060,7 @@
 						"description": "No content"
 					}
 				},
+				"summary": "Remove o resgistro de um paciente da base",
 				"tags": [
 					"CareProfessionals"
 				],
@@ -1068,7 +1083,7 @@
 				"operationId": "GetAllAppointments",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Lista de todos os agendamentos",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1081,6 +1096,7 @@
 						}
 					}
 				},
+				"summary": "Busca por todos os agendamentos da base",
 				"tags": [
 					"Appointments"
 				],
@@ -1101,6 +1117,7 @@
 						}
 					}
 				},
+				"summary": "Cria um novo agendamento",
 				"tags": [
 					"Appointments"
 				],
@@ -1123,7 +1140,7 @@
 				"operationId": "GetAppointmentById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Exibe os dados do agendamento",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1133,6 +1150,7 @@
 						}
 					}
 				},
+				"summary": "Busca por um agendamento pelo seu ID",
 				"tags": [
 					"Appointments"
 				],
@@ -1156,6 +1174,7 @@
 						"description": "No Content"
 					}
 				},
+				"summary": "Atualiza um agendamento pelo ID",
 				"tags": [
 					"Appointments"
 				],
@@ -1189,6 +1208,7 @@
 						"description": "No Content"
 					}
 				},
+				"summary": "Remove um agendamento da base",
 				"tags": [
 					"Appointments"
 				],
@@ -1211,7 +1231,7 @@
 				"operationId": "GetAllAddresses",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Retorna todos os endereços e seus dados",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1224,6 +1244,7 @@
 						}
 					}
 				},
+				"summary": "Busca por todos os endereços cadastrados na base",
 				"tags": [
 					"Addresses"
 				],
@@ -1244,6 +1265,7 @@
 						}
 					}
 				},
+				"summary": "Cria um novo endereço",
 				"tags": [
 					"Addresses"
 				],
@@ -1266,7 +1288,7 @@
 				"operationId": "GetAddressById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Exibe os dados do endereço",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1276,6 +1298,7 @@
 						}
 					}
 				},
+				"summary": "Busca por um endereço pelo seu ID",
 				"tags": [
 					"Addresses"
 				],
@@ -1299,6 +1322,7 @@
 						"description": "No Content"
 					}
 				},
+				"summary": "Atualiza um endereço pelo ID",
 				"tags": [
 					"Addresses"
 				],
@@ -1332,6 +1356,7 @@
 						"description": "No Content"
 					}
 				},
+				"summary": "Remove o registro de um endereço da base",
 				"tags": [
 					"Addresses"
 				],

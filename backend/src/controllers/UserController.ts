@@ -39,7 +39,7 @@ function toGetUserResponse(user: any): GetUserResponse {
 export class UserController extends Controller {
   /**
    * @summary Retorna todos os usuários cadastrados
-   * @returns 200 - Lista de usuários e seus dados
+   * @returns Lista de usuários e seus dados
    */
   @Get("/")
   public async getAllUsers(): Promise<GetUserResponse[]> {

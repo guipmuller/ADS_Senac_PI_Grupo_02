@@ -13,15 +13,21 @@ import { PatientService } from "../services/PatientService";
 import { PatientRepository } from "../repositories/PatientRepository";
 import { AppDataSource } from "../database/data-source";
 import { UserRepository } from "../repositories/UserRepository";
-import { UserService } from "../services/UserService";
 import { PatientRequest } from "../models/dtos/PatientRequest";
 import { GetPatientResponse } from "../models/dtos/GetPatientResponse";
 import { CreateResponse } from "../models/dtos/CreateResponse";
+import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
 
 const patientRepository = new PatientRepository(AppDataSource);
-const patientService = new PatientService(patientRepository);
+const careProfessionalRepository = new CareProfessionalRepository(
+  AppDataSource
+);
 const userRepository = new UserRepository(AppDataSource);
-const userService = new UserService(userRepository);
+const patientService = new PatientService(
+  patientRepository,
+  careProfessionalRepository,
+  userRepository
+);
 
 function toGetPatientResponse(patient: any): GetPatientResponse {
   return {
@@ -35,12 +41,19 @@ function toGetPatientResponse(patient: any): GetPatientResponse {
 @Route("patients")
 @Tags("Patients")
 export class PatientController extends Controller {
+  /**
+   * @summary Busca a lista de todos os pacientes da base
+   * @returns Lista de todos os pacientes e seus dados
+   */
   @Get("/")
   public async getAllPatients(): Promise<GetPatientResponse[]> {
     const patient = await patientService.getAllPatients();
     return patient.map(toGetPatientResponse);
   }
-
+  /**
+   * @summary Busca um paciente específico pelo seu ID
+   * @returns Retorna os dados do paciente consultado
+   */
   @Get("/{id}")
   public async getPatientById(@Path() id: number): Promise<GetPatientResponse> {
     if (isNaN(id)) {
@@ -54,21 +67,23 @@ export class PatientController extends Controller {
     }
     return toGetPatientResponse(patient);
   }
-
+  /**
+   * @summary Cria um novo cadastro de paciente na base
+   * @returns Retorna o ID do cadastro criado
+   */
   @Post("/")
   public async createPatient(
     @Body() patientData: PatientRequest
   ): Promise<CreateResponse> {
-    const userExists = await userService.getUserById(patientData.idUser);
-    if (!userExists) {
-      this.setStatus(404);
-      throw new Error("User not found");
-    }
     const patient = await patientService.createPatient(patientData);
+    if (!patient) throw new Error("Unable to create patient.");
+
     this.setStatus(201);
     return { id: patient.idPatient };
   }
-
+  /**
+   * @summary Atualiza o cadastro de paciente na base
+   */
   @Put("/{id}")
   public async updatePatient(
     @Path() id: number,
@@ -85,7 +100,9 @@ export class PatientController extends Controller {
     }
     this.setStatus(204);
   }
-
+  /**
+   * @summary Remove o resgistro de um paciente da base
+   */
   @Delete("/{id}")
   public async deletePatient(@Path() id: number): Promise<void> {
     if (isNaN(id)) {

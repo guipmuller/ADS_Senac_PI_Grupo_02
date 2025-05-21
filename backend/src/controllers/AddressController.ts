@@ -38,11 +38,19 @@ function toGeResponse(entity: any): GetAddressResponse {
 @Route("addresses")
 @Tags("Addresses")
 export class AddressController extends Controller {
+  /**
+   * @summary Busca por todos os endereços cadastrados na base
+   * @returns Retorna todos os endereços e seus dados
+   */
   @Get("/")
   public async getAllAddresses(): Promise<GetAddressResponse[]> {
     const addresses = await addressService.getAll();
     return addresses.map(toGeResponse);
   }
+  /**
+   * @summary Busca por um endereço pelo seu ID
+   * @returns Exibe os dados do endereço
+   */
   @Get("/{id}")
   @TsoaResponse<null>(404, "Address not found")
   public async getAddressById(@Path() id: number): Promise<GetAddressResponse> {
@@ -58,6 +66,10 @@ export class AddressController extends Controller {
 
     return toGeResponse(address);
   }
+  /**
+   * @summary Cria um novo endereço
+   * @returns Retorna o ID do endereço cadastrado
+   */
   @SuccessResponse("201", "Created")
   @Post("/")
   public async createAddress(@Body() data: AddressRequest): Promise<CreateResponse> {
@@ -65,7 +77,9 @@ export class AddressController extends Controller {
     this.setStatus(201);
     return { id: newAddress.idAddress };
   }
-
+  /**
+   * @summary Atualiza um endereço pelo ID
+   */
   @Put("/{id}")
   @SuccessResponse("204", "No Content")
   @TsoaResponse<null>(404, "Address not found")
@@ -84,7 +98,9 @@ export class AddressController extends Controller {
     }
     this.setStatus(204);
   }
-
+  /**
+   * @summary Remove o registro de um endereço da base
+   */
   @Delete("{id}")
   @SuccessResponse("204", "No Content")
   @TsoaResponse<null>(404, "Address not found")

@@ -17,14 +17,18 @@ import { UserService } from "../services/UserService";
 import { CareProfessionalRequest } from "../models/dtos/CareProfessionalRequest";
 import { GetCareProfessionalResponse } from "../models/dtos/GetCareProfessionalResponse";
 import { CreateResponse } from "../models/dtos/CreateResponse";
+import { PatientRepository } from "../repositories/PatientRepository";
 
 const careProfessionalRepository = new CareProfessionalRepository(
   AppDataSource
 );
-const careProfessionalService = new CareProfessionalService(
-  careProfessionalRepository
-);
+const patientRepository = new PatientRepository(AppDataSource);
 const userRepository = new UserRepository(AppDataSource);
+const careProfessionalService = new CareProfessionalService(
+  careProfessionalRepository,
+  patientRepository,
+  userRepository
+);
 const userService = new UserService(userRepository);
 
 function toGetCareProfessionalResponse(
@@ -41,13 +45,20 @@ function toGetCareProfessionalResponse(
 @Route("care-professionals")
 @Tags("CareProfessionals")
 export class CareProfessionalController extends Controller {
+  /**
+   * @summary Busca a lista de todos os cuidadores da base
+   * @returns Lista de todos os cuidadores e seus dados
+   */
   @Get("/")
   public async getAllCareProfessinals(): Promise<GetCareProfessionalResponse[]> {
     const careProfessional =
       await careProfessionalService.getAllCareProfessionals();
     return careProfessional.map(toGetCareProfessionalResponse);
   }
-
+  /**
+   * @summary Busca um cuidador específico pelo seu ID
+   * @returns Retorna os dados do cuidador consultado
+   */
   @Get("/{id}")
   public async getCareProfessinalById(
     @Path() id: number
@@ -64,7 +75,10 @@ export class CareProfessionalController extends Controller {
     }
     return toGetCareProfessionalResponse(careProfessional);
   }
-
+  /**
+   * @summary Cria um novo cadastro de cuidador na base
+   * @returns Retorna o ID do cadastro criado
+   */
   @Post("/")
   public async createCareProfessinal(
     @Body() careProfessionalData: CareProfessionalRequest
@@ -72,11 +86,6 @@ export class CareProfessionalController extends Controller {
     const userExists = await userService.getUserById(
       careProfessionalData.idUser
     );
-    if (!userExists) {
-      this.setStatus(404);
-      throw new Error("User not found");
-    }
-
     const careProfessional =
       await careProfessionalService.createCareProfessionals(
         careProfessionalData
@@ -84,7 +93,9 @@ export class CareProfessionalController extends Controller {
     this.setStatus(201);
     return { id: careProfessional.idCareProfessional };
   }
-
+  /**
+   * @summary Atualiza o cadastro de cuidador na base
+   */
   @Put("/{id}")
   public async updateCareProfessinal(
     @Path() id: number,
@@ -104,7 +115,9 @@ export class CareProfessionalController extends Controller {
     }
     this.setStatus(204);
   }
-
+  /**
+   * @summary Remove o resgistro de um paciente da base
+   */
   @Delete("/{id}")
   public async deleteCareProfessinal(@Path() id: number): Promise<void> {
     if (isNaN(id)) {

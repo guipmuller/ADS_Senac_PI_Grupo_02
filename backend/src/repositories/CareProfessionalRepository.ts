@@ -16,6 +16,10 @@ export class CareProfessionalRepository {
     return this.repo.findOneBy({ idCareProfessional : id })
   }
 
+  findByUserId(idUser: number) {
+    return this.repo.findOneBy({ idUser: idUser });
+  }
+
   create(careProfessionalData: Partial<CareProfessional>) {
     const careProfessional = this.repo.create(careProfessionalData)
     return this.repo.save(careProfessional)

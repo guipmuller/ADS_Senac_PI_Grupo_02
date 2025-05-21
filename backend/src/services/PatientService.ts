@@ -1,8 +1,15 @@
 import { PatientRepository } from "../repositories/PatientRepository";
 import { Patient } from "../models/entities/Patient";
+import { UserRepository } from "../repositories/UserRepository";
+import { NotFoundError } from "../errors/NotFoundError";
+import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
 
 export class PatientService {
-  constructor(private patientRepository: PatientRepository) {}
+  constructor(
+    private patientRepository: PatientRepository,
+    private careProfessionalRepository: CareProfessionalRepository,
+    private userRepository: UserRepository
+  ) {}
 
   getAllPatients() {
     return this.patientRepository.findAll();
@@ -12,8 +19,19 @@ export class PatientService {
     return this.patientRepository.findById(id);
   }
 
-  createPatient(patientData: Partial<Patient>) {
-    return this.patientRepository.create(patientData)
+  async createPatient(patientData: Partial<Patient>) {
+    const user = await this.userRepository.findById(patientData.idUser!);
+    if (!user) throw new NotFoundError("User not found.");
+    const associatedPatient = await this.patientRepository.findByUserId(
+      user.idUser
+    );
+    const associatedCareProfessional = await this.careProfessionalRepository.findByUserId(
+      user.idUser
+    );
+    if (associatedPatient || associatedCareProfessional)
+      throw new Error("User already associated.");
+
+    return this.patientRepository.create(patientData);
   }
 
   updatePatient(id: number, patientData: Partial<Patient>) {
