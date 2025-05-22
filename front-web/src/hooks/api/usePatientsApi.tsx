@@ -1,5 +1,13 @@
-import useCrudApi from "../useCrudApi";
+import { useCrudApi } from "../useCrudApi";
 
-export default function usePatientsApi() {
-  return useCrudApi('patients');
+export interface Patient {
+  id: number;
+  idUser: number;
+  patientName: string;
+  patientCpf: string;
+  patientBirthDate: string;
+}
+
+export function usePatientsApi() {
+  return useCrudApi<Patient>('patients');
 }

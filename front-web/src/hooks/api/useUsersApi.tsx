@@ -1,10 +1,20 @@
 import api from '../../services/api';
-import useCrudApi from '../useCrudApi';
+import { useCrudApi } from '../useCrudApi';
 
-export default function useUsersApi() {
-  const crud = useCrudApi('users');
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  cpf: string;
+  urlImage?: string | null;
+  isPatient: boolean
+}
 
-  const getByFirebaseToken = () => api.get('/users/firebase');
+export function useUsersApi() {
+  const crud = useCrudApi<User>('users');
+
+  const getByFirebaseToken = () => api.get<User>('/users/firebase');
 
   return { ...crud, getByFirebaseToken };
 }

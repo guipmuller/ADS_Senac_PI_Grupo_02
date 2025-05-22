@@ -1,5 +1,14 @@
-import useCrudApi from "../useCrudApi";
+import { useCrudApi } from "../useCrudApi";
 
-export default function useAppointmentsApi() {
-  return useCrudApi('appointments');
+export interface Appointment {
+  id: number,
+  scheduledAt: Date,
+  idAddress: number,
+  idPatient: number,
+  idCareProfessional: number,
+  status: string
+}
+
+export function useAppointmentsApi() {
+  return useCrudApi<Appointment>("appointments");
 }

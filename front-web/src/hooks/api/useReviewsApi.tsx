@@ -1,5 +1,13 @@
-import useCrudApi from "../useCrudApi";
+import { useCrudApi } from "../useCrudApi";
 
-export default function useCareReviewsApi() {
-  return useCrudApi('reviews');
+export interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  idCareProfessional: number;
+  idPatient: number;
+}
+
+export function useCareReviewsApi() {
+  return useCrudApi<Review>('reviews');
 }

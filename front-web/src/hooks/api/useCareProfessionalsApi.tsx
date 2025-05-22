@@ -1,5 +1,13 @@
-import useCrudApi from "../useCrudApi";
+import { useCrudApi } from "../useCrudApi";
 
-export default function useCareProfessionalsApi() {
-  return useCrudApi('care-professionals');
+export interface Professional {
+  id: number;
+  idUser: number;
+  professionalRegistryCode: string;
+  professionalBiography: string;
+  rating?: number;
+}
+
+export function useCareProfessionalsApi() {
+  return useCrudApi<Professional>('care-professionals');
 }

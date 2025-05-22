@@ -3,32 +3,49 @@
 import Input from "@/components/atoms/Input/input";
 import ProfileCard from "@/components/atoms/ProfileCard/ProfileCard";
 import ProfileList from "@/components/atoms/ProfileList/ProfileList";
-import axios from "axios";
+import { Professional, useCareProfessionalsApi } from "@/hooks/api/useCareProfessionalsApi";
+import { User, useUsersApi } from "@/hooks/api/useUsersApi";
 import { useEffect, useState } from "react";
 
-interface CareProfessional {
-  idCareProfessional: number;
-  professionalRegistryCode: string;
-  professionalBiography: string;
-  rating: number;
-  createdAt: string;
-  updatedAt: string;
-  idUser: number;
-}
+// interface CareProfessional {
+//   idCareProfessional: number;
+//   professionalRegistryCode: string;
+//   professionalBiography: string;
+//   rating: number;
+//   createdAt: string;
+//   updatedAt: string;
+//   idUser: number;
+// }
 
-interface User {
-  idUser: number;
-  name: React.ReactNode;
-  email: string;
-}
+// interface User {
+//   idUser: number;
+//   name: React.ReactNode;
+//   email: string;
+// }
 
 const HomeTemplate = () => {
-  const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
+  //const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
 
-  const [professionals, setProfessionals] = useState<CareProfessional[]>([]);
+  const userApi = useUsersApi();
+  const professionalApi = useCareProfessionalsApi();
+
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
+    Promise
+      .all([userApi.getAll(), professionalApi.getAll()])
+      .then(([userRes, profRes]) => { 
+        setUsers(userRes.data); 
+        setProfessionals(profRes.data) })
+      .catch((error) => console.error("Erro ao carregar dados:", error))
+
+  }, [professionalApi, userApi]);
+
+  console.log(users)
+  console.log(professionals)
+
+  /* useEffect(() => {
     Promise.all([
       axios.get<CareProfessional[]>(`${URL}careProfessionals`),
       axios.get<User[]>(`${URL}users`),
@@ -38,12 +55,12 @@ const HomeTemplate = () => {
         setUsers(userResponse.data);
       })
       .catch((error) => console.error("Erro ao carregar dados:", error));
-  }, []);
+  }, []); */
 
   const getName = (idPerson: string) => {
     for (const f of professionals) {
       for (const g of users) {
-        if (+idPerson === f.idCareProfessional && f.idUser === g.idUser) {
+        if (+idPerson === f.id && f.idUser === g.id) {
           return g.name;
         }
       }
@@ -92,7 +109,7 @@ const HomeTemplate = () => {
             const name = getName(String(professional.idUser));
             return (
               <ProfileList
-                key={professional.idCareProfessional}
+                key={professional.id}
                 name={String(name)}
                 role={`${professional.professionalBiography}`}
                 label="Disponível para plantão"
@@ -102,11 +119,11 @@ const HomeTemplate = () => {
         </span>
 
         <button
-              className="mt-4 bg-black text-white px-6 py-2 font-semibold rounded w-full"
-              type="button"
-            >
-              Ver todos
-            </button>
+          className="mt-4 bg-black text-white px-6 py-2 font-semibold rounded w-full"
+          type="button"
+        >
+          Ver todos
+        </button>
       </main>
     </>
   );
