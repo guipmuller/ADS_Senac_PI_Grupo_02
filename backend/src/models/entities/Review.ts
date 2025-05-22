@@ -18,9 +18,9 @@ export class Review {
   rating!: number;
   @Column({ type: "varchar", length: 250, nullable: true })
   comment?: string;
-  @Column()
+  @Column({ type: "varchar" })
   idPatient!: number;
-  @Column()
+  @Column({ type: "varchar" })
   idCareProfessional!: number;
   @CreateDateColumn()
   createdAt!: Date;

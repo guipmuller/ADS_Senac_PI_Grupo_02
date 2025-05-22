@@ -6,7 +6,7 @@ import { CareProfessional } from "./CareProfessional";
 export class User {
   @PrimaryGeneratedColumn()
   idUser!: number;
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   firebaseUid!: string;
   @Column({ type: "varchar", length: 150, nullable: false })
   name!: string;

@@ -7,9 +7,9 @@
   "author": "",
   "main": ".eslintrc.js",
   "scripts": {
-    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm bin/www.ts",
+    "start": "node --no-warnings=ExperimentalWarning --import tsx bin/www.ts",
     "tsoa:gen": "tsoa routes && tsoa spec",
-    "dev": "ts-node-dev --transpile-only bin/www.ts"
+    "dev": "tsx watch bin/www.ts"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
@@ -47,6 +47,7 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsoa": "^6.6.0",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }
