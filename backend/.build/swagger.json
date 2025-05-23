@@ -1,0 +1,1383 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"GetUserResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"urlImage": {
+						"type": "string"
+					},
+					"isPatient": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"phoneNumber",
+					"cpf",
+					"urlImage",
+					"isPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"urlImage": {
+						"type": "string",
+						"nullable": true
+					},
+					"isPatient": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"phoneNumber",
+					"cpf",
+					"isPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetReviewResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"rating",
+					"comment",
+					"idCareProfessional",
+					"idPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewRequest": {
+				"properties": {
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"rating",
+					"comment",
+					"idCareProfessional",
+					"idPatient"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetPatientResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"patientName": {
+						"type": "string"
+					},
+					"patientCpf": {
+						"type": "string"
+					},
+					"patientBirthDate": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"idUser",
+					"patientName",
+					"patientCpf",
+					"patientBirthDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PatientRequest": {
+				"properties": {
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"patientName": {
+						"type": "string"
+					},
+					"patientCpf": {
+						"type": "string"
+					},
+					"patientBirthDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"idUser",
+					"patientName",
+					"patientCpf",
+					"patientBirthDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetCareProfessionalResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"professionalRegistryCode": {
+						"type": "string"
+					},
+					"professionalBiography": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"idUser",
+					"professionalRegistryCode",
+					"professionalBiography"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CareProfessionalRequest": {
+				"properties": {
+					"idUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"professionalRegistryCode": {
+						"type": "string"
+					},
+					"professionalBiography": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"idUser",
+					"professionalRegistryCode",
+					"professionalBiography"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AppointmentStatus": {
+				"enum": [
+					"Scheduled",
+					"Completed",
+					"Canceled"
+				],
+				"type": "string"
+			},
+			"GetAppointmentResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"idAddress": {
+						"type": "number",
+						"format": "double"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"$ref": "#/components/schemas/AppointmentStatus"
+					}
+				},
+				"required": [
+					"id",
+					"scheduledAt",
+					"idAddress",
+					"idPatient",
+					"idCareProfessional",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PostAppointmentRequest": {
+				"properties": {
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"idPatient": {
+						"type": "number",
+						"format": "double"
+					},
+					"idCareProfessional": {
+						"type": "number",
+						"format": "double"
+					},
+					"idAdress": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"scheduledAt",
+					"idPatient",
+					"idCareProfessional",
+					"idAdress"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PutAppointmentRequest": {
+				"properties": {
+					"scheduledAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"$ref": "#/components/schemas/AppointmentStatus"
+					},
+					"idAdress": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"scheduledAt",
+					"status",
+					"idAdress"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetAddressResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "string"
+					},
+					"complement": {
+						"type": "string"
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"street",
+					"number",
+					"neighborhood",
+					"city",
+					"state",
+					"postalCode",
+					"country"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AddressRequest": {
+				"properties": {
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "string"
+					},
+					"complement": {
+						"type": "string",
+						"nullable": true
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"street",
+					"number",
+					"neighborhood",
+					"city",
+					"state",
+					"postalCode",
+					"country"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"firebase": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "backend",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "Lista de usuários e seus dados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetUserResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Retorna todos os usuários cadastrados",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria um novo usuário",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"firebase": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Dados do usuário",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um usuário pelo seu ID",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Altera os dados de um usuário",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Remove o registro de um usuário da base",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/firebase": {
+			"get": {
+				"operationId": "GetUserByFirebaseUid",
+				"responses": {
+					"200": {
+						"description": "Dados do usuário",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um usuário pelo firebase UID dele",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"firebase": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/reviews": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Lista de todas as avaliações",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetReviewResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca a lista de as avaliações na base",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Retorna o ID da avaliação criada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria uma nova avaliação",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reviews/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Retorna a avaliação consultada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetReviewResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca de uma avaliação pelo seu ID",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Atualiza uma avaliação",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Deleta a avaliação",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/patients": {
+			"get": {
+				"operationId": "GetAllPatients",
+				"responses": {
+					"200": {
+						"description": "Lista de todos os pacientes e seus dados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetPatientResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca a lista de todos os pacientes da base",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreatePatient",
+				"responses": {
+					"200": {
+						"description": "Retorna o ID do cadastro criado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria um novo cadastro de paciente na base",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PatientRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/patients/{id}": {
+			"get": {
+				"operationId": "GetPatientById",
+				"responses": {
+					"200": {
+						"description": "Retorna os dados do paciente consultado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetPatientResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um paciente específico pelo seu ID",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdatePatient",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Atualiza o cadastro de paciente na base",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PatientRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletePatient",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Remove o resgistro de um paciente da base",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/care-professionals": {
+			"get": {
+				"operationId": "GetAllCareProfessinals",
+				"responses": {
+					"200": {
+						"description": "Lista de todos os cuidadores e seus dados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetCareProfessionalResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca a lista de todos os cuidadores da base",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCareProfessinal",
+				"responses": {
+					"200": {
+						"description": "Retorna o ID do cadastro criado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria um novo cadastro de cuidador na base",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CareProfessionalRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/care-professionals/{id}": {
+			"get": {
+				"operationId": "GetCareProfessinalById",
+				"responses": {
+					"200": {
+						"description": "Retorna os dados do cuidador consultado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetCareProfessionalResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um cuidador específico pelo seu ID",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCareProfessinal",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Atualiza o cadastro de cuidador na base",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CareProfessionalRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCareProfessinal",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"summary": "Remove o resgistro de um paciente da base",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/appointments": {
+			"get": {
+				"operationId": "GetAllAppointments",
+				"responses": {
+					"200": {
+						"description": "Lista de todos os agendamentos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetAppointmentResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca por todos os agendamentos da base",
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateAppointment",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria um novo agendamento",
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PostAppointmentRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/appointments/{id}": {
+			"get": {
+				"operationId": "GetAppointmentById",
+				"responses": {
+					"200": {
+						"description": "Exibe os dados do agendamento",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetAppointmentResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca por um agendamento pelo seu ID",
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAppointment",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"summary": "Atualiza um agendamento pelo ID",
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PutAppointmentRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteAppointment",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"summary": "Remove um agendamento da base",
+				"tags": [
+					"Appointments"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/addresses": {
+			"get": {
+				"operationId": "GetAllAddresses",
+				"responses": {
+					"200": {
+						"description": "Retorna todos os endereços e seus dados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/GetAddressResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca por todos os endereços cadastrados na base",
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateAddress",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Cria um novo endereço",
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/addresses/{id}": {
+			"get": {
+				"operationId": "GetAddressById",
+				"responses": {
+					"200": {
+						"description": "Exibe os dados do endereço",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetAddressResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca por um endereço pelo seu ID",
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateAddress",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"summary": "Atualiza um endereço pelo ID",
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "RemoveAddress",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"summary": "Remove o registro de um endereço da base",
+				"tags": [
+					"Addresses"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

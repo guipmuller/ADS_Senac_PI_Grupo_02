@@ -24,7 +24,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const login = async (email: string, password: string) => {
 		const { signInWithEmailAndPassword } = await import('firebase/auth');
-		await signInWithEmailAndPassword(auth, email, password);
+		const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+		const token = await userCredential.user.getIdToken();
+
+		localStorage.setItem('firebaseToken', token);
+		setUser(userCredential.user);
 	};
 
 	const logout = async () => {
