@@ -1,7 +1,7 @@
 import { useCrudApi } from "../useCrudApi";
 
 export interface Appointment {
-  id: number,
+  id?: number | null, // somente é preechido em operações GET. POST passar nulo
   scheduledAt: Date,
   idAddress: number,
   idPatient: number,
@@ -9,6 +9,12 @@ export interface Appointment {
   status: string
 }
 
+export interface UpdateAppointment {
+  scheduledAt: Date,
+  status: string,
+  idAdress: number
+}
+
 export function useAppointmentsApi() {
-  return useCrudApi<Appointment>("appointments");
+  return useCrudApi<Appointment, UpdateAppointment>("appointments");
 }
