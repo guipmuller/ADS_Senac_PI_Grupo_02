@@ -1,5 +1,5 @@
-import { DataSource, Repository } from "typeorm";
-import { Appointment } from "../models/entities/Appointment";
+import { DataSource, FindManyOptions, Repository } from "typeorm";
+import { Appointment } from "../models/appointment/entities/Appointment";
 
 export class AppointmentRepository {
   private repo: Repository<Appointment>;
@@ -8,8 +8,8 @@ export class AppointmentRepository {
     this.repo = dataSource.getRepository(Appointment);
   }
 
-  findAll() {
-    return this.repo.find();
+  findAll(options?: FindManyOptions<Appointment>) {
+    return this.repo.find(options);
   }
 
   findById(id: number) {

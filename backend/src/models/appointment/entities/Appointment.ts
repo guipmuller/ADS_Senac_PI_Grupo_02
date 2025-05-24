@@ -1,16 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
-import { Patient } from "./Patient";
-import { CareProfessional } from "./CareProfessional";
-import { Address } from "./Address";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Patient } from "../../patient/entities/Patient";
+import { CareProfessional } from "../../careProfessional/entities/CareProfessional";
 import { AppointmentStatus } from "../enums/AppointmentStatus";
+import { Address } from "../../address/entities/Address";
 
 @Entity({ name: "Appointments", schema: "public" })
 export class Appointment {

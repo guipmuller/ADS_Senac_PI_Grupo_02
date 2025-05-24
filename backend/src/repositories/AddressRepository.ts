@@ -1,5 +1,5 @@
 import { DataSource, FindManyOptions, Repository } from "typeorm";
-import { Address } from "../models/entities/Address";
+import { Address } from "../models/address/entities/Address";
 
 export class AddressRepository {
   private repo: Repository<Address>;

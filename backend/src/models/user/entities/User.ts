@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Patient } from "./Patient";
-import { CareProfessional } from "./CareProfessional";
+import { Patient } from "../../patient/entities/Patient";
+import { CareProfessional } from "../../careProfessional/entities/CareProfessional";
 
 @Entity({ name: "Users", schema: "public" })
 export class User {

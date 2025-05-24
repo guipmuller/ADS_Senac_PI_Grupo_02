@@ -1,8 +1,8 @@
 import { PatientRepository } from "../repositories/PatientRepository";
-import { Patient } from "../models/entities/Patient";
 import { UserRepository } from "../repositories/UserRepository";
 import { NotFoundError } from "../errors/NotFoundError";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
+import { Patient } from "../models/patient/entities/Patient";
 
 export class PatientService {
   constructor(
@@ -17,6 +17,10 @@ export class PatientService {
 
   getPatientById(id: number) {
     return this.patientRepository.findById(id);
+  }
+
+  getPatientByUserId(id: number) {
+    return this.patientRepository.findByUserId(id);
   }
 
   async createPatient(patientData: Partial<Patient>) {

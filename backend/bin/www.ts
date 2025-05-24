@@ -1,10 +1,8 @@
-// Adicione isto no TOPO do arquivo, antes de qualquer outra lógica
 process.on('uncaughtException', (error) => {
   console.error('❌ Erro não tratado (uncaughtException):', error);
   process.exit(1);
 });
 
-// Adicione também para capturar rejeições de promises não tratadas
 process.on('unhandledRejection', (reason, promise) => {
   console.error('🚨 Rejeição não tratada em Promise:', promise, 'Motivo:', reason);
   process.exit(1);

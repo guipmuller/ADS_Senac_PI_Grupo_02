@@ -1,15 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  JoinColumn,
-  UpdateDateColumn,
-  CreateDateColumn,
-  OneToMany,
-} from "typeorm";
-import { User } from "./User";
-import { Appointment } from "./Appointment";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, UpdateDateColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { User } from "../../user/entities/User";
+import { Appointment } from "../../appointment/entities/Appointment";
+
 
 @Entity({ name: "Patients", schema: "public" })
 export class Patient {

@@ -1,13 +1,24 @@
-export type appointmentType = {
+export type formAppointmentType = {
   idAppointment?: number;
-  date: string;
-  time: string;
-  location: string;
+  date: string;   // "2025-05-24"
+  time: string;   // "14:30"
+  status: string;
+  address: formAddressType;
   idPatient: number;
-  idCareProfessional: number;
-  createdAt?: string;
-  updatedAt?: string;
+  idCareProfessional: number
 };
+
+export type formAddressType = {
+  id?: number | null;
+  street: string;
+  number: string;
+  complement?: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
 
 export type patientType = {
   idPatient: number;

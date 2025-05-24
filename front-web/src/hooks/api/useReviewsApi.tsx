@@ -5,7 +5,11 @@ export interface Review {
   rating: number;
   comment: string;
   idCareProfessional: number;
-  idPatient: number;
+  patient: {
+    id: number;
+    name: string;
+    urlImage: string | null | undefined;
+  };
 }
 
 export function useReviewsApi() {

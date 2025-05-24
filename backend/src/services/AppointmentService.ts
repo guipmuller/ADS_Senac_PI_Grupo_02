@@ -2,9 +2,10 @@ import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { PatientRepository } from "../repositories/PatientRepository";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
-import { PostAppointmentRequest } from "../models/dtos/PostAppointmentRequest";
 import { NotFoundError } from "../errors/NotFoundError";
-import { PutAppointmentRequest } from "../models/dtos/PutAppointmentRequest";
+import { Appointment } from "../models/appointment/entities/Appointment";
+import { PostAppointmentRequest } from "../models/appointment/dtos/PostAppointmentRequest";
+import { PutAppointmentRequest } from "../models/appointment/dtos/PutAppointmentRequest";
 
 export class AppointmentService {
   constructor(
@@ -14,8 +15,14 @@ export class AppointmentService {
     private careProfessionalRepository: CareProfessionalRepository
   ) {}
 
-  getAllAppointments() {
-    return this.appointmentRepository.findAll();
+  async getAllAppointments(
+    idCareProfessional: number | undefined,
+    idPatient: number | undefined
+  ): Promise<Appointment[]> {
+    const where: any = {};
+    if (idCareProfessional) where.idCareProfessional = idCareProfessional;
+    if (idPatient) where.idPatient = idPatient;
+    return this.appointmentRepository.findAll({ where });
   }
 
   getAppointmentById(id: number) {

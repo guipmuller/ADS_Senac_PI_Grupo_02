@@ -89,3 +89,5 @@ typings/
 
 # Windows files
 Thumbs.db
+
+.dockerignore

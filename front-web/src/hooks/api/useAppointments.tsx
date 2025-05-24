@@ -12,7 +12,7 @@ export interface Appointment {
 export interface UpdateAppointment {
   scheduledAt: Date,
   status: string,
-  idAdress: number
+  idAddress: number
 }
 
 export function useAppointmentsApi() {

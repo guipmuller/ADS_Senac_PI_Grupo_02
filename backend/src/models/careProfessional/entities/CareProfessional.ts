@@ -1,13 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToOne,
-} from "typeorm";
-import { User } from "./User";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
+import { User } from "../../user/entities/User";
 
 @Entity({ name: "CareProfessionals", schema: "public" })
 export class CareProfessional {

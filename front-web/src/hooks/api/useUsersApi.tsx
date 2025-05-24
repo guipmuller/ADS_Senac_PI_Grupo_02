@@ -14,7 +14,7 @@ export interface User {
 export function useUsersApi() {
   const crud = useCrudApi<User>('users');
 
-  const getByFirebaseToken = () => api.get<User>('/users/firebase');
+  const getByFirebaseToken = () => api.get<User>('users/firebase');
 
   return { ...crud, getByFirebaseToken };
 }

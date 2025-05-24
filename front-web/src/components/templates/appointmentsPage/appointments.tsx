@@ -1,41 +1,116 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BaseTemplate from "../BaseTemplate/BaseTemplate";
 import Button from "@/components/atoms/Button/button";
 import { ButtonProps } from "@/components/atoms/Button/types";
-import {
-  appointmentType,
-  patientType,
-  careProfessionalType,
-  userType,
-} from "./types";
+import { formAppointmentType } from "./types";
 import { FaChevronLeft } from "react-icons/fa6";
 import { CiCalendarDate } from "react-icons/ci";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
+import { Appointment, UpdateAppointment } from "@/hooks/api/useAppointments";
+import { Patient } from "@/hooks/api/usePatientsApi";
+import { Professional } from "@/hooks/api/useCareProfessionalsApi";
 
-const AppointmentsTemplate = () => {
-  const [appointmentsData, setAppointmentsData] = useState<appointmentType[]>(
-    []
-  );
-  const [patientsData, setPatientsData] = useState<patientType[]>([]);
-  const [careProfessionalsData, setCareProfessionalsData] = useState<
-    careProfessionalType[]
-  >([]);
-  const [usersData, setUsersData] = useState<userType[]>([]);
-  const formObj = {
-    date: "",
-    time: "",
-    location: "",
+interface Props {
+  appointments: Appointment[];
+  patients: Patient[];
+  professionals: Professional[];
+  onCreate: (data: Appointment) => Promise<void>;
+  onEdit: (id: string, data: UpdateAppointment) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
+}
+
+const AppointmentsTemplate: React.FC<Props> = ({
+  appointments,
+  patients,
+  professionals,
+  onCreate,
+  onEdit,
+  onDelete }) => {
+  const [error, setError] = useState("");
+  const [toggleNewAppointments, setToggleNewAppointments] = useState<boolean>(false);
+  const [sendEdit, setSendEdit] = useState<boolean>(false);
+  const [form, setForm] = useState<formAppointmentType>({
+    scheduledAt: "",
+    status: " ",
+    address: {
+      street: " ",
+      number: " ",
+      complement: " ",
+      neighborhood: " ",
+      city: " ",
+      state: " ",
+      postalCode: " ",
+      country: " ",
+    },
     idPatient: 0,
     idCareProfessional: 0,
+  });
+  const [editId, setEditId] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
   };
-  const [formData, setFormData] = useState<appointmentType>(formObj);
-  const [error, setError] = useState("");
-  const [toggleNewAppointments, setToggleNewAppointments] =
-    useState<boolean>(false);
-  const [sendEdit, setSendEdit] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data: UpdateAppointment = {
+      scheduledAt: new Date(form.scheduledAt),
+      status: form.status,
+      idAddress: form.address.id!
+    }
+    try {
+      if (sendEdit && editId) {
+        await onEdit(editId, data);
+      } else {
+        await onCreate(form as Appointment);
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Erro ao salvar agendamento");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await onDelete(id);
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Erro ao deletar agendamento");
+    }
+  };
+
+  const editAppointment = (appointment: Appointment) => {
+    setSendEdit(true);
+    setToggleNewAppointments(true);
+    setFormData({
+      ...appointment,
+    });
+    setEditId(appointment.id!.toString());
+  };
+
+  const resetForm = () => {
+    setFormData({
+      date: "",
+      time: "",
+      location: "",
+      idPatient: 0,
+      idCareProfessional: 0,
+    });
+    setSendEdit(false);
+    setToggleNewAppointments(false);
+    setEditId(null);
+    setError("");
+  };
+
+  const CuidadorNome = ({ id }: { id: number }) => {
+    const profissional = professionals.find(p => p.id === id);
+    return <span>{profissional ? profissional.user.name : "Desconhecido"}</span>;
+  };
 
   const appointmentButton = {
     text: "Agendar novo",
@@ -47,157 +122,11 @@ const AppointmentsTemplate = () => {
     type: "submit",
   } as ButtonProps;
 
-  const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
-
-  const getAppointments = () => {
-    fetch(`${URL}appointments`)
-      .then((res) => {
-        if (!res) throw new Error("Erro ao buscar dados");
-        return res.json();
-      })
-      .then((appointmentsData) => setAppointmentsData(appointmentsData))
-      .catch((err) => setError(err.message));
-  };
-
-  useEffect(() => {
-    getAppointments();
-  }, []);
-  useEffect(() => {
-    fetch(`${URL}careProfessionals`)
-      .then((res) => {
-        if (!res) throw new Error("Erro ao buscar dados");
-        return res.json();
-      })
-      .then((careProfessionalsData) =>
-        setCareProfessionalsData(careProfessionalsData)
-      )
-      .catch((err) => setError(err.message));
-  }, []);
-  useEffect(() => {
-    fetch(`${URL}patients`)
-      .then((res) => {
-        if (!res) throw new Error("Erro ao buscar dados");
-        return res.json();
-      })
-      .then((patientsData) => setPatientsData(patientsData))
-      .catch((err) => setError(err.message));
-  }, []);
-  useEffect(() => {
-    fetch(`${URL}users`)
-      .then((res) => {
-        if (!res) throw new Error("Erro ao buscar dados");
-        return res.json();
-      })
-      .then((usersData) => setUsersData(usersData))
-      .catch((err) => setError(err.message));
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const req = await fetch(`${URL}appointments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!req.ok) {
-        throw new Error("Erro ao salvar agendamento");
-      } else {
-        const res = await req.json();
-        console.log(res.message);
-        setFormData(formObj);
-        setToggleNewAppointments(false);
-        getAppointments();
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("Erro ao salvar agendamento");
-      return;
-    }
-  };
-
-  const editAppointment = (appointment) => {
-    console.log("appointment", appointment);
-
-    setSendEdit(true);
-    setToggleNewAppointments(true);
-    setFormData(appointment);
-  };
-
-  const handleEdit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("formData", formData);
-
-    try {
-      const req = await fetch(`${URL}appointments/${formData.idAppointment}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!req.ok) {
-        throw new Error("Erro ao salvar agendamento");
-      } else {
-        const res = await req.json();
-        console.log(res.message);
-        setFormData(formObj);
-        setToggleNewAppointments(false);
-        getAppointments();
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("Erro ao salvar agendamento");
-      return;
-    }
-  };
-
-  const handleDelete = async (idAppointment) => {
-    try {
-      const req = await fetch(`${URL}appointments/${idAppointment}`, {
-        method: "DELETE",
-      });
-      if (!req.ok) {
-        throw new Error("Erro ao deletar agendamento");
-      } else {
-        console.log("Agendamento deletado!");
-        await getAppointments();
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("Erro ao deletar agendamento");
-      return;
-    }
-  };
-
-  const getName = (idPerson: string) => {
-    for (const f of careProfessionalsData) {
-      for (const g of usersData) {
-        if (+idPerson === f.idCareProfessional && f.idUser === g.idUser) {
-          return g.name;
-        }
-      }
-    }
-
-    return null;
-  };
-
-  const CuidadorNome = ({ idPerson }) => {
-    const name = getName(idPerson);
-    return <span>{name}</span>;
-  };
-  // console.log("appointmentsData", appointmentsData);
-  // console.log("careProfessionalsData", careProfessionalsData);
-  // console.log("patientsData", patientsData);
-
   if (error) return <p>Erro: {error}</p>;
   if (
-    !appointmentsData.length ||
-    !careProfessionalsData.length ||
-    !patientsData.length
+    !appointments.length ||
+    !professionals.length ||
+    !patients.length
   )
     return <p>Carregando</p>;
   return (
@@ -210,46 +139,42 @@ const AppointmentsTemplate = () => {
       </header>
       <div className="my-4 w-full">
         <h3 className="text-xl font-semibold">Próximos agendamentos</h3>
-        {appointmentsData.map((e) => (
-          <div key={e.idAppointment}>
-            <div className="my-3">
-              <div>
-                <span className="text-gray-500">
-                  {new Date(e.date).toLocaleDateString()} - {e.time}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex">
-                  <CiCalendarDate className="text-5xl" />
-                  <div className="flex flex-col">
-                    <span>
-                      Cuidador:{" "}
-                      <CuidadorNome
-                        idPerson={e.idCareProfessional.toString()}
-                      />
-                    </span>
-                    <span className="text-gray-500">Local: {e.location}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold w-28 flex flex-col">
-                    <span className="flex justify-end">(51)</span>
-                    <span className="flex justify-end text-nowrap">
-                      99999-6666
-                    </span>
-                  </span>
-                  <FiRefreshCcw
-                    className="text-xl mx-2 cursor-pointer"
-                    onClick={() => editAppointment(e)}
-                  />
-                  <IoClose
-                    className="text-xl text-red-700 cursor-pointer"
-                    onClick={() => handleDelete(e.idAppointment)}
-                  />
-                </div>
-              </div>
-              <hr />
+
+        {appointments.map((e) => (
+          <div key={e.id} className="my-3">
+            <div>
+              <span className="text-gray-500">
+                {new Date(e.date).toLocaleDateString()} - {e.time}
+              </span>
             </div>
+            <div className="flex justify-between">
+              <div className="flex">
+                <CiCalendarDate className="text-5xl" />
+                <div className="flex flex-col">
+                  <span>
+                    Cuidador: <CuidadorNome id={e.idCareProfessional} />
+                  </span>
+                  <span className="text-gray-500">Local: {e.location}</span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-bold w-28 flex flex-col">
+                  <span className="flex justify-end">(51)</span>
+                  <span className="flex justify-end text-nowrap">
+                    99999-6666
+                  </span>
+                </span>
+                <FiRefreshCcw
+                  className="text-xl mx-2 cursor-pointer"
+                  onClick={() => editAppointment(e)}
+                />
+                <IoClose
+                  className="text-xl text-red-700 cursor-pointer"
+                  onClick={() => handleDelete(e.id!.toString())}
+                />
+              </div>
+            </div>
+            <hr />
           </div>
         ))}
         <Button {...appointmentButton} />

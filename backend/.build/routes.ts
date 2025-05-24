@@ -67,7 +67,7 @@ const models: TsoaRoute.Models = {
             "rating": {"dataType":"double","required":true},
             "comment": {"dataType":"string","required":true},
             "idCareProfessional": {"dataType":"double","required":true},
-            "idPatient": {"dataType":"double","required":true},
+            "patient": {"dataType":"nestedObjectLiteral","nestedProperties":{"urlImage":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"required":true},
         },
         "additionalProperties": false,
     },
@@ -110,10 +110,10 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
-            "idUser": {"dataType":"double","required":true},
             "professionalRegistryCode": {"dataType":"string","required":true},
             "professionalBiography": {"dataType":"string","required":true},
             "rating": {"dataType":"double"},
+            "user": {"dataType":"nestedObjectLiteral","nestedProperties":{"urlImage":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"required":true},
         },
         "additionalProperties": false,
     },
@@ -400,6 +400,8 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsReviewController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
+                idCareProfessional: {"in":"query","name":"idCareProfessional","dataType":"double"},
+                idPatient: {"in":"query","name":"idPatient","dataType":"double"},
         };
         app.get('/reviews',
             ...(fetchMiddlewares<RequestHandler>(ReviewController)),
@@ -608,6 +610,36 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsPatientController_getPatientByUserId: Record<string, TsoaRoute.ParameterSchema> = {
+                idUser: {"in":"path","name":"idUser","required":true,"dataType":"double"},
+        };
+        app.get('/patients/user/:idUser',
+            ...(fetchMiddlewares<RequestHandler>(PatientController)),
+            ...(fetchMiddlewares<RequestHandler>(PatientController.prototype.getPatientByUserId)),
+
+            async function PatientController_getPatientByUserId(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsPatientController_getPatientByUserId, request, response });
+
+                const controller = new PatientController();
+
+              await templateService.apiHandler({
+                methodName: 'getPatientByUserId',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsPatientController_createPatient: Record<string, TsoaRoute.ParameterSchema> = {
                 patientData: {"in":"body","name":"patientData","required":true,"ref":"PatientRequest"},
         };
@@ -758,6 +790,36 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCareProfessionalController_getCareProfessinalByUserId: Record<string, TsoaRoute.ParameterSchema> = {
+                idUser: {"in":"path","name":"idUser","required":true,"dataType":"double"},
+        };
+        app.get('/care-professionals/user/:idUser',
+            ...(fetchMiddlewares<RequestHandler>(CareProfessionalController)),
+            ...(fetchMiddlewares<RequestHandler>(CareProfessionalController.prototype.getCareProfessinalByUserId)),
+
+            async function CareProfessionalController_getCareProfessinalByUserId(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCareProfessionalController_getCareProfessinalByUserId, request, response });
+
+                const controller = new CareProfessionalController();
+
+              await templateService.apiHandler({
+                methodName: 'getCareProfessinalByUserId',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCareProfessionalController_createCareProfessinal: Record<string, TsoaRoute.ParameterSchema> = {
                 careProfessionalData: {"in":"body","name":"careProfessionalData","required":true,"ref":"CareProfessionalRequest"},
         };
@@ -850,6 +912,8 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentController_getAllAppointments: Record<string, TsoaRoute.ParameterSchema> = {
+                idCareProfessional: {"in":"query","name":"idCareProfessional","dataType":"double"},
+                idPatient: {"in":"query","name":"idPatient","dataType":"double"},
         };
         app.get('/appointments',
             ...(fetchMiddlewares<RequestHandler>(AppointmentController)),

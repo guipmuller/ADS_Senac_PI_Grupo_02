@@ -1,3 +1,4 @@
+import api from "@/services/api";
 import { useCrudApi } from "../useCrudApi";
 
 export interface Patient {
@@ -9,5 +10,9 @@ export interface Patient {
 }
 
 export function usePatientsApi() {
-  return useCrudApi<Patient>('patients');
+  const crud = useCrudApi<Patient>('patients');
+
+  const getByUserId = (id: string) => api.get<Patient>(`patients/user/${id}`);
+
+  return { ...crud, getByUserId };
 }

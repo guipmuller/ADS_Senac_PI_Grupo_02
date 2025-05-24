@@ -1,5 +1,5 @@
+import { Address } from "../models/address/entities/Address";
 import { AddressRepository } from "../repositories/AddressRepository";
-import { Address } from "../models/entities/Address";
 
 export class AddressService {
   constructor(private repository: AddressRepository) {}

@@ -1,14 +1,6 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
-import { Patient } from "./Patient";
-import { CareProfessional } from "./CareProfessional";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Patient } from "../../patient/entities/Patient";
+import { CareProfessional } from "../../careProfessional/entities/CareProfessional";
 
 @Entity({ name: "Reviews", schema: "public" })
 export class Review {

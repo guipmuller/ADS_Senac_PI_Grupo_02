@@ -1,23 +1,14 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Put,
-  Delete,
-  Route,
-  Tags,
-} from "tsoa";
+import { Body, Controller, Get, Path, Post, Put, Delete, Route, Tags, } from "tsoa";
 import { CareProfessionalService } from "../services/CareProfessionalService";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
 import { AppDataSource } from "../database/data-source";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserService } from "../services/UserService";
-import { CareProfessionalRequest } from "../models/dtos/CareProfessionalRequest";
-import { GetCareProfessionalResponse } from "../models/dtos/GetCareProfessionalResponse";
-import { CreateResponse } from "../models/dtos/CreateResponse";
 import { PatientRepository } from "../repositories/PatientRepository";
+import { GetCareProfessionalResponse } from "../models/careProfessional/dtos/GetCareProfessionalResponse";
+import { CareProfessionalRequest } from "../models/careProfessional/dtos/CareProfessionalRequest";
+import { CreateResponse } from "../models/shared/CreateResponse";
+import { DetailedCareProfessional } from "../models/careProfessional/dtos/DetailedCareProfessional";
 
 const careProfessionalRepository = new CareProfessionalRepository(
   AppDataSource
@@ -36,10 +27,14 @@ function toGetCareProfessionalResponse(
 ): GetCareProfessionalResponse {
   return {
     id: entity.idCareProfessional,
-    idUser: entity.idUser,
     professionalRegistryCode: entity.professionalRegistryCode,
     professionalBiography: entity.professionalBiography,
     rating: entity.rating,
+    user: {
+      id: entity.user.id,
+      name: entity.user.name,
+      urlImage: entity.user.urlImage
+    }
   };
 }
 @Route("care-professionals")
@@ -50,7 +45,9 @@ export class CareProfessionalController extends Controller {
    * @returns Lista de todos os cuidadores e seus dados
    */
   @Get("/")
-  public async getAllCareProfessinals(): Promise<GetCareProfessionalResponse[]> {
+  public async getAllCareProfessinals(): Promise<
+    GetCareProfessionalResponse[]
+  > {
     const careProfessional =
       await careProfessionalService.getAllCareProfessionals();
     return careProfessional.map(toGetCareProfessionalResponse);
@@ -69,6 +66,26 @@ export class CareProfessionalController extends Controller {
     }
     const careProfessional =
       await careProfessionalService.getCareProfessionalById(id);
+    if (!careProfessional) {
+      this.setStatus(404);
+      throw new Error("CareProfessional not found");
+    }
+    return toGetCareProfessionalResponse(careProfessional);
+  }
+  /**
+   * @summary Busca um cuidador específico pelo ID do usuário associado
+   * @returns Retorna os dados do cuidador consultado
+   */
+  @Get("/user/{idUser}")
+  public async getCareProfessinalByUserId(
+    @Path() idUser: number
+  ): Promise<GetCareProfessionalResponse> {
+    if (isNaN(idUser)) {
+      this.setStatus(400);
+      throw new Error(`Invalid User id: ${idUser}`);
+    }
+    const careProfessional =
+      await careProfessionalService.getCareProfessionalByIdUser(idUser);
     if (!careProfessional) {
       this.setStatus(404);
       throw new Error("CareProfessional not found");

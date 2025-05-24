@@ -1,23 +1,21 @@
-import {
-  Controller,
-  Get,
-  Route,
-  Post,
-  Body,
-  Put,
-  Delete,
-  Path,
-  Tags,
-} from "tsoa";
+import {Controller, Get, Route, Post, Body, Put, Delete, Path, Tags, Query,} from "tsoa";
 import { AppDataSource } from "../database/data-source";
-import { GetReviewResponse } from "../models/dtos/GetReviewResponse";
 import { ReviewRepository } from "../repositories/ReviewRepository";
 import { ReviewService } from "../services/ReviewService";
-import { ReviewRequest } from "../models/dtos/ReviewRequest";
-import { CreateResponse } from "../models/dtos/CreateResponse";
+import { PatientRepository } from "../repositories/PatientRepository";
+import { UserRepository } from "../repositories/UserRepository";
+import { GetReviewResponse } from "../models/review/dtos/GetReviewResponse";
+import { ReviewRequest } from "../models/review/dtos/ReviewRequest";
+import { CreateResponse } from "../models/shared/CreateResponse";
 
 const reviewRepository = new ReviewRepository(AppDataSource);
-const reviewService = new ReviewService(reviewRepository);
+const patientRepository = new PatientRepository(AppDataSource);
+const userRepository = new UserRepository(AppDataSource);
+const reviewService = new ReviewService(
+  reviewRepository,
+  patientRepository,
+  userRepository
+);
 
 function toGetReviewResponse(review: any): GetReviewResponse {
   return {
@@ -25,7 +23,11 @@ function toGetReviewResponse(review: any): GetReviewResponse {
     rating: review.rating,
     comment: review.comment,
     idCareProfessional: review.idCareProfessional,
-    idPatient: review.idPatient,
+    patient: {
+      id: review.idPatient,
+      name: review.name,
+      urlImage: review.urlImage
+    }
   };
 }
 @Route("reviews")
@@ -33,11 +35,19 @@ function toGetReviewResponse(review: any): GetReviewResponse {
 export class ReviewController extends Controller {
   /**
    * @summary Busca a lista de as avaliações na base
+   * @param idCareProfessional Filtra pelo ID do cuidador (Somente um filtro deve ser usado por consulta)
+   * @param idCarePatient Filtra pelo ID do paciente
    * @returns Lista de todas as avaliações
    */
   @Get("/")
-  public async getAll(): Promise<GetReviewResponse[]> {
-    const reviews = await reviewService.getAll();
+  public async getAll(
+    @Query() idCareProfessional?: number,
+    @Query() idPatient?: number
+  ): Promise<GetReviewResponse[]> {
+    if (idCareProfessional && idPatient)
+      throw new Error("Only one filter should be used per consultation.");
+
+    const reviews = await reviewService.getAll(idCareProfessional, idPatient);
     return reviews.map(toGetReviewResponse);
   }
   /**

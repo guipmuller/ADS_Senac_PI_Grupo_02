@@ -1,22 +1,12 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Put,
-  Delete,
-  Route,
-  Tags,
-} from "tsoa";
+import { Body, Controller, Get, Path, Post, Put, Delete, Route, Tags } from "tsoa";
 import { PatientService } from "../services/PatientService";
 import { PatientRepository } from "../repositories/PatientRepository";
 import { AppDataSource } from "../database/data-source";
 import { UserRepository } from "../repositories/UserRepository";
-import { PatientRequest } from "../models/dtos/PatientRequest";
-import { GetPatientResponse } from "../models/dtos/GetPatientResponse";
-import { CreateResponse } from "../models/dtos/CreateResponse";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
+import { GetPatientResponse } from "../models/patient/dtos/GetPatientResponse";
+import { PatientRequest } from "../models/patient/dtos/PatientRequest";
+import { CreateResponse } from "../models/shared/CreateResponse";
 
 const patientRepository = new PatientRepository(AppDataSource);
 const careProfessionalRepository = new CareProfessionalRepository(
@@ -61,6 +51,23 @@ export class PatientController extends Controller {
       throw new Error(`Invalid patient id: ${id}`);
     }
     const patient = await patientService.getPatientById(id);
+    if (!patient) {
+      this.setStatus(404);
+      throw new Error("Patient not found");
+    }
+    return toGetPatientResponse(patient);
+  }
+  /**
+   * @summary Busca um paciente específico pelo ID do usuário associado
+   * @returns Retorna os dados do paciente consultado
+   */
+  @Get("/user/{idUser}")
+  public async getPatientByUserId(@Path() idUser: number): Promise<GetPatientResponse> {
+    if (isNaN(idUser)) {
+      this.setStatus(400);
+      throw new Error(`Invalid user id: ${idUser}`);
+    }
+    const patient = await patientService.getPatientByUserId(idUser);
     if (!patient) {
       this.setStatus(404);
       throw new Error("Patient not found");
