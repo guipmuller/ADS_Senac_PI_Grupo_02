@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: true,
-  entities: ["src/models/entities/*.ts"],
+  entities: ["src/models/**/entities/*.ts"],
   extra: {
     pool_mode: "transaction",
   },

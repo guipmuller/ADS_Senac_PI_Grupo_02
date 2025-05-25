@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { CareProfessional } from "../models/entities/CareProfessional";
+import { CareProfessional } from "../models/careProfessional/entities/CareProfessional";
 
 export class CareProfessionalRepository {
   private repo: Repository<CareProfessional>

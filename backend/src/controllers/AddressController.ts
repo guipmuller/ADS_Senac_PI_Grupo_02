@@ -15,9 +15,9 @@ import {
 import { AddressService } from "../services/AddressService";
 import { AddressRepository } from "../repositories/AddressRepository";
 import { AppDataSource } from "../database/data-source";
-import { AddressRequest } from "../models/dtos/AddressRequest";
-import { CreateResponse } from "../models/dtos/CreateResponse";
-import { GetAddressResponse } from "../models/dtos/GetAddressResponse";
+import { GetAddressResponse } from "../models/address/dtos/GetAddressResponse";
+import { AddressRequest } from "../models/address/dtos/AddressRequest";
+import { CreateResponse } from "../models/shared/CreateResponse";
 
 const addressRepository = new AddressRepository(AppDataSource);
 const addressService = new AddressService(addressRepository);

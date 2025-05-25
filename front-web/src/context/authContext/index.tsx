@@ -1,4 +1,4 @@
-'use client';
+'use client'; 
 import React, { createContext, useState, useEffect } from 'react';
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '@/services/firebaseConfig';
@@ -32,12 +32,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 		setUser(userCredential.user);
 	};
 
+	const signUp = async (email: string, password: string) => {
+		const { createUserWithEmailAndPassword } = await import('firebase/auth');
+		const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+		const token = await userCredential.user.getIdToken();
+
+		localStorage.setItem('firebaseToken', token);
+		setUser(userCredential.user);
+	};
+
 	const logout = async () => {
 		await signOut(auth);
+		localStorage.removeItem('firebaseToken');
+		setUser(null);
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, loading, login, logout }}>
+		<AuthContext.Provider value={{ user, loading, login, signUp, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

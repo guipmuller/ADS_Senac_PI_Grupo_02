@@ -3,85 +3,23 @@
 import Input from "@/components/atoms/Input/input";
 import ProfileCard from "@/components/atoms/ProfileCard/ProfileCard";
 import ProfileList from "@/components/atoms/ProfileList/ProfileList";
-import {
-  Professional,
-  useCareProfessionalsApi,
-} from "@/hooks/api/useCareProfessionalsApi";
-import { User, useUsersApi } from "@/hooks/api/useUsersApi";
-import { useEffect, useState } from "react";
-import logo from "../../../assets/images/logo.png";
-import Image from "next/image";
+import { Professional } from "@/hooks/api/useCareProfessionalsApi";
 
-// interface CareProfessional {
-//   idCareProfessional: number;
-//   professionalRegistryCode: string;
-//   professionalBiography: string;
-//   rating: number;
-//   createdAt: string;
-//   updatedAt: string;
-//   idUser: number;
-// }
+type Props = {
+  professionals: Professional[];
+};
 
-// interface User {
-//   idUser: number;
-//   name: React.ReactNode;
-//   email: string;
-// }
-
-const HomeTemplate = () => {
-  //const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api/";
-
-  const userApi = useUsersApi();
-  const professionalApi = useCareProfessionalsApi();
-
-  const [professionals, setProfessionals] = useState<Professional[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    Promise.all([userApi.getAll(), professionalApi.getAll()])
-      .then(([userRes, profRes]) => {
-        setUsers(userRes.data);
-        setProfessionals(profRes.data);
-      })
-      .catch((error) => console.error("Erro ao carregar dados:", error));
-  }, [professionalApi, userApi]);
-
-  console.log(users);
-  console.log(professionals);
-
-  /* useEffect(() => {
-    Promise.all([
-      axios.get<CareProfessional[]>(`${URL}careProfessionals`),
-      axios.get<User[]>(`${URL}users`),
-    ])
-      .then(([professionalResponse, userResponse]) => {
-        setProfessionals(professionalResponse.data);
-        setUsers(userResponse.data);
-      })
-      .catch((error) => console.error("Erro ao carregar dados:", error));
-  }, []); */
-
-  const getName = (idPerson: string) => {
-    for (const f of professionals) {
-      for (const g of users) {
-        if (+idPerson === f.id && f.idUser === g.id) {
-          return g.name;
-        }
-      }
-    }
-    return null;
-  };
-
+const HomeTemplate: React.FC<Props> = ({ professionals }) => {
   return (
     <>
       <header className="shadow flex h-20 items-center justify-center bg-gradient-to-br from-[#ccefdb] to-[#cce5ff]">
-        <span className="w-12 rounded-full border-2 border-[#348a89]">
+        {/* <span className="w-12 rounded-full border-2 border-[#348a89]">
           <Image
             src={logo}
             alt="Logo Pacientes & Cuidadores"
             className="rounded-full"
           />
-        </span>
+        </span> */}
         <h1 className="text-2xl font-semibold text-center p-4 text-[#348a89]">
           Pacientes & Cuidadores
         </h1>
@@ -99,34 +37,29 @@ const HomeTemplate = () => {
         </section>
         <h2 className="text-2xl font-semibold my-3">Cuidadores em destaque</h2>
         <span className="flex gap-4">
-          {professionals.slice(0, 2).map((professional) => {
-            const name = getName(String(professional.idUser));
-            return (
-              <ProfileCard
-                key={professional.idUser}
-                name={String(name)}
-                experience={professional.professionalBiography}
-                idUser={professional.idUser}
-              />
-            );
-          })}
+          {professionals.slice(0, 2).map((professional) =>
+            <ProfileCard
+              key={professional.id}
+              name={professional.user!.name}
+              experience={professional.professionalBiography}
+              idUser={professional.user!.id}
+            />
+          )}
         </span>
 
         <h2 className="text-2xl font-semibold my-3">
           Profissionais disponíveis agora:
         </h2>
         <span>
-          {professionals.map((professional) => {
-            const name = getName(String(professional.idUser));
-            return (
+          {professionals.map((professional) => 
               <ProfileList
                 key={professional.id}
-                name={String(name)}
+                name={professional.user!.name}
                 role={`${professional.professionalBiography}`}
                 label="Disponível para plantão"
               />
-            );
-          })}
+            )
+          }
         </span>
 
         <button

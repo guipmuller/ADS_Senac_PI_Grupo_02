@@ -1,24 +1,11 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Put,
-  Delete,
-  Route,
-  Tags,
-  SuccessResponse,
-  Security,
-  Request,
-} from "tsoa";
+import { Body, Controller, Get, Path, Post, Put, Delete, Route, Tags, SuccessResponse, Security, Request } from "tsoa";
 import { UserService } from "../services/UserService";
 import { UserRepository } from "../repositories/UserRepository";
 import { AppDataSource } from "../database/data-source";
-import { UserRequest } from "../models/dtos/UserRequest";
-import { GetUserResponse } from "../models/dtos/GetUserResponse";
-import { CreateResponse } from "../models/dtos/CreateResponse";
+import { UserRequest } from "../models/user/dtos/UserRequest";
+import { GetUserResponse } from "../models/user/dtos/GetUserResponse";
 import { Request as ExRequest } from "express";
+import { CreateResponse } from "../models/shared/CreateResponse";
 
 const userRepository = new UserRepository(AppDataSource);
 const userService = new UserService(userRepository);

@@ -3,4 +3,6 @@ export type ButtonProps = {
 	onclick: () => void;
 	type: 'button' | 'submit' | 'reset';
 	text: string;
+	disabled?: boolean;
+  loading?: boolean;
 };

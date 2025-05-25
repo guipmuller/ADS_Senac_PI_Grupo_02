@@ -1,50 +1,32 @@
-import {
-  Controller,
-  Route,
-  Tags,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Path,
-  Body,
-  SuccessResponse,
-  Response as TsoaResponse,
-} from "tsoa";
+import { Controller, Route, Tags, Get, Post, Put, Delete, Path, Body, SuccessResponse, Response as TsoaResponse, Query } from "tsoa";
 import { AppointmentService } from "../services/AppointmentService";
 import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { AppDataSource } from "../database/data-source";
 import { CareProfessionalRepository } from "../repositories/CareProfessionalRepository";
 import { PatientRepository } from "../repositories/PatientRepository";
-import { GetAppointmentResponse } from "../models/dtos/GetAppointmentResponse";
-import { CreateResponse } from "../models/dtos/CreateResponse";
-import { PostAppointmentRequest } from "../models/dtos/PostAppointmentRequest";
 import { AddressRepository } from "../repositories/AddressRepository";
-import { PutAppointmentRequest } from "../models/dtos/PutAppointmentRequest";
+import { GetAppointmentResponse } from "../models/appointment/dtos/GetAppointmentResponse";
+import { PostAppointmentRequest } from "../models/appointment/dtos/PostAppointmentRequest";
+import { CreateResponse } from "../models/shared/CreateResponse";
+import { PutAppointmentRequest } from "../models/appointment/dtos/PutAppointmentRequest";
+import { UserRepository } from "../repositories/UserRepository";
+
 
 const appointmentRepository = new AppointmentRepository(AppDataSource);
 const addressRepository = new AddressRepository(AppDataSource);
-
 const patientRepository = new PatientRepository(AppDataSource);
-const careProfessionalRepository = new CareProfessionalRepository(AppDataSource);
+const careProfessionalRepository = new CareProfessionalRepository(
+  AppDataSource
+);
+const userRepository = new UserRepository(AppDataSource);
 
 const appointmentService = new AppointmentService(
   appointmentRepository,
   addressRepository,
   patientRepository,
-  careProfessionalRepository
+  careProfessionalRepository,
+  userRepository
 );
-
-function toGetResponse(entity: any): GetAppointmentResponse {
-  return {
-    id: entity.idAppointment,
-    scheduledAt: entity.scheduledAt,
-    idAddress: entity.idAddress,
-    idPatient: entity.idPatient,
-    idCareProfessional: entity.idCareProfessional,
-    status: entity.status,
-  };
-}
 
 @Route("appointments")
 @Tags("Appointments")
@@ -54,9 +36,18 @@ export class AppointmentController extends Controller {
    * @returns Lista de todos os agendamentos
    */
   @Get("/")
-  public async getAllAppointments(): Promise<GetAppointmentResponse[]> {
-    const response = await appointmentService.getAllAppointments();
-    return response.map(toGetResponse);
+  public async getAllAppointments(
+    @Query() idCareProfessional?: number,
+    @Query() idPatient?: number
+  ): Promise<GetAppointmentResponse[]> {
+    if (idCareProfessional && idPatient)
+      throw new Error("Only one filter should be used per consultation.");
+    
+    const response = await appointmentService.getAllAppointments(
+      idCareProfessional,
+      idPatient
+    );
+    return response;
   }
   /**
    * @summary Busca por um agendamento pelo seu ID
@@ -76,7 +67,7 @@ export class AppointmentController extends Controller {
       this.setStatus(404);
       throw new Error("Appointment not found");
     }
-    return toGetResponse(appointment);
+    return appointment;
   }
   /**
    * @summary Cria um novo agendamento
@@ -84,7 +75,9 @@ export class AppointmentController extends Controller {
    */
   @SuccessResponse("201", "Created")
   @Post("/")
-  public async createAppointment(@Body() body: PostAppointmentRequest): Promise<CreateResponse> {
+  public async createAppointment(
+    @Body() body: PostAppointmentRequest
+  ): Promise<CreateResponse> {
     const appointment = await appointmentService.createAppointments(body);
     this.setStatus(201);
     return { id: appointment.idAppointment };

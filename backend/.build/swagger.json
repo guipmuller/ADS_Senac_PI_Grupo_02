@@ -105,9 +105,25 @@
 						"type": "number",
 						"format": "double"
 					},
-					"idPatient": {
-						"type": "number",
-						"format": "double"
+					"patient": {
+						"properties": {
+							"urlImage": {
+								"type": "string",
+								"nullable": true
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"name",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
@@ -115,7 +131,7 @@
 					"rating",
 					"comment",
 					"idCareProfessional",
-					"idPatient"
+					"patient"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -164,7 +180,28 @@
 						"type": "string"
 					},
 					"patientBirthDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
+					},
+					"user": {
+						"properties": {
+							"urlImage": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"urlImage",
+							"name",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
@@ -172,7 +209,8 @@
 					"idUser",
 					"patientName",
 					"patientCpf",
-					"patientBirthDate"
+					"patientBirthDate",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -209,10 +247,6 @@
 						"type": "number",
 						"format": "double"
 					},
-					"idUser": {
-						"type": "number",
-						"format": "double"
-					},
 					"professionalRegistryCode": {
 						"type": "string"
 					},
@@ -222,13 +256,33 @@
 					"rating": {
 						"type": "number",
 						"format": "double"
+					},
+					"user": {
+						"properties": {
+							"urlImage": {
+								"type": "string",
+								"nullable": true
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"name",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
 					"id",
-					"idUser",
 					"professionalRegistryCode",
-					"professionalBiography"
+					"professionalBiography",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -276,29 +330,100 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"idAddress": {
-						"type": "number",
-						"format": "double"
-					},
-					"idPatient": {
-						"type": "number",
-						"format": "double"
-					},
-					"idCareProfessional": {
-						"type": "number",
-						"format": "double"
-					},
 					"status": {
 						"$ref": "#/components/schemas/AppointmentStatus"
+					},
+					"patient": {
+						"properties": {
+							"phoneNumber": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"phoneNumber",
+							"name",
+							"id"
+						],
+						"type": "object"
+					},
+					"careProfessional": {
+						"properties": {
+							"phoneNumber": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"phoneNumber",
+							"name",
+							"id"
+						],
+						"type": "object"
+					},
+					"address": {
+						"properties": {
+							"country": {
+								"type": "string"
+							},
+							"postalCode": {
+								"type": "string"
+							},
+							"state": {
+								"type": "string"
+							},
+							"city": {
+								"type": "string"
+							},
+							"neighborhood": {
+								"type": "string"
+							},
+							"complement": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"street": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"country",
+							"postalCode",
+							"state",
+							"city",
+							"neighborhood",
+							"number",
+							"street",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
 					"id",
 					"scheduledAt",
-					"idAddress",
-					"idPatient",
-					"idCareProfessional",
-					"status"
+					"status",
+					"patient",
+					"careProfessional",
+					"address"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -657,7 +782,27 @@
 					"Reviews"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Filtra pelo ID do cuidador (Somente um filtro deve ser usado por consulta)",
+						"in": "query",
+						"name": "idCareProfessional",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "idPatient",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -930,6 +1075,39 @@
 				]
 			}
 		},
+		"/patients/user/{idUser}": {
+			"get": {
+				"operationId": "GetPatientByUserId",
+				"responses": {
+					"200": {
+						"description": "Retorna os dados do paciente consultado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetPatientResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um paciente específico pelo ID do usuário associado",
+				"tags": [
+					"Patients"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "idUser",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/care-professionals": {
 			"get": {
 				"operationId": "GetAllCareProfessinals",
@@ -1078,6 +1256,39 @@
 				]
 			}
 		},
+		"/care-professionals/user/{idUser}": {
+			"get": {
+				"operationId": "GetCareProfessinalByUserId",
+				"responses": {
+					"200": {
+						"description": "Retorna os dados do cuidador consultado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetCareProfessionalResponse"
+								}
+							}
+						}
+					}
+				},
+				"summary": "Busca um cuidador específico pelo ID do usuário associado",
+				"tags": [
+					"CareProfessionals"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "idUser",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/appointments": {
 			"get": {
 				"operationId": "GetAllAppointments",
@@ -1101,7 +1312,26 @@
 					"Appointments"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "idCareProfessional",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "idPatient",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "CreateAppointment",

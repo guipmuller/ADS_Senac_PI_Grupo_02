@@ -1,13 +1,17 @@
 import { useCrudApi } from "../useCrudApi";
 
 export interface Review {
-  id: number;
+  id?: number | null; // somente é preechido em operações GET. POST e PUT passar nulos
   rating: number;
   comment: string;
   idCareProfessional: number;
-  idPatient: number;
+  patient: {
+    id: number;
+    name: string;
+    urlImage: string | null | undefined;
+  };
 }
 
-export function useCareReviewsApi() {
+export function useReviewsApi() {
   return useCrudApi<Review>('reviews');
 }

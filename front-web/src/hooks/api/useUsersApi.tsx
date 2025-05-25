@@ -2,7 +2,7 @@ import api from '../../services/api';
 import { useCrudApi } from '../useCrudApi';
 
 export interface User {
-  id: number;
+  id?: number | null; // somente é preechido em operações GET. POST e PUT passar nulos
   name: string;
   email: string;
   phoneNumber: string;
@@ -14,7 +14,7 @@ export interface User {
 export function useUsersApi() {
   const crud = useCrudApi<User>('users');
 
-  const getByFirebaseToken = () => api.get<User>('/users/firebase');
+  const getByFirebaseToken = () => api.get<User>('users/firebase');
 
   return { ...crud, getByFirebaseToken };
 }
