@@ -12,8 +12,15 @@ type Props = {
 const HomeTemplate: React.FC<Props> = ({ professionals }) => {
   return (
     <>
-      <header className="shadow flex h-20 items-end">
-        <h1 className="text-2xl font-semibold text-center p-4">
+      <header className="shadow flex h-20 items-center justify-center bg-gradient-to-br from-[#ccefdb] to-[#cce5ff]">
+        {/* <span className="w-12 rounded-full border-2 border-[#348a89]">
+          <Image
+            src={logo}
+            alt="Logo Pacientes & Cuidadores"
+            className="rounded-full"
+          />
+        </span> */}
+        <h1 className="text-2xl font-semibold text-center p-4 text-[#348a89]">
           Pacientes & Cuidadores
         </h1>
       </header>
@@ -33,9 +40,9 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
           {professionals.slice(0, 2).map((professional) =>
             <ProfileCard
               key={professional.id}
-              name={professional.user.name}
+              name={professional.user!.name}
               experience={professional.professionalBiography}
-              idUser={professional.user.id}
+              idUser={professional.user!.id}
             />
           )}
         </span>
@@ -47,7 +54,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
           {professionals.map((professional) => 
               <ProfileList
                 key={professional.id}
-                name={professional.user.name}
+                name={professional.user!.name}
                 role={`${professional.professionalBiography}`}
                 label="Disponível para plantão"
               />
@@ -56,7 +63,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
         </span>
 
         <button
-          className="mt-4 bg-black text-white px-6 py-2 font-semibold rounded w-full"
+          className="mt-4 bg-[#69b6b3] hover:bg-[#489e9b] transition-colors duration-500 text-white px-6 py-2 font-semibold rounded w-full"
           type="button"
         >
           Ver todos
