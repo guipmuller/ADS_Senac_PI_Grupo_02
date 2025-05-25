@@ -3,9 +3,14 @@
 import Input from "@/components/atoms/Input/input";
 import ProfileCard from "@/components/atoms/ProfileCard/ProfileCard";
 import ProfileList from "@/components/atoms/ProfileList/ProfileList";
-import { Professional, useCareProfessionalsApi } from "@/hooks/api/useCareProfessionalsApi";
+import {
+  Professional,
+  useCareProfessionalsApi,
+} from "@/hooks/api/useCareProfessionalsApi";
 import { User, useUsersApi } from "@/hooks/api/useUsersApi";
 import { useEffect, useState } from "react";
+import logo from "../../../assets/images/logo.png";
+import Image from "next/image";
 
 // interface CareProfessional {
 //   idCareProfessional: number;
@@ -33,17 +38,16 @@ const HomeTemplate = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    Promise
-      .all([userApi.getAll(), professionalApi.getAll()])
-      .then(([userRes, profRes]) => { 
-        setUsers(userRes.data); 
-        setProfessionals(profRes.data) })
-      .catch((error) => console.error("Erro ao carregar dados:", error))
-
+    Promise.all([userApi.getAll(), professionalApi.getAll()])
+      .then(([userRes, profRes]) => {
+        setUsers(userRes.data);
+        setProfessionals(profRes.data);
+      })
+      .catch((error) => console.error("Erro ao carregar dados:", error));
   }, [professionalApi, userApi]);
 
-  console.log(users)
-  console.log(professionals)
+  console.log(users);
+  console.log(professionals);
 
   /* useEffect(() => {
     Promise.all([
@@ -70,8 +74,15 @@ const HomeTemplate = () => {
 
   return (
     <>
-      <header className="shadow flex h-20 items-end">
-        <h1 className="text-2xl font-semibold text-center p-4">
+      <header className="shadow flex h-20 items-center justify-center bg-gradient-to-br from-[#ccefdb] to-[#cce5ff]">
+        <span className="w-12 rounded-full border-2 border-[#348a89]">
+          <Image
+            src={logo}
+            alt="Logo Pacientes & Cuidadores"
+            className="rounded-full"
+          />
+        </span>
+        <h1 className="text-2xl font-semibold text-center p-4 text-[#348a89]">
           Pacientes & Cuidadores
         </h1>
       </header>
@@ -119,7 +130,7 @@ const HomeTemplate = () => {
         </span>
 
         <button
-          className="mt-4 bg-black text-white px-6 py-2 font-semibold rounded w-full"
+          className="mt-4 bg-[#69b6b3] hover:bg-[#489e9b] transition-colors duration-500 text-white px-6 py-2 font-semibold rounded w-full"
           type="button"
         >
           Ver todos
