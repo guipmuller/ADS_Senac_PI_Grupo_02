@@ -22,7 +22,7 @@ export class Patient {
 
   @OneToOne(() => User, (user) => user.patient)
   @JoinColumn({ name: "idUser" })
-  user: any;
+  user!: User;
 
   @OneToMany(() => Appointment, (appointment) => appointment.patient)
   appointments!: Appointment[];

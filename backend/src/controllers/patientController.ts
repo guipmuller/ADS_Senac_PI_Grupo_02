@@ -19,15 +19,6 @@ const patientService = new PatientService(
   userRepository
 );
 
-function toGetPatientResponse(patient: any): GetPatientResponse {
-  return {
-    id: patient.idPatient,
-    idUser: patient.idUser,
-    patientName: patient.patientName,
-    patientCpf: patient.patientCpf,
-    patientBirthDate: patient.patientBirthDate,
-  };
-}
 @Route("patients")
 @Tags("Patients")
 export class PatientController extends Controller {
@@ -37,8 +28,7 @@ export class PatientController extends Controller {
    */
   @Get("/")
   public async getAllPatients(): Promise<GetPatientResponse[]> {
-    const patient = await patientService.getAllPatients();
-    return patient.map(toGetPatientResponse);
+    return await patientService.getAllPatients();
   }
   /**
    * @summary Busca um paciente específico pelo seu ID
@@ -55,7 +45,7 @@ export class PatientController extends Controller {
       this.setStatus(404);
       throw new Error("Patient not found");
     }
-    return toGetPatientResponse(patient);
+    return patient;
   }
   /**
    * @summary Busca um paciente específico pelo ID do usuário associado
@@ -72,7 +62,7 @@ export class PatientController extends Controller {
       this.setStatus(404);
       throw new Error("Patient not found");
     }
-    return toGetPatientResponse(patient);
+    return patient;
   }
   /**
    * @summary Cria um novo cadastro de paciente na base

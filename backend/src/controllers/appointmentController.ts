@@ -9,33 +9,24 @@ import { GetAppointmentResponse } from "../models/appointment/dtos/GetAppointmen
 import { PostAppointmentRequest } from "../models/appointment/dtos/PostAppointmentRequest";
 import { CreateResponse } from "../models/shared/CreateResponse";
 import { PutAppointmentRequest } from "../models/appointment/dtos/PutAppointmentRequest";
+import { UserRepository } from "../repositories/UserRepository";
 
 
 const appointmentRepository = new AppointmentRepository(AppDataSource);
 const addressRepository = new AddressRepository(AppDataSource);
-
 const patientRepository = new PatientRepository(AppDataSource);
 const careProfessionalRepository = new CareProfessionalRepository(
   AppDataSource
 );
+const userRepository = new UserRepository(AppDataSource);
 
 const appointmentService = new AppointmentService(
   appointmentRepository,
   addressRepository,
   patientRepository,
-  careProfessionalRepository
+  careProfessionalRepository,
+  userRepository
 );
-
-function toGetResponse(entity: any): GetAppointmentResponse {
-  return {
-    id: entity.idAppointment,
-    scheduledAt: entity.scheduledAt,
-    idAddress: entity.idAddress,
-    idPatient: entity.idPatient,
-    idCareProfessional: entity.idCareProfessional,
-    status: entity.status,
-  };
-}
 
 @Route("appointments")
 @Tags("Appointments")
@@ -56,7 +47,7 @@ export class AppointmentController extends Controller {
       idCareProfessional,
       idPatient
     );
-    return response.map(toGetResponse);
+    return response;
   }
   /**
    * @summary Busca por um agendamento pelo seu ID
@@ -76,7 +67,7 @@ export class AppointmentController extends Controller {
       this.setStatus(404);
       throw new Error("Appointment not found");
     }
-    return toGetResponse(appointment);
+    return appointment;
   }
   /**
    * @summary Cria um novo agendamento

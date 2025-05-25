@@ -3,5 +3,10 @@ export interface GetPatientResponse {
   idUser: number;
   patientName: string;
   patientCpf: string;
-  patientBirthDate: string;
+  patientBirthDate: Date;
+  user: {
+    id: number;
+    name: string;
+    urlImage: string
+  }
 }

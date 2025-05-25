@@ -1,7 +1,7 @@
-import RegisterTemplate from '@/components/templates/registerPage/page';
+import RegisterContainer from '@/components/containers/RegisterContainer';
 
 const RegisterPage = () => {
-	return <RegisterTemplate />;
+	return <RegisterContainer />;
 };
 
 export default RegisterPage;

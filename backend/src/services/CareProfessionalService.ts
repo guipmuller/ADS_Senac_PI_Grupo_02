@@ -19,7 +19,7 @@ export class CareProfessionalService {
       careProfs.map(async (careProf) => {
         try {
           const user = await this.userRepository.findById(careProf.idUser);
-          if (!user) throw new Error("User not found");
+          if (!user) throw new NotFoundError("User not found");
 
           return {
             ...careProf,
@@ -30,7 +30,7 @@ export class CareProfessionalService {
             },
           } as DetailedCareProfessional;
         } catch (e) {
-          console.error("Error processing Care Professional:", e);
+          console.error("Error processing care professional:", e);
           return null;
         }
       })

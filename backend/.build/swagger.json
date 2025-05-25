@@ -180,7 +180,28 @@
 						"type": "string"
 					},
 					"patientBirthDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
+					},
+					"user": {
+						"properties": {
+							"urlImage": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"urlImage",
+							"name",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
@@ -188,7 +209,8 @@
 					"idUser",
 					"patientName",
 					"patientCpf",
-					"patientBirthDate"
+					"patientBirthDate",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -308,29 +330,100 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"idAddress": {
-						"type": "number",
-						"format": "double"
-					},
-					"idPatient": {
-						"type": "number",
-						"format": "double"
-					},
-					"idCareProfessional": {
-						"type": "number",
-						"format": "double"
-					},
 					"status": {
 						"$ref": "#/components/schemas/AppointmentStatus"
+					},
+					"patient": {
+						"properties": {
+							"phoneNumber": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"phoneNumber",
+							"name",
+							"id"
+						],
+						"type": "object"
+					},
+					"careProfessional": {
+						"properties": {
+							"phoneNumber": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"phoneNumber",
+							"name",
+							"id"
+						],
+						"type": "object"
+					},
+					"address": {
+						"properties": {
+							"country": {
+								"type": "string"
+							},
+							"postalCode": {
+								"type": "string"
+							},
+							"state": {
+								"type": "string"
+							},
+							"city": {
+								"type": "string"
+							},
+							"neighborhood": {
+								"type": "string"
+							},
+							"complement": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"street": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"country",
+							"postalCode",
+							"state",
+							"city",
+							"neighborhood",
+							"number",
+							"street",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
 					"id",
 					"scheduledAt",
-					"idAddress",
-					"idPatient",
-					"idCareProfessional",
-					"status"
+					"status",
+					"patient",
+					"careProfessional",
+					"address"
 				],
 				"type": "object",
 				"additionalProperties": false

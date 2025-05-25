@@ -4,22 +4,39 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
-function LoginTemplate() {
-	const { login } = useAuth();
+function LoginTemplate() { 
+	const { login, signUp } = useAuth();
 	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
+	const [isRegistering, setIsRegistering] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		try {
-			await login(email, password);
-			router.push('/home-page');
-		} catch (err: any) {
-			setError(err.message);
+		setError('');
+
+		if (isRegistering) {
+			// Validação de senha
+			if (password !== confirmPassword) {
+				setError('As senhas não coincidem.');
+				return;
+			}
+			try {
+				await signUp(email, password);
+				router.push('/register');
+			} catch (err: any) {
+				setError(err.message);
+			}
+		} else {
+			try {
+				await login(email, password);
+				router.push('/home');
+			} catch (err: any) {
+				setError(err.message);
+			}
 		}
 	};
 
@@ -29,15 +46,10 @@ function LoginTemplate() {
 				<h1 className="text-2xl font-semibold text-center mb-6">
 					Pacientes & Cuidadores
 				</h1>
-				{error && (
-					<p className="text-red-500">Usuário ou senha inválidos.</p>
-				)}
-				<form className="space-y-4">
+				{error && <p className="text-red-500">{error}</p>}
+				<form className="space-y-4" onSubmit={handleSubmit}>
 					<div>
-						<label
-							className="block text-sm font-medium text-gray-700"
-							htmlFor="email"
-						>
+						<label className="block text-sm font-medium text-gray-700" htmlFor="email">
 							E-mail
 						</label>
 						<input
@@ -51,10 +63,7 @@ function LoginTemplate() {
 						/>
 					</div>
 					<div>
-						<label
-							className="block text-sm font-medium text-gray-700"
-							htmlFor="password"
-						>
+						<label className="block text-sm font-medium text-gray-700" htmlFor="password">
 							Senha
 						</label>
 						<input
@@ -67,21 +76,37 @@ function LoginTemplate() {
 							required
 						/>
 					</div>
+
+					{isRegistering && (
+						<div>
+							<label className="block text-sm font-medium text-gray-700" htmlFor="confirmPassword">
+								Confirmar senha
+							</label>
+							<input
+								className="w-full px-3 py-2 mt-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+								type="password"
+								id="confirmPassword"
+								value={confirmPassword}
+								placeholder="Confirme sua senha"
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								required
+							/>
+						</div>
+					)}
+
 					<div className="flex space-x-2">
-						<Link href='register-page' className='w-full'>
-							<button
-								className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
-								type="button"
-								>
-								Criar conta
-							</button>
-						</Link>
 						<button
 							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
 							type="submit"
-							onClick={handleSubmit}
 						>
-							Login
+							{isRegistering ? 'Cadastrar' : 'Login'}
+						</button>
+						<button
+							className="w-full py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded focus:outline-none hover:bg-black hover:text-white"
+							type="button"
+							onClick={() => setIsRegistering(!isRegistering)}
+						>
+							{isRegistering ? 'Cancelar' : 'Criar conta'}
 						</button>
 					</div>
 				</form>

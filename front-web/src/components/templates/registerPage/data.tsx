@@ -35,6 +35,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite seu nome completo',
 					type: 'text',
+					name: 'name',
 				},
 			},
 			{
@@ -46,6 +47,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite seu email',
 					type: 'email',
+					name: 'email',
 				},
 			},
 			{
@@ -57,6 +59,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Confirme seu email',
 					type: 'email',
+					name: 'confirmarEmail',
 				},
 			},
 			{
@@ -68,6 +71,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite seu telefone',
 					type: 'tel',
+					name: 'phoneNumber',
 				},
 			},
 			{
@@ -79,30 +83,9 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite seu CPF',
 					type: 'text',
+					name: 'cpf',
 				},
-			},
-			{
-				label: {
-					text: 'Senha',
-					classname: commonStyle.label.classname,
-				},
-				input: {
-					classname: commonStyle.input.classname,
-					placeholder: 'Digite sua senha',
-					type: 'password',
-				},
-			},
-			{
-				label: {
-					text: 'Confirmar Senha',
-					classname: commonStyle.label.classname,
-				},
-				input: {
-					classname: commonStyle.input.classname,
-					placeholder: 'Confirmar Senha',
-					type: 'password',
-				},
-			},
+			}
 		],
 	} as FormProps;
 
@@ -114,10 +97,12 @@ const useData = () => {
 		patientButton: {
 			classname: commonStyle.button,
 			text: 'Paciente',
+			type: 'button',
 		},
 		professionalButton: {
 			classname: commonStyle.button,
 			text: 'Cuidador',
+			type: 'button',
 		},
 	} as RegisterButtonsProps;
 
@@ -132,6 +117,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite o nome do paciente',
 					type: 'text',
+					name: 'patientName',
 				},
 			},
 			{
@@ -143,6 +129,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite o CPF do Paciente',
 					type: 'text',
+					name: 'patientCpf',
 				},
 			},
 			{
@@ -154,6 +141,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite a data de nascimento do paciente',
 					type: 'text',
+					name: 'patientBirthDate',
 				},
 			},
 		],
@@ -170,6 +158,7 @@ const useData = () => {
 					classname: commonStyle.input.classname,
 					placeholder: 'Digite o número do Coren',
 					type: 'text',
+					name: 'coren',
 				},
 			},
 			{
@@ -182,7 +171,8 @@ const useData = () => {
 						'w-full h-32 px-3 py-2 mt-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-gray-500 truncate',
 					placeholder:
 						'Insira dados relevantes sobre você como sua formação, experiências e características',
-					type: 'text',
+					type: 'textarea',
+					name: 'biografia',
 				},
 			},
 		],
@@ -192,7 +182,6 @@ const useData = () => {
 		text: 'Cadastrar',
 		classname:
 			'w-full py-2 mt-2 text-sm font-medium text-gray-700 border border-gray-100 bg-gray-100 rounded focus:outline-none hover:bg-black hover:text-white',
-		onclick: () => console.log('cadastrar'),
 		type: 'submit',
 	} as ButtonProps;
 

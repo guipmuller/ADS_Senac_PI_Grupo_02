@@ -10,11 +10,11 @@ export class User {
   firebaseUid!: string;
   @Column({ type: "varchar", length: 150, nullable: false })
   name!: string;
-  @Column({ type: "varchar", length: 150, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 150, nullable: false })
   email!: string;
   @Column({ type: "varchar", length: 15, nullable: false })
   phoneNumber!: string;
-  @Column({ type: "varchar", length: 11, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 11, nullable: false })
   cpf!: string
   @Column({ type: "varchar", nullable: true, length: 150 })
   urlImage?: string | null

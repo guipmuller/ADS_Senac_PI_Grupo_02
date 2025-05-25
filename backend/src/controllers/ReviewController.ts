@@ -7,6 +7,7 @@ import { UserRepository } from "../repositories/UserRepository";
 import { GetReviewResponse } from "../models/review/dtos/GetReviewResponse";
 import { ReviewRequest } from "../models/review/dtos/ReviewRequest";
 import { CreateResponse } from "../models/shared/CreateResponse";
+import { DetailedReview } from "../models/review/dtos/DetailedReview";
 
 const reviewRepository = new ReviewRepository(AppDataSource);
 const patientRepository = new PatientRepository(AppDataSource);
@@ -17,16 +18,16 @@ const reviewService = new ReviewService(
   userRepository
 );
 
-function toGetReviewResponse(review: any): GetReviewResponse {
+function toGetReviewResponse(review: DetailedReview): GetReviewResponse {
   return {
     id: review.idReview,
     rating: review.rating,
-    comment: review.comment,
+    comment: review.comment!,
     idCareProfessional: review.idCareProfessional,
     patient: {
-      id: review.idPatient,
-      name: review.name,
-      urlImage: review.urlImage
+      id: review.patient.id,
+      name: review.patient.name,
+      urlImage: review.patient.urlImage
     }
   };
 }
