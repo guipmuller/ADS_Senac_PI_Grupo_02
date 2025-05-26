@@ -154,7 +154,7 @@ const models: TsoaRoute.Models = {
             "scheduledAt": {"dataType":"datetime","required":true},
             "idPatient": {"dataType":"double","required":true},
             "idCareProfessional": {"dataType":"double","required":true},
-            "idAdress": {"dataType":"double","required":true},
+            "idAddress": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -164,7 +164,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "scheduledAt": {"dataType":"datetime","required":true},
             "status": {"ref":"AppointmentStatus","required":true},
-            "idAdress": {"dataType":"double","required":true},
+            "idAddress": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },

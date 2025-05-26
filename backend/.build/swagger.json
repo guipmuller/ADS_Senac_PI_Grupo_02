@@ -442,7 +442,7 @@
 						"type": "number",
 						"format": "double"
 					},
-					"idAdress": {
+					"idAddress": {
 						"type": "number",
 						"format": "double"
 					}
@@ -451,7 +451,7 @@
 					"scheduledAt",
 					"idPatient",
 					"idCareProfessional",
-					"idAdress"
+					"idAddress"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -465,7 +465,7 @@
 					"status": {
 						"$ref": "#/components/schemas/AppointmentStatus"
 					},
-					"idAdress": {
+					"idAddress": {
 						"type": "number",
 						"format": "double"
 					}
@@ -473,7 +473,7 @@
 				"required": [
 					"scheduledAt",
 					"status",
-					"idAdress"
+					"idAddress"
 				],
 				"type": "object",
 				"additionalProperties": false

@@ -1,11 +1,12 @@
 // components/organisms/AppointmentForm/AppointmentForm.tsx
-import { AddressForm } from '@/components/molecules/AddressForm/AddressForm';
-import { SubmitButton } from '@/components/atoms/SubmitButton/SubmitButton';
-import { ErrorMessage } from '@/components/atoms/ErrorMessage/ErrorMessage';
-import { formAppointmentType } from '@/components/templates/mySchedulesPage/types';
-import { Patient } from '@/hooks/api/usePatientsApi';
-import { Professional } from '@/hooks/api/useCareProfessionalsApi';
-import { SelectInput } from '@/components/atoms/SelectInput/SelectInput';
+import { AddressForm } from "@/components/molecules/AddressForm/AddressForm";
+import { SubmitButton } from "@/components/atoms/SubmitButton/SubmitButton";
+import { ErrorMessage } from "@/components/atoms/ErrorMessage/ErrorMessage";
+import { formAppointmentType } from "@/components/templates/mySchedulesPage/types";
+import { Patient } from "@/hooks/api/usePatientsApi";
+import { Professional } from "@/hooks/api/useCareProfessionalsApi";
+import { SelectInput } from "@/components/atoms/SelectInput/SelectInput";
+import { InputFieldForm } from "@/components/atoms/InputFieldForm/InputFieldForm";
 
 interface Props {
   form: formAppointmentType;
@@ -26,40 +27,62 @@ export const AppointmentForm = ({
   error,
   onChange,
   onAddressChange,
-  onSubmit
+  onSubmit,
 }: Props) => (
   <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
-    <SelectInput 
+    <SelectInput
       label="Selecione o Paciente"
       name="idPatient"
-      options={patients.map(p => ({ 
-        value: p.id!, 
-        label: p.patientName 
+      options={patients.map((p) => ({
+        value: p.id!,
+        label: p.patientName,
       }))}
       value={form.idPatient}
-      onChange={(value) => onChange({ 
-        target: { name: 'idPatient', value: String(value) } 
-      } as React.ChangeEvent<HTMLInputElement>)}
+      onChange={(value) =>
+        onChange({
+          target: { name: "idPatient", value: String(value) },
+        } as React.ChangeEvent<HTMLInputElement>)
+      }
     />
 
-    <SelectInput 
+    <SelectInput
       label="Selecione o Profissional"
       name="idCareProfessional"
-      options={professionals.map(p => ({ 
-        value: p.id!, 
-        label: p.user!.name 
+      options={professionals.map((p) => ({
+        value: p.id!,
+        label: p.user!.name,
       }))}
       value={form.idCareProfessional}
-      onChange={(value) => onChange({ 
-        target: { name: 'idCareProfessional', value: String(value) } 
-      } as React.ChangeEvent<HTMLInputElement>)}
+      onChange={(value) =>
+        onChange({
+          target: { name: "idCareProfessional", value: String(value) },
+        } as React.ChangeEvent<HTMLInputElement>)
+      }
     />
 
     <AddressForm
       form={form}
-      onAddressChange={onAddressChange} 
-      onChange={onAddressChange}    
+      onAddressChange={onAddressChange}
     />
+
+    <div className="grid grid-cols-2 gap-4 mt-4">
+      <InputFieldForm
+        label="Data"
+        id="date"
+        name="date"
+        type="date"
+        value={form.date}
+        onChange={onChange}
+      />
+      <InputFieldForm
+        label="Horário"
+        id="time"
+        name="time"
+        type="time"
+        value={form.time}
+        onChange={onChange}
+      />
+    </div>
 
     {error && <ErrorMessage message={error} />}
 

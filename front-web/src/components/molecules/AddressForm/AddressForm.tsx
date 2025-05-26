@@ -3,11 +3,10 @@ import { formAppointmentType } from "@/components/templates/mySchedulesPage/type
 
 interface AddressFormProps {
   form: formAppointmentType;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onAddressChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const AddressForm = ({ form, onChange, onAddressChange }: AddressFormProps) => (
+export const AddressForm = ({ form, onAddressChange }: AddressFormProps) => (
   <div className="flex flex-col gap-4">
     <h4 className="text-lg font-medium">Endereço</h4>
     
@@ -71,24 +70,5 @@ export const AddressForm = ({ form, onChange, onAddressChange }: AddressFormProp
       onChange={onAddressChange}
       fullWidth
     />
-    
-    <div className="grid grid-cols-2 gap-4 mt-4">
-      <InputFieldForm
-        label="Data"
-        id="date"
-        name="date"
-        type="date"
-        value={form.date}
-        onChange={onChange}
-      />
-      <InputFieldForm
-        label="Horário"
-        id="time"
-        name="time"
-        type="time"
-        value={form.time}
-        onChange={onChange}
-      />
-    </div>
   </div>
 );

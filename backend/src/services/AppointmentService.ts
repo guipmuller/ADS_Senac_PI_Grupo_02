@@ -146,7 +146,7 @@ export class AppointmentService {
 
   async createAppointments(appointmentData: PostAppointmentRequest) {
     const address = await this.addressRepository.findById(
-      appointmentData.idAdress
+      appointmentData.idAddress
     );
     if (!address) throw new NotFoundError("Address not found.");
 
@@ -165,7 +165,7 @@ export class AppointmentService {
       scheduledAt: appointmentData.scheduledAt,
       idPatient: appointmentData.idPatient,
       idCareProfessional: appointmentData.idCareProfessional,
-      //idAddress: appointmentData.idAdress,
+      //idAddress: appointmentData.idAddress,
       address,
       patient,
       careProfessional,
@@ -174,7 +174,7 @@ export class AppointmentService {
 
   async updateAppointments(id: number, appointmentData: PutAppointmentRequest) {
     const address = await this.addressRepository.findById(
-      appointmentData.idAdress
+      appointmentData.idAddress
     );
     if (!address) throw new Error("Address not found.");
 
