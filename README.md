@@ -6,6 +6,20 @@ Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a
 
 ---
 
+## 🌄 Landing Page
+
+[Landing Page](https://guipmuller.github.io/ADS_Senac_PI_Grupo_02/) 
+
+[Repositório da Landing Page](https://github.com/guipmuller/pacientes-cuidadores-LP)
+
+---
+
+## 📺 Video Demonstração da aplicação
+
+[Youtube](https://youtube.com) 
+
+---
+
 ## 🔧 Tecnologias e Arquitetura
 
 ### Backend:
