@@ -7,7 +7,7 @@ import { formAppointmentType } from "./types";
 import { Appointment, UpdateAppointment } from "@/hooks/api/useAppointments";
 import { Patient } from "@/hooks/api/usePatientsApi";
 import { Professional } from "@/hooks/api/useCareProfessionalsApi";
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from "date-fns";
 import { AppointmentHeader } from "@/components/molecules/AppointmentHeader/AppointmentHeader";
 import { AppointmentList } from "@/components/organisms/AppointmentList/AppointmentList";
 import { AppointmentCreateSection } from "@/components/molecules/AppointmentCreateSection/AppointmentCreateSection";
@@ -23,8 +23,8 @@ interface Props {
 }
 
 const INITIAL_FORM_STATE: formAppointmentType = {
-  date: " ",
-  time: " ",
+  date: "2025-01-01",
+  time: "12:00",
   status: " ",
   address: {
     street: " ",
@@ -46,26 +46,34 @@ const MySchedulesTemplate: React.FC<Props> = ({
   professionals,
   onCreate,
   onEdit,
-  onDelete }) => {
+  onDelete,
+}) => {
   const [error, setError] = useState("");
-  const [toggleNewAppointments, setToggleNewAppointments] = useState<boolean>(false);
+  const [toggleNewAppointments, setToggleNewAppointments] =
+    useState<boolean>(false);
   const [sendEdit, setSendEdit] = useState<boolean>(false);
   const [form, setForm] = useState<formAppointmentType>(INITIAL_FORM_STATE);
   const [editId, setEditId] = useState<number | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    if (name === "date") {
+      setForm((prev) => ({ ...prev, date: value }));
+    } else if (name === "time") {
+      setForm((prev) => ({ ...prev, time: value }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       address: {
         ...prev.address,
-        [name]: value
-      }
+        [name]: value,
+      },
     }));
   };
 
@@ -73,7 +81,8 @@ const MySchedulesTemplate: React.FC<Props> = ({
     if (!form.date || !form.time) return "Data e hora são obrigatórias";
     if (!form.idPatient) return "Selecione um paciente";
     if (!form.idCareProfessional) return "Selecione um profissional";
-    if (!form.address.street || !form.address.number || !form.address.city) return "Preencha o endereço completo";
+    if (!form.address.street || !form.address.number || !form.address.city)
+      return "Preencha o endereço completo";
     return "";
   };
 
@@ -89,8 +98,8 @@ const MySchedulesTemplate: React.FC<Props> = ({
         const data: UpdateAppointment = {
           scheduledAt: parseISO(`${form.date}T${form.time}`),
           status: form.status,
-          idAddress: form.address.id!
-        }
+          idAddress: form.address.id!,
+        };
         await onEdit(editId, data);
       } else {
         await onCreate(form as formAppointmentType);
@@ -112,7 +121,7 @@ const MySchedulesTemplate: React.FC<Props> = ({
   };
 
   const editAppointment = (id: number) => {
-    const appointment = appointments.find(a => a.id === id);
+    const appointment = appointments.find((a) => a.id === id);
     if (!appointment) {
       setError("Agendamento não encontrado");
       return;
@@ -121,11 +130,11 @@ const MySchedulesTemplate: React.FC<Props> = ({
     setSendEdit(true);
     setToggleNewAppointments(true);
     setForm({
-      date: format(new Date(appointment.scheduledAt), 'dd/MM/yyyy'),
-      time: format(new Date(appointment.scheduledAt), 'HH:mm'),
+      date: format(new Date(appointment.scheduledAt), "dd/MM/yyyy"),
+      time: format(new Date(appointment.scheduledAt), "HH:mm"),
       idPatient: appointment.patient.id,
       idCareProfessional: appointment.careProfessional.id,
-      ...appointment
+      ...appointment,
     });
     setEditId(id);
   };
@@ -150,10 +159,7 @@ const MySchedulesTemplate: React.FC<Props> = ({
 
   return (
     <BaseTemplate>
-      <AppointmentHeader
-        title="Meus agendamentos"
-        backLink="/home"
-      />
+      <AppointmentHeader title="Meus agendamentos" backLink="/home" />
       <section className="my-4 w-full">
         <AppointmentList
           appointments={appointments}
@@ -164,17 +170,17 @@ const MySchedulesTemplate: React.FC<Props> = ({
         <Button {...appointmentButton} />
 
         <AppointmentCreateSection isOpen={toggleNewAppointments}>
-        <AppointmentForm
-          form={form}
-          patients={patients}
-          professionals={professionals}
-          isEditing={sendEdit}
-          error={error}
-          onChange={handleChange}
-          onAddressChange={handleAddressChange}
-          onSubmit={handleSubmit}
-        />
-      </AppointmentCreateSection>
+          <AppointmentForm
+            form={form}
+            patients={patients}
+            professionals={professionals}
+            isEditing={sendEdit}
+            error={error}
+            onChange={handleChange}
+            onAddressChange={handleAddressChange}
+            onSubmit={handleSubmit}
+          />
+        </AppointmentCreateSection>
       </section>
     </BaseTemplate>
   );

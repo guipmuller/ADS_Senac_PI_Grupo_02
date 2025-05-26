@@ -18,6 +18,7 @@ interface UserDetails {
   email: string;
   phoneNumber: string;
   description: string;
+  urlImage: string;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -34,6 +35,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     try {
       const response = await axios.get(`${URL}/users/${idUser}`);
       setUserDetails(response.data);
+      console.log("Detalhes do usuário:", response.data);
+      
       setShowDetails(true);
     } catch (error) {
       console.error("Erro ao buscar detalhes do usuário:", error);
@@ -52,10 +55,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         onClick={fetchDetails}
       >
         <div className="w-full h-3/4 bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-600 text-lg">Imagem 1</span>
+          <Image
+            src={userDetails?.urlImage ?? userIcon}
+            width={200}
+            height={200}
+            alt="User icon"
+            className="max-h-full max-w-full" />
         </div>
         <span className="p-4">
-          <p className="text-lg font-bold">{name}</p>
+          <p className="text-lg font-bold text-nowrap">{name}</p>
           <p className="text-sm text-gray-600">{experience}</p>
         </span>
       </div>
@@ -103,7 +111,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 </div>
               </div>
               <p className="text-sm text-gray-600">
-                Profissional muito atenciosa e dedicada.
+                Excelente profissional!
               </p>
             </div>
 
