@@ -7,6 +7,7 @@ import Button from '@/components/atoms/Button/button';
 import Header from '@/components/molecules/header/Header';
 import { useState } from 'react';
 import { INITIAL_FORM_STATE, RegisterTemplateProps, UserFormData } from './types';
+import { useRouter } from 'next/navigation';
 
 const RegisterTemplate:React.FC<RegisterTemplateProps> = ({ onCreate }) => {
 	const {
@@ -17,6 +18,7 @@ const RegisterTemplate:React.FC<RegisterTemplateProps> = ({ onCreate }) => {
 		professionalInputData,
 		registerButton,
 	} = useData();
+  const router = useRouter();
 
 	const [formData, setFormData] = useState<UserFormData>(INITIAL_FORM_STATE);
 	const [role, setRole] = useState<'Paciente' | 'Cuidador' | null>(null);
@@ -61,13 +63,13 @@ const RegisterTemplate:React.FC<RegisterTemplateProps> = ({ onCreate }) => {
     setIsSubmitting(true);
     setError(null);
 
-	const result = await onCreate(formData);
-
-	if (!result || !result.success) {
+	const result = await onCreate(formData);	
+	if (result?.success === false) {
 	  setError('Erro ao cadastrar usuário');
 	} else {
 	  setFormData(INITIAL_FORM_STATE);
 	  setRole(null);
+	  router.push("/");
 	}
 
     setIsSubmitting(false);
