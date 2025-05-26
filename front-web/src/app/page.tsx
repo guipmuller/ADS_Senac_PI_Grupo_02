@@ -126,7 +126,7 @@ function LoginTemplate() {
               {isRegistering ? "Cadastrar" : "Login"}
             </button>
             <button
-              className="w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-500 bg-[#69b6b3] rounded-md hover:bg-[#489e9b] focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-500 bg-[#348a89] rounded-md hover:bg-[#2c7472] focus:outline-none focus:ring-2 focus:ring-gray-500"
               type="button"
               onClick={() => setIsRegistering(!isRegistering)}
             >

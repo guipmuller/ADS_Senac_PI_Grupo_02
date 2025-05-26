@@ -2,13 +2,11 @@ import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import logouticon from "../../../assets/images/logouticon.svg";
-import Image from "next/image";
 
 const BurgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -80,7 +78,7 @@ const BurgerMenu = () => {
             Meus agendamentos
           </Link>
             <button
-              className="flex items-center p-4 w-full rounded-md mt-2 justify-center bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-500 text-white"
+              className="flex items-center p-4 w-full rounded-md mt-2 justify-center bg-black hover:bg-[#333] transition-colors duration-500 text-white"
               onClick={handleLogout}
             >
               Logout

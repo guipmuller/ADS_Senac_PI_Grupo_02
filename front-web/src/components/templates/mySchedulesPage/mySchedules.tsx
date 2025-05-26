@@ -171,7 +171,7 @@ const MySchedulesTemplate: React.FC<Props> = ({
           onDelete={handleDelete}
         />
 
-        <Button {...appointmentButton} />
+        <Button {...appointmentButton} classname="bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-300 p-2 rounded-md text-white mt-3 w-full" />
 
         <AppointmentCreateSection isOpen={toggleNewAppointments}>
           <AppointmentForm

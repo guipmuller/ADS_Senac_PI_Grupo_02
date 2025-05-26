@@ -129,7 +129,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
             <Link href="/my-schedules">
             <button
-              className="mt-4 bg-black text-white px-6 py-2 rounded w-full"
+              className="mt-4 bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-300 text-white px-6 py-2 rounded w-full"
               type="button"
             >
               Agendar

@@ -71,7 +71,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
         </span>
 
         <button
-          className="mt-4 bg-[#69b6b3] hover:bg-[#489e9b] transition-colors duration-500 text-white px-6 py-2 font-semibold rounded w-full"
+          className="mt-4 bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-300 text-white px-6 py-2 font-semibold rounded w-full"
           type="button"
         >
           Ver todos

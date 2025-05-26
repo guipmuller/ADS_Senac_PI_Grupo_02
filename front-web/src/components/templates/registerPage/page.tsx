@@ -102,7 +102,7 @@ const RegisterTemplate:React.FC<RegisterTemplateProps> = ({ onCreate }) => {
 					/>)}
 				<Button 
 					{...registerButton} onclick={handleSubmit} 
-					disabled={isSubmitting} 
+					disabled={isSubmitting} classname='bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-500 p-2 rounded-md text-white mt-3 w-full'
 				/>
 			</Card>
 		</BaseTemplate>

@@ -14,7 +14,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
       type="submit"
       disabled={isLoading}
       className={`py-2 px-4 rounded text-white ${
-        isLoading ? 'bg-gray-400' : 'bg-lime-800 hover:bg-lime-700'
+        isLoading ? 'bg-gray-400' : 'bg-[#348a89] hover:bg-[#2c7472]'
       } transition-colors ${className}`}
     >
       {isLoading ? (
