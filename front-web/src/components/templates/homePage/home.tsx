@@ -6,6 +6,7 @@ import ProfileList from "@/components/atoms/ProfileList/ProfileList";
 import { Professional } from "@/hooks/api/useCareProfessionalsApi";
 import logo from "../../../assets/images/logo.png";
 import Image from "next/image";
+import BurgerMenu from "@/components/atoms/BurgerMenu/BurgerMenu";
 
 type Props = {
   professionals: Professional[];
@@ -25,6 +26,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
         <h1 className="text-2xl font-semibold text-center p-4 text-[#348a89]">
           Pacientes & Cuidadores
         </h1>
+        <BurgerMenu />
       </header>
       <main className="flex flex-col h-screen p-4">
         <section>
