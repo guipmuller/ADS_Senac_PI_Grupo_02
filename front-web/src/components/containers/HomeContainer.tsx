@@ -15,7 +15,7 @@ export default function HomeContainer() {
       setProfessionals(profRes.data);
     })
     .catch((error) => console.error("Erro ao carregar dados:", error));
-}, [professionalApi]);
+}, []);
 
 if (!professionals.length) {
   return (

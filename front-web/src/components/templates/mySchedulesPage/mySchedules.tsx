@@ -152,7 +152,7 @@ const MySchedulesTemplate: React.FC<Props> = ({
     <BaseTemplate>
       <AppointmentHeader
         title="Meus agendamentos"
-        backLink="/home-page"
+        backLink="/home"
       />
       <section className="my-4 w-full">
         <AppointmentList

@@ -28,7 +28,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const URL = "https://ads-senac-pi-grupo-04-quarto-semestre.onrender.com/api";
+  const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const fetchDetails = async () => {
     try {
@@ -118,7 +118,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               </p>
             </div>
 
-            <Link href="/pages/appointments-page">
+            <Link href="/my-schedules">
             <button
               className="mt-4 bg-black text-white px-6 py-2 rounded w-full"
               type="button"

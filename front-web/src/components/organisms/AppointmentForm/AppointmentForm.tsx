@@ -47,7 +47,7 @@ export const AppointmentForm = ({
       name="idCareProfessional"
       options={professionals.map(p => ({ 
         value: p.id!, 
-        label: p.user.name 
+        label: p.user!.name 
       }))}
       value={form.idCareProfessional}
       onChange={(value) => onChange({ 

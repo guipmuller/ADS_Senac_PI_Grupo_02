@@ -4,6 +4,8 @@ import Input from "@/components/atoms/Input/input";
 import ProfileCard from "@/components/atoms/ProfileCard/ProfileCard";
 import ProfileList from "@/components/atoms/ProfileList/ProfileList";
 import { Professional } from "@/hooks/api/useCareProfessionalsApi";
+import logo from "../../../assets/images/logo.png";
+import Image from "next/image";
 
 type Props = {
   professionals: Professional[];
@@ -13,13 +15,13 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
   return (
     <>
       <header className="shadow flex h-20 items-center justify-center bg-gradient-to-br from-[#ccefdb] to-[#cce5ff]">
-        {/* <span className="w-12 rounded-full border-2 border-[#348a89]">
+        <span className="w-12 rounded-full border-2 border-[#348a89]">
           <Image
             src={logo}
             alt="Logo Pacientes & Cuidadores"
             className="rounded-full"
           />
-        </span> */}
+        </span>
         <h1 className="text-2xl font-semibold text-center p-4 text-[#348a89]">
           Pacientes & Cuidadores
         </h1>
