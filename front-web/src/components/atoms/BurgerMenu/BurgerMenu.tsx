@@ -80,7 +80,7 @@ const BurgerMenu = () => {
             Meus agendamentos
           </Link>
             <button
-              className="flex items-center p-4 w-full rounded-md mt-2 justify-end bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-500 text-white"
+              className="flex items-center p-4 w-full rounded-md mt-2 justify-center bg-[#348a89] hover:bg-[#2c7472] transition-colors duration-500 text-white"
               onClick={handleLogout}
             >
               Logout

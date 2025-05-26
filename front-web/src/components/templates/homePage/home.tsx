@@ -41,7 +41,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
         </section>
         <h2 className="text-2xl font-semibold my-3">Cuidadores em destaque</h2>
         <span className="flex gap-4">
-          {professionals.slice(0, 2).map((professional) =>
+          {professionals.slice(0, 2).map((professional) => (
             <ProfileCard
               key={professional.id}
               name={professional.user!.name}
@@ -49,22 +49,25 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
               idUser={professional.user!.id}
               image={professional?.user?.urlImage}
             />
-          )}
+          ))}
         </span>
 
         <h2 className="text-2xl font-semibold my-3">
           Profissionais disponíveis agora:
         </h2>
         <span>
-          {professionals.map((professional) => 
-              <ProfileList
-                key={professional.id}
-                name={professional.user!.name}
-                role={`${professional.professionalBiography}`}
-                label="Disponível para plantão"
-              />
-            )
-          }
+          {professionals.map(
+            (professional) =>
+              professional?.id &&
+              professional.id % 2 === 0 && (
+                <ProfileList
+                  key={professional.id}
+                  name={professional.user!.name}
+                  role={`${professional.professionalBiography}`}
+                  label="Disponível para plantão"
+                />
+              )
+          )}
         </span>
 
         <button
