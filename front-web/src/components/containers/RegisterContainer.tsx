@@ -22,7 +22,7 @@ export default function RegisterContainer() {
       }
       console.log("Cadastrando usuario:", JSON.stringify({userData}));
       const user = await usersApi.create(userData);
-      console.log("suario cadastrado:", user);
+      console.log("Usuario cadastrado:", user);
       const idUser = user.data.id;
       if (formData.role === 'Paciente') {
         const parseBirthDate = (dateString: string) => {

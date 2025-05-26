@@ -45,6 +45,7 @@ const HomeTemplate: React.FC<Props> = ({ professionals }) => {
               name={professional.user!.name}
               experience={professional.professionalBiography}
               idUser={professional.user!.id}
+              image={professional?.user?.urlImage}
             />
           )}
         </span>

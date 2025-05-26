@@ -10,7 +10,7 @@ export interface Professional {
   user?: { // Complemento para trazer dados simplificados de usuário numa mesma chamada. Não passar em caso de POST ou PUT
     id: number;
     name: string;
-    urlImage?: string | null
+    urlImage?: string
   }
 }
 

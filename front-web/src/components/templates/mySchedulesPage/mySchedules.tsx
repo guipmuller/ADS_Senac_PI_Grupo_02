@@ -160,6 +160,10 @@ const MySchedulesTemplate: React.FC<Props> = ({
   return (
     <BaseTemplate>
       <AppointmentHeader title="Meus agendamentos" backLink="/home" />
+      <div className="border border-double border-rose-700 rounded px-2 py-1 text-center text-gray-700">
+        <p className="text-sm">Taxa fixa de R$100,00/h</p>
+        <p className="text-sm">Pagamento diretamente para o profissional</p>
+      </div>
       <section className="my-4 w-full">
         <AppointmentList
           appointments={appointments}

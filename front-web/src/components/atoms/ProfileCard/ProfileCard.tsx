@@ -11,6 +11,7 @@ interface ProfileCardProps {
   idUser: number;
   name: string;
   experience: string;
+  image?: string;
 }
 
 interface UserDetails {
@@ -25,6 +26,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   idUser,
   name,
   experience,
+  image
 }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [showDetails, setShowDetails] = useState(false);
@@ -34,9 +36,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const fetchDetails = async () => {
     try {
       const response = await axios.get(`${URL}/users/${idUser}`);
-      setUserDetails(response.data);
-      console.log("Detalhes do usuário:", response.data);
-      
+      setUserDetails(response.data);      
       setShowDetails(true);
     } catch (error) {
       console.error("Erro ao buscar detalhes do usuário:", error);
@@ -56,7 +56,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       >
         <div className="w-full h-3/4 bg-gray-200 flex items-center justify-center">
           <Image
-            src={userDetails?.urlImage ?? userIcon}
+            priority
+            src={image || userIcon}
             width={200}
             height={200}
             alt="User icon"
