@@ -8,9 +8,9 @@ Nosso objetivo é proporcionar uma solução prática, eficiente e segura para a
 
 ## 🌄 Landing Page
 
-[Landing Page](https://guipmuller.github.io/Apacientes-cuidadores-LP/) 
+[Landing Page](https://guipmuller.github.io/pacientes-cuidadores-LP/) 
 
-[Repositório da Landing Page](https://guipmuller.github.io/pacientes-cuidadores-LP/)
+[Repositório da Landing Page](https://github.com/guipmuller/pacientes-cuidadores-LP)
 
 ---
 
